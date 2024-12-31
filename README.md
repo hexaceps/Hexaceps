@@ -1,5 +1,5 @@
 # 기본 설치
-npm install react
+npm install react\
 react@18.3.1 
 
 
