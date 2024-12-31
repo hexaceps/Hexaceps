@@ -1,5 +1,5 @@
 # 기본 설치
-├──react@18.3.1\ &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    npm install react\
+├──react@18.3.1\     npm install react\
 
 
 # 설치된 NPM LIST
