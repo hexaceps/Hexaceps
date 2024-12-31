@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface QnaRepository extends JpaRepository<Qna, Long>, QnaSearch {
-    @Query("SELECT q FROM Qna q WHERE q.product_id.pno = :pno")
+    @Query("SELECT q FROM Qna q WHERE q.product_id.productId = :pno")
     Page<Qna> findByProductPno(@Param("pno") Long pno, Pageable pageable);
 }
