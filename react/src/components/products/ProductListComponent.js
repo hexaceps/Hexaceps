@@ -25,7 +25,7 @@ const ProductListComponent = () => {
     const [serverData, setServerData] = useState(initState)
     const [fetching, setFetching] = useState(false)
     const host = API_SERVER_HOST
-
+    const defaultImage = '/path/to/default-image.jpg'
 useEffect(()=>{
     setFetching(true)
     productGetList({page, size}).then(data => {
@@ -44,12 +44,13 @@ useEffect(()=>{
       {serverData.dtoList.map((product) => (
         <Col md={6}>
                  <Card  className='mb-5 '>
-      <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/products/view/s_${product.uploadFileNames[0]}`}/>
+      <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`}
+       onError={(e) => e.target.src = defaultImage}/> 
       <Card.Body className='ms-3'>
-        <Card.Title>{product.product_name}</Card.Title>
-        <Card.Text>No : {product.pno}      </Card.Text>
-        <Card.Text>브랜드 : {product.product_brand}        </Card.Text>
-        <Button variant="outline-info" onClick={() => moveToRead(product.pno)}>상품상세보기</Button>
+        <Card.Title>{product.productName}</Card.Title>
+        <Card.Text>No : {product.productId}      </Card.Text>
+        <Card.Text>브랜드 : {product.productBrand}        </Card.Text>
+        <Button variant="outline-info" onClick={() => moveToRead(product.productId)}>상품상세보기</Button>
       </Card.Body>
     </Card> 
            

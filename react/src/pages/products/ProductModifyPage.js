@@ -3,11 +3,11 @@ import ProductModifyComponent from '../../components/products/ProductModifyCompo
 import { useParams } from 'react-router-dom'
 
 const ProductModifyPage = () => {
-  const {pno} = useParams();
+  const {productId} = useParams();
   return (
     <>
     <div>ProductModifyPage</div>
-    <ProductModifyComponent pno={pno} />
+    <ProductModifyComponent productId={productId} />
     </>
   )
 }

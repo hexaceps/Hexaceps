@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_SERVER_HOST } from './qnaApi'
 
-const host = `${API_SERVER_HOST}/api/products`
+const host = `${API_SERVER_HOST}/api/product`
 
 // 상품추가
 export const productPostAdd = async(product) => {
@@ -27,8 +27,8 @@ export const productGetList = async(pageParam) => {
 
 //특정번호의 product조회
 //http://localhost:8080/api/product/50
-export const productGetOne = async(pno) => {
-    const res = await axios.get(`${host}/${pno}`)
+export const productGetOne = async(productId) => {
+    const res = await axios.get(`${host}/${productId}`)
     return res.data
 }
 

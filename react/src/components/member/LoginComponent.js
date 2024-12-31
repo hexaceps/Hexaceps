@@ -28,20 +28,12 @@ const LoginComponent = () => {
             } else{  alert("로그인에 성공 하였습니다.")
                 moveToPath('/');
         }})
-
-
-
-        {/*
-               console.log(loginParm)
-                    loginPost(loginParm).then(result => {
-                        console.log(result)  
-                        dispatch(login(result))
-                    }).catch(e => {
-                        console.error(e)
-                    })*/    }
-           
-     
     }
+
+
+   const handleClickAdd = () =>{
+    moveToPath('/member/add')
+   }
 
   return (
     <>
@@ -67,9 +59,10 @@ const LoginComponent = () => {
     />
     </Form.Group>
         <div className='text-end'>
-                <Button variant="info " type="button" onClick={handleClickLogin}>
-                                login
-                </Button>
+                <Button variant="info " type="button" onClick={handleClickLogin}>로그인</Button>
+        </div>
+        <div className='text-center'>
+                <Button variant="white " type="button" onClick={handleClickAdd}>회원가입</Button>
         </div>
     </div>
     </Container>

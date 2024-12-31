@@ -7,8 +7,8 @@ const initState = {
     qno:0,
     subject:'',
     content:'',
-    qna_Date:null,
-    reply_at:false
+    qnaDate:null,
+    replyAt:false
 }
 
 const ReadComponent = ({qno}) => {
@@ -25,8 +25,8 @@ const ReadComponent = ({qno}) => {
         {makeDiv('qno', qna.qno)}
         {makeDiv('subject', qna.subject)}
         {makeDiv('content', qna.content)}
-        {makeDiv('dueDate', qna.qna_Date)}
-        {makeDiv('complete', qna.reply_at ? '답변완료' : '답변대기중')}
+        {makeDiv('dueDate', qna.qnaDate)}
+        {makeDiv('complete', qna.replyAt ? '답변완료' : '답변대기중')}
         <div className='mt-3 text-end'>
           <Button variant='primary'  className='me-3' onClick={moveToList}>목록보기</Button>
           <Button variant='secondary' onClick={() => moveToModify(qno)}>수정</Button>

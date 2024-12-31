@@ -8,8 +8,8 @@ const initState = {
     qno:0,
     subject:'',
     content:'',
-    qna_Date:null,
-    reply_at:false
+    qnaDate:null,
+    replyAt:false
 }
 
 const ModifyComponent = ({qno}) => {
@@ -76,10 +76,10 @@ const ModifyComponent = ({qno}) => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>qna_Date</Form.Label>
-            <Form.Control type={"date"} name="dueDate" value={qna.qna_Date} onChange={handleChangeQna} />
+            <Form.Control type={"date"} name="dueDate" value={qna.qnaDate} onChange={handleChangeQna} />
         </Form.Group>
         <Form.Select aria-label="COMPLETE"
-            value={qna.reply_at ? 'Y' : 'N'}
+            value={qna.replyAt ? 'Y' : 'N'}
             onChange={handleChangeQnaComplete}
         >
             <option value="Y">답변완료</option>
