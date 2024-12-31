@@ -24,23 +24,23 @@ public class QQna extends EntityPathBase<Qna> {
 
     public final StringPath content = createString("content");
 
-    public final QHexaMember member_id;
+    public final QHexaMember memberId;
 
     public final StringPath password = createString("password");
 
-    public final QProduct product_id;
+    public final QProduct productId;
 
-    public final DateTimePath<java.time.LocalDateTime> qna_Date = createDateTime("qna_Date", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> qnaDate = createDateTime("qnaDate", java.time.LocalDateTime.class);
 
     public final NumberPath<Long> qno = createNumber("qno", Long.class);
 
     public final StringPath reply = createString("reply");
 
-    public final NumberPath<Integer> reply_at = createNumber("reply_at", Integer.class);
+    public final NumberPath<Integer> replyAt = createNumber("replyAt", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> reply_Date = createDateTime("reply_Date", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> replyDate = createDateTime("replyDate", java.time.LocalDateTime.class);
 
-    public final StringPath reply_id = createString("reply_id");
+    public final StringPath replyId = createString("replyId");
 
     public final NumberPath<Integer> secret = createNumber("secret", Integer.class);
 
@@ -64,8 +64,8 @@ public class QQna extends EntityPathBase<Qna> {
 
     public QQna(Class<? extends Qna> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.member_id = inits.isInitialized("member_id") ? new QHexaMember(forProperty("member_id")) : null;
-        this.product_id = inits.isInitialized("product_id") ? new QProduct(forProperty("product_id")) : null;
+        this.memberId = inits.isInitialized("memberId") ? new QHexaMember(forProperty("memberId")) : null;
+        this.productId = inits.isInitialized("productId") ? new QProduct(forProperty("productId")) : null;
     }
 
 }

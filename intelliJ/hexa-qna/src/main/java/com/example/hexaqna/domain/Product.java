@@ -20,6 +20,7 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="productId")
     private Long productId;
 
     private String productName;
@@ -40,6 +41,11 @@ public class Product {
     private LocalDate updatedAt;
 
     private String size;
+
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
+    @JsonManagedReference("productReference") // Unique reference name
+    private List<Qna> qnaList;
+
 
     @ElementCollection
     @Builder.Default // ProductImage 테이블 생성

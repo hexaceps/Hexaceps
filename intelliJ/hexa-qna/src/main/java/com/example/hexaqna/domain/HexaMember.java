@@ -21,7 +21,7 @@ public class HexaMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Column(name="memberId")
     private Long id;
 
 
@@ -40,7 +40,7 @@ public class HexaMember {
 
     private int newsletter;
 
-    private int social_yn;
+    private int socialYn;
 
 
     private String nickname;
@@ -49,7 +49,11 @@ public class HexaMember {
     private String rank;
 
 
-    private String activate_yn;
+    private String activateYn;
+
+    @ElementCollection
+    @Builder.Default
+    private List<MemberAgree> memberAgrees = new ArrayList<>();
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -72,7 +76,7 @@ public class HexaMember {
     }
 
 
-    @OneToMany(mappedBy = "member_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     @JsonManagedReference("memberReference")
     private List<Qna> qnaList;
 
@@ -80,55 +84,60 @@ public class HexaMember {
   //  @JsonManagedReference  //무한 루프 방지 이쪽이 부모임을 나타냄
  //   private List<Qna> replyList;
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setNewsletter(int newsletter) {
-        this.newsletter = newsletter;
-    }
-
-    public void setSocial_yn(int social_yn) {
-        this.social_yn = social_yn;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
-    public void setActivate_yn(String activate_yn) {
-        this.activate_yn = activate_yn;
-    }
-
-    public void setCreate_Date(LocalDateTime create_Date) {
-        this.create_Date = create_Date;
+    public void setQnaList(List<Qna> qnaList) {
+        this.qnaList = qnaList;
     }
 
     public void setMemberRoleList(List<MemberRole> memberRoleList) {
         this.memberRoleList = memberRoleList;
     }
 
-    public void setQnaList(List<Qna> qnaList) {
-        this.qnaList = qnaList;
+    public void setCreate_Date(LocalDateTime create_Date) {
+        this.create_Date = create_Date;
+    }
+
+    public void setMemberAgrees(List<MemberAgree> memberAgrees) {
+        this.memberAgrees = memberAgrees;
+    }
+
+    public void setActivateYn(String activateYn) {
+        this.activateYn = activateYn;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setSocialYn(int socialYn) {
+        this.socialYn = socialYn;
+    }
+
+    public void setNewsletter(int newsletter) {
+        this.newsletter = newsletter;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

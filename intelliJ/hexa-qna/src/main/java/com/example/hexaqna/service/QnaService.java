@@ -24,7 +24,7 @@ public interface QnaService {
     void remove(Long qno);
 
 
-    PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long pno);
+    PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long productId);
 
 
     //java8버전부터는 default기능이 추가되어 기본기능을 설정해 줄 수 있다.
@@ -33,17 +33,17 @@ public interface QnaService {
 
         QnaDTO qnaDTO = QnaDTO.builder()
                 .qno(qna.getQno())
-                .member_id(qna.getMember_id())
+                .memberId(qna.getMemberId())
                 .subject(qna.getSubject())
                 .content(qna.getContent())
                 .password(qna.getPassword())
                 .secret(qna.getSecret())
-                .qna_Date(qna.getQna_Date())
+                .qnaDate(qna.getQnaDate())
                 .reply(qna.getReply())
-                .reply_at(qna.getReply_at())
-                .reply_Date(qna.getReply_Date())
-                .reply_id(qna.getReply_id())
-                .product_id(qna.getProduct_id())
+                .replyAt(qna.getReplyAt())
+                .replyDate(qna.getReplyDate())
+                .replyId(qna.getReplyId())
+                .productId(qna.getProductId())
                 .build();
         return qnaDTO;
     }
@@ -55,10 +55,10 @@ public interface QnaService {
                 .content(qnaDTO.getContent())
                 .password(qnaDTO.getPassword())
                 .secret(qnaDTO.getSecret())
-                .qna_Date(LocalDateTime.now())
+                .qnaDate(LocalDateTime.now())
                 .reply(qnaDTO.getReply())
-                .reply_at(qnaDTO.getReply_at())
-                .reply_id(" ")
+                .replyAt(qnaDTO.getReplyAt())
+                .replyId(" ")
                 .build();
         return qna;
     }

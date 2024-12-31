@@ -20,7 +20,7 @@ public class QHexaMember extends EntityPathBase<HexaMember> {
 
     public static final QHexaMember hexaMember = new QHexaMember("hexaMember");
 
-    public final StringPath activate_yn = createString("activate_yn");
+    public final StringPath activateYn = createString("activateYn");
 
     public final StringPath address = createString("address");
 
@@ -29,6 +29,8 @@ public class QHexaMember extends EntityPathBase<HexaMember> {
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    public final ListPath<MemberAgree, QMemberAgree> memberAgrees = this.<MemberAgree, QMemberAgree>createList("memberAgrees", MemberAgree.class, QMemberAgree.class, PathInits.DIRECT2);
 
     public final ListPath<MemberRole, EnumPath<MemberRole>> memberRoleList = this.<MemberRole, EnumPath<MemberRole>>createList("memberRoleList", MemberRole.class, EnumPath.class, PathInits.DIRECT2);
 
@@ -46,7 +48,7 @@ public class QHexaMember extends EntityPathBase<HexaMember> {
 
     public final StringPath rank = createString("rank");
 
-    public final NumberPath<Integer> social_yn = createNumber("social_yn", Integer.class);
+    public final NumberPath<Integer> socialYn = createNumber("socialYn", Integer.class);
 
     public QHexaMember(String variable) {
         super(HexaMember.class, forVariable(variable));

@@ -45,11 +45,11 @@ public class QnaServiceImpl implements QnaService {
     @Override
     public Long registerQ(QnaDTO dto) {
         Qna qna = dtoToEntity(dto);
-        qna.setProduct_id(dto.getProduct_id());
-        qna.setMember_id(dto.getMember_id());
-        qna.setQna_Date(LocalDateTime.now());
+        qna.setProductId(dto.getProductId());
+        qna.setMemberId(dto.getMemberId());
+        qna.setQnaDate(LocalDateTime.now());
         qna.setReply("");
-        qna.setReply_at(0);
+        qna.setReplyAt(0);
         Qna result = qnaRepository.save(qna);
         return result.getQno();
     }
@@ -61,9 +61,9 @@ public class QnaServiceImpl implements QnaService {
 
         Qna qna = reply.orElseThrow();
         qna.setReply(dto.getReply());
-        qna.setReply_at(1);
-        qna.setReply_Date(LocalDateTime.now());
-        qna.setReply_id("관리자");
+        qna.setReplyAt(1);
+        qna.setReplyDate(LocalDateTime.now());
+        qna.setReplyId("관리자");
 
 
         qnaRepository.save(qna);
@@ -81,9 +81,9 @@ public class QnaServiceImpl implements QnaService {
         qna.setPassword(dto.getPassword());
         qna.setSecret(dto.getSecret());
         qna.setReply(dto.getReply());
-        qna.setReply_at(dto.getReply_at());
-        qna.setReply_Date(dto.getReply_Date());
-        qna.setQna_Date(dto.getQna_Date());
+        qna.setReplyAt(dto.getReplyAt());
+        qna.setReplyDate(dto.getReplyDate());
+        qna.setQnaDate(dto.getQnaDate());
 
         qnaRepository.save(qna);
     }
@@ -96,10 +96,10 @@ public class QnaServiceImpl implements QnaService {
 
 
     @Override
-    public PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long pno) {
+    public PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long productId) {
 
         //가져온다, Qna의 리스트
-        Page<Qna> result = qnaRepository.findByProductPno(pno, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qna_Date").descending()));
+        Page<Qna> result = qnaRepository.findByProductProductID(productId, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
 
         List<QnaDTO> dtoList = result.getContent().stream()
                 .map(this::entityToDTO)

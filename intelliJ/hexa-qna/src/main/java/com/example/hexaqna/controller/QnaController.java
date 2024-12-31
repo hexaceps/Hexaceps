@@ -40,30 +40,26 @@ public class QnaController {
         return qnaService.get(qno);
     }
 
-    @GetMapping("/pno/{qno}")
-    public QnaDTO getPno(@PathVariable("qno") Long qno) {
 
-        return qnaService.get(qno);
-    }
 
 
     //리스트
-    @GetMapping("/list/{pno}")
-    public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,@PathVariable("pno") Long pno) {
+    @GetMapping("/list/{productId}")
+    public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,@PathVariable("productId") Long productId) {
         log.info("list...{}", pageRequestDTO);
-        return qnaService.getlist(pageRequestDTO,pno);
+        return qnaService.getlist(pageRequestDTO,productId);
     }
 
     //post방식 - json형식으로 받고 return타입을 json형식으로 해줘야 한다.
 
-    @PostMapping("/q/{pno}/{id}")
-    public Map<String, Long> registerQ(@PathVariable("pno") Long pno, @PathVariable("id") Long id, @RequestBody QnaDTO qnaDTO){
+    @PostMapping("/q/{productId}/{id}")
+    public Map<String, Long> registerQ(@PathVariable("productId") Long productId, @PathVariable("id") Long id, @RequestBody QnaDTO qnaDTO){
     try{
         log.info("QnaDTO {}", qnaDTO);
         HexaMember member = memberRepository.findById(id).orElseThrow();
-        Product product = productRepository.findById(pno).orElseThrow();
-        qnaDTO.setProduct_id(product);
-        qnaDTO.setMember_id(member);
+        Product product = productRepository.findById(productId).orElseThrow();
+        qnaDTO.setProductId(product);
+        qnaDTO.setMemberId(member);
         Long qno = qnaService.registerQ(qnaDTO);
         return Map.of("QNO", qno);
     } catch (Exception e) {
@@ -78,8 +74,8 @@ public class QnaController {
     public Map<String, Long> registerR( @PathVariable("qno") Long qno, @RequestBody QnaDTO qnaDTO){
         Qna qna = qnaRepository.findById(qno).orElseThrow();  // This fetches the entity immediately
         log.info("기존멤버보기  {}",qna);
-        qnaDTO.setMember_id(qna.getMember_id());
-        qnaDTO.setProduct_id(qna.getProduct_id());
+        qnaDTO.setMemberId(qna.getMemberId());
+        qnaDTO.setProductId(qna.getProductId());
 
         qnaDTO.setQno(qno);
 
