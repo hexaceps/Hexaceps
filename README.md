@@ -1,21 +1,21 @@
 # 기본 설치
 npm install react
-├── react@18.3.1 
+react@18.3.1 
 
 
 # 설치된 NPM LIST
-├── @reduxjs/toolkit@2.5.0                  npm install @reduxjs/toolkit
-├── @tanstack/react-query-devtools@5.62.2   npm install @tanstack/react-query-devtools
-├── @tanstack/react-query@5.62.2            npm install @tanstack/react-query
-├── axios@1.7.9                             npm install axios
-├── bootstrap@5.3.3                         npm install bootstrap
-├── react-bootstrap-icons@1.11.4            npm install react-bootstrap-icons
-├── react-bootstrap@2.10.7                  npm install react-bootstrap
-├── react-cookie@7.2.2                      npm install react-cookie
-├── react-dom@18.3.1                        npm install react-dom
-├── react-redux@9.2.0                       npm install react-redux
-├── react-router-dom@6.28.0                 npm install react-router-dom                           
-└── web-vitals@2.1.4                        npm install web-vitals
+@reduxjs/toolkit@2.5.0                  npm install @reduxjs/toolkit
+@tanstack/react-query-devtools@5.62.2   npm install @tanstack/react-query-devtools
+@tanstack/react-query@5.62.2            npm install @tanstack/react-query
+axios@1.7.9                             npm install axios
+bootstrap@5.3.3                         npm install bootstrap
+react-bootstrap-icons@1.11.4            npm install react-bootstrap-icons
+react-bootstrap@2.10.7                  npm install react-bootstrap
+react-cookie@7.2.2                      npm install react-cookie
+react-dom@18.3.1                        npm install react-dom
+react-redux@9.2.0                       npm install react-redux
+react-router-dom@6.28.0                 npm install react-router-dom                           
+web-vitals@2.1.4                        npm install web-vitals
 
 
 
