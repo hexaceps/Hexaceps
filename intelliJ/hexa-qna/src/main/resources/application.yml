@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: hexa-qna
+  datasource:
+    url:  jdbc:h2:tcp://localhost/~/testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   #create  update
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-request-size : 30MB #??? ???? ???
+      max-file-size : 10MB # ?? ??? ??
+
+org:
+  zerock:
+    upload:
+      path: upload # ????? ?? ??? upload??? ???? ??? ??
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.orm.jdbc.bind: trace
+  org.springframework.security.web: trace
+    
+server:
+  port: 8010
+
