@@ -42,11 +42,6 @@ public class Product {
 
     private String size;
 
-    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
-    @JsonManagedReference("productReference") // Unique reference name
-    private List<Qna> qnaList;
-
-
     @ElementCollection
     @Builder.Default // ProductImage 테이블 생성
     private List<ProductImage> imageList = new ArrayList<>();
