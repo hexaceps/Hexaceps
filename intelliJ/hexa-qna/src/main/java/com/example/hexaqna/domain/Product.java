@@ -49,7 +49,7 @@ public class Product {
     @Builder.Default // ProductSite 테이블 생성
     private List<ProductSiteLink> siteList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "product_id", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
     @JsonManagedReference("productReference") // Unique reference name
     private List<Qna> qnaList;
 
