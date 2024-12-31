@@ -49,6 +49,10 @@ public class Product {
     @Builder.Default // ProductSite 테이블 생성
     private List<ProductSiteLink> siteList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
+    @JsonManagedReference("productReference") // Unique reference name
+    private List<Qna> qnaList;
+
     /*
         1. addImage() : 상품의 이미지를 리스트 형태로 저장
         - 이미지 리스트에 갯수에 따라 추가 되는 이미지의 순번을 지정
