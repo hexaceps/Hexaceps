@@ -1,6 +1,6 @@
 # 기본 설치
 ├──react@18.3.1   &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install react
-
+<br/><br/><br/><br/>
 
 # 설치된 NPM LIST
 ├──@reduxjs/toolkit@2.5.0            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;      npm install @reduxjs/toolkit\
@@ -15,20 +15,20 @@
 ├──react-redux@9.2.0                 &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;      npm install react-redux\
 ├──react-router-dom@6.28.0          &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     npm install react-router-dom                    
 ├──web-vitals@2.1.4                   &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     npm install web-vitals
-
+<br/><br/><br/><br/>
 
 
 # 기본 설치파일  npm list 확인시 미설치시 재설치 필요 혹시나 특정부분 에러시 설치 필요
 ├── @testing-library/jest-dom@5.17.0   &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install @testing-library/jest-dom\
 ├── @testing-library/react@13.4.0     &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install @testing-library/react\
 ├── @testing-library/user-event@13.5.0 &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install @testing-library/user-event\
-├── react-scripts@5.0.1               &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install react-scripts\
-
+├── react-scripts@5.0.1               &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   npm install react-scripts
+<br/><br/><br/><br/>
 
 
 # 포트변경등 환경변수설정
 ├── cross-env@7.0.3               &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     npm install cross-env # port 변경\
-
+<br/><br/><br/><br/>
 
 
 
