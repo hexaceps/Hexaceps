@@ -1,6 +1,8 @@
 package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.HexaMember;
+import com.example.hexaqna.domain.MemberAgree;
+import com.example.hexaqna.domain.ProductImage;
 import com.example.hexaqna.dto.MemberDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
@@ -33,6 +35,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Long register(MemberDTO dto) {
         HexaMember member = dtoToEntity(dto);
+
         HexaMember result = memberRepository.save(member);
         return result.getId();
     }
@@ -49,8 +52,8 @@ public class MemberServiceImpl implements MemberService{
         member.setNewsletter(dto.getNewsletter());
         member.setNickname(dto.getNickname());
         member.setRank(dto.getRank());
-        member.setSocial_yn(dto.getSocial_yn());
-        member.setActivate_yn(dto.getActivate_yn());
+        member.setSocialYn(dto.getSocialYn());
+        member.setActivateYn(dto.getActivateYn());
 
 
 

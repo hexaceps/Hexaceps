@@ -23,24 +23,24 @@ public class Qna {
     private Long qno;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "memberId")
     @JsonBackReference("memberReference")
-    private HexaMember member_id;
+    private HexaMember memberId;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "productId")
     @JsonBackReference("productReference")
-    private Product product_id;
+    private Product productId;
 
     @NotEmpty
     private String password;
 
-    public void setMember_id(HexaMember member_id) {
-        this.member_id = member_id;
+    public void setMemberId(HexaMember memberId) {
+        this.memberId = memberId;
     }
 
-    public void setProduct_id(Product product_id) {
-        this.product_id = product_id;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
 
     @Column(length = 50)
@@ -57,24 +57,23 @@ public class Qna {
     @JoinColumn(name="reply_id")
     private HexaMember reply_id;
 */
-    private String reply_id;
+    private String replyId;
 
     @Column(columnDefinition = "TEXT")
     private String reply;
 
-    public void setReply_id(String reply_id) {
-        this.reply_id = reply_id;
+    public void setReplyId(String replyId) {
+        this.replyId = replyId;
     }
 
-    private int reply_at;
+    private int replyAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reply_Date;
+    private LocalDateTime replyDate;
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime qna_Date;
-
+    private LocalDateTime qnaDate;
 
 
     public void setPassword(String password) {
@@ -89,28 +88,23 @@ public class Qna {
         this.content = content;
     }
 
-
     public void setSecret(int secret) {
         this.secret = secret;
     }
-
 
     public void setReply(String reply) {
         this.reply = reply;
     }
 
-    public void setReply_at(int reply_at) {
-        this.reply_at = reply_at;
+    public void setReplyAt(int replyAt) {
+        this.replyAt = replyAt;
     }
 
-    public void setReply_Date(LocalDateTime reply_Date) {
-        this.reply_Date = reply_Date;
+    public void setReplyDate(LocalDateTime replyDate) {
+        this.replyDate = replyDate;
     }
 
-    public void setQna_Date(LocalDateTime qna_Date) {
-        this.qna_Date = qna_Date;
+    public void setQnaDate(LocalDateTime qnaDate) {
+        this.qnaDate = qnaDate;
     }
-
-
-
 }

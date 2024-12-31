@@ -1,5 +1,7 @@
 package com.example.hexaqna.dto;
 
+import com.example.hexaqna.domain.MemberAgree;
+import com.example.hexaqna.domain.ProductImage;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -39,13 +41,13 @@ public class MemberDTO {
     private int newsletter;
 
 
-    private int social_yn;
+    private int socialYn;
 
 
     private String nickname;
 
 
-    private String activate_yn;
+    private String activateYn;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime create_Date;
@@ -53,6 +55,9 @@ public class MemberDTO {
     private String rank;
 
     private List<String> roleNames = new ArrayList<>();
+
+    private List<List<Boolean>> memberAgrees = new ArrayList<>();;
+
 
 }
 

@@ -1,6 +1,7 @@
 package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.HexaMember;
+import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.MemberRole;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
@@ -12,6 +13,7 @@ import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,15 +49,19 @@ public interface MemberService {
                 .phoneNumber(member.getPhoneNumber())
                 .address(member.getAddress())
                 .newsletter(member.getNewsletter())
-                .social_yn(member.getSocial_yn())
+                .socialYn(member.getSocialYn())
                 .nickname(member.getNickname())
-                .activate_yn(member.getActivate_yn())
+                .activateYn(member.getActivateYn())
                 .rank(member.getRank())
                 .create_Date(member.getCreate_Date())
                 .roleNames(member.getMemberRoleList().stream()
                         .map(role -> role.name())
                         .collect(Collectors.toList()))
+                .memberAgrees(member.getMemberAgrees().stream()
+                        .map(agree -> Arrays.asList(agree.isAn1(), agree.isAn2(), agree.isAn3(), agree.isAs1(), agree.isAs2())) // 예시로 Boolean 값을 리스트로 변환
+                        .collect(Collectors.toList()))
                 .build();
+
         return memberDTO;
     }
 
@@ -69,13 +75,19 @@ public interface MemberService {
                 .phoneNumber(memberDTO.getPhoneNumber())
                 .address(memberDTO.getAddress())
                 .newsletter(memberDTO.getNewsletter())
-                .social_yn(memberDTO.getSocial_yn())
+                .socialYn(memberDTO.getSocialYn())
                 .nickname(memberDTO.getNickname())
-                .activate_yn(memberDTO.getActivate_yn())
+                .activateYn(memberDTO.getActivateYn())
                 .rank(memberDTO.getRank())
                 .create_Date(LocalDateTime.now())
                 .memberRoleList(List.of(MemberRole.USER))
                 .build();
+
+        List<MemberAgree> memberAgrees = memberDTO.getMemberAgrees().stream()
+                .map(agree -> new MemberAgree(agree.get(0), agree.get(1), agree.get(2), agree.get(3), agree.get(4))) // 예시로 Boolean 리스트를 MemberAgree 객체로 변환
+                .collect(Collectors.toList());
+
+        member.setMemberAgrees(memberAgrees);
         return member;
     }
 

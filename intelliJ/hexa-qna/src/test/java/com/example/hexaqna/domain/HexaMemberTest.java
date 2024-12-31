@@ -27,18 +27,18 @@ class HexaMemberTest {
 
     @Test
     void qna추가하기(){
-        HexaMember member = MemberRepository.getById(3l);
+        HexaMember member = MemberRepository.getById(1l);
         Product product = productRepository.getById(1l);
         Qna qna = Qna.builder()
-                .member_id(member)
-                .product_id(product)
+                .memberId(member)
+                .productId(product)
                 .subject("1111")
                 .content("1111")
                 .password("1111")
                 .secret(1)
-                .qna_Date(LocalDateTime.now())
-                .reply_id("관리자")
-                .reply_at(0)
+                .qnaDate(LocalDateTime.now())
+                .replyId("관리자")
+                .replyAt(0)
                 .build();
         qnaRepository.save(qna);
     }
@@ -54,9 +54,9 @@ class HexaMemberTest {
                 .phoneNumber("1234-1234")
                 .address("뉴욕")
                 .newsletter(0)
-                .social_yn(0)
+                .socialYn(0)
                 .nickname("master")
-                .activate_yn("Y")
+                .activateYn("Y")
                 .rank("9")
                 .create_Date(LocalDateTime.now())
                 .build();

@@ -20,25 +20,31 @@ public class QProduct extends EntityPathBase<Product> {
 
     public static final QProduct product = new QProduct("product");
 
+    public final StringPath category = createString("category");
+
     public final ListPath<ProductImage, QProductImage> imageList = this.<ProductImage, QProductImage>createList("imageList", ProductImage.class, QProductImage.class, PathInits.DIRECT2);
 
-    public final ListPath<ProductImageURL, QProductImageURL> imageURLList = this.<ProductImageURL, QProductImageURL>createList("imageURLList", ProductImageURL.class, QProductImageURL.class, PathInits.DIRECT2);
+    public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
-    public final NumberPath<Long> pno = createNumber("pno", Long.class);
+    public final StringPath productBrand = createString("productBrand");
 
-    public final StringPath product_brand = createString("product_brand");
+    public final StringPath productDescription = createString("productDescription");
 
-    public final DateTimePath<java.time.LocalDateTime> product_date = createDateTime("product_date", java.time.LocalDateTime.class);
+    public final NumberPath<Long> productId = createNumber("productId", Long.class);
 
-    public final StringPath product_desc = createString("product_desc");
+    public final StringPath productName = createString("productName");
 
-    public final ListPath<ProductOption, QProductOption> product_list = this.<ProductOption, QProductOption>createList("product_list", ProductOption.class, QProductOption.class, PathInits.DIRECT2);
-
-    public final StringPath product_name = createString("product_name");
-
-    public final BooleanPath product_stock = createBoolean("product_stock");
+    public final NumberPath<Integer> productStock = createNumber("productStock", Integer.class);
 
     public final ListPath<Qna, QQna> qnaList = this.<Qna, QQna>createList("qnaList", Qna.class, QQna.class, PathInits.DIRECT2);
+
+    public final DatePath<java.time.LocalDate> registeredAt = createDate("registeredAt", java.time.LocalDate.class);
+
+    public final ListPath<ProductSiteLink, QProductSiteLink> siteList = this.<ProductSiteLink, QProductSiteLink>createList("siteList", ProductSiteLink.class, QProductSiteLink.class, PathInits.DIRECT2);
+
+    public final StringPath size = createString("size");
+
+    public final DatePath<java.time.LocalDate> updatedAt = createDate("updatedAt", java.time.LocalDate.class);
 
     public QProduct(String variable) {
         super(Product.class, forVariable(variable));
