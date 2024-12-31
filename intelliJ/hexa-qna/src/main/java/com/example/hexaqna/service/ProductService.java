@@ -7,18 +7,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface ProductService {
-    //상품리스트
-    PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO);
+    // 상품리스트
+    PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO);
 
-    //상품추가
-    Long register(ProductDTO productDTO);
+    // 상품추가
+    Long registerNewProduct(ProductDTO productDTO);
 
-    //조회기능
-    ProductDTO get(Long pno);
+    // 상품 추가 제대로 안되면, 아래 사용
+    @Transactional
+    Long addNewProduct(ProductDTO productDTO);
 
-    //수정하기
+    // 조회기능
+    ProductDTO getProductById(Long productId);
+
+    // 수정하기
     void modify(ProductDTO productDTO);
 
-    //삭제하기
-    void remove(Long pno);
+    // 삭제하기
+    void remove(Long productId);
 }

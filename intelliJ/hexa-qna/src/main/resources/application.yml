@@ -2,7 +2,7 @@ spring:
   application:
     name: hexa-qna
   datasource:
-    url:  jdbc:h2:tcp://localhost/~/testdb
+    url:  jdbc:h2:tcp://localhost/~/testdb # testdb
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -14,13 +14,13 @@ spring:
         format_sql: true
   servlet:
     multipart:
-      max-request-size : 30MB #??? ???? ???
-      max-file-size : 10MB # ?? ??? ??
+      max-request-size : 30MB
+      max-file-size : 10MB
 
 org:
   zerock:
     upload:
-      path: upload # ????? ?? ??? upload??? ???? ??? ??
+      path: upload
 
 logging.level:
   org.hibernate.SQL: debug

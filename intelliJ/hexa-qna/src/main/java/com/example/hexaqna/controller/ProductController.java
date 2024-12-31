@@ -19,28 +19,22 @@ import java.util.stream.Collectors;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/products")
-public class ProdcutController {
+@RequestMapping("/api/product")
+public class ProductController {
 
     private final ProductService productService;
     private final CustomFileUtil customFileUtil;
 
-
-    //파일 업로드 =>저장
+    // 파일 업로드 => 저장
     @PostMapping("/")
-    public Map<String, Long> register(ProductDTO productDTO) {
-        log.info("register : ", productDTO);
-
+    public Map<String, Long> addNewProduct(ProductDTO productDTO) {
         List<MultipartFile> files = productDTO.getFiles();
-
         List<String> uploadFileNames = customFileUtil.saveFiles(files);
-
-        //저장
+        // 저장
         productDTO.setUploadFileNames(uploadFileNames);
-
-        //서비스호출
-        Long pno = productService.register(productDTO);
-        return Map.of("result", pno);
+        // 서비스호출
+        Long productId = productService.registerNewProduct(productDTO);
+        return Map.of("result", productId);
     }
 
     //업로드 파일 조회
@@ -50,26 +44,24 @@ public class ProdcutController {
     }
 
     //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
-
     //    상품목록 조회
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
-
-        return productService.getList(pageRequestDTO);
+        return productService.getProductList(pageRequestDTO);
     }
 
-    //하나의 상품 조회
-    @GetMapping("/{pno}")
-    public ProductDTO read(@PathVariable("pno") Long pno){
-        return productService.get(pno);
+    // 하나의 상품 조회
+    @GetMapping("/{productId}")
+    public ProductDTO read(@PathVariable("productId") Long productId){
+        return productService.getProductById(productId);
     }
 
-    //상품수정
-    @PutMapping("/{pno}")
-    public Map<String, String> modify(@PathVariable("pno") Long pno, ProductDTO productDTO) {
-        productDTO.setPno(pno);
+    //상품수정 (프론트에서 사용 하지 말것)
+    @PutMapping("/{productId}")
+    public Map<String, String> modify(@PathVariable("productId") Long productId, ProductDTO productDTO) {
+        productDTO.setProductId(productId);
 
-        ProductDTO oldProductDTO = productService.get(pno);
+        ProductDTO oldProductDTO = productService.getProductById(productId);
         //기존파일이름
         List<String> oldFileNames = oldProductDTO.getUploadFileNames();
 
@@ -101,17 +93,16 @@ public class ProdcutController {
         return Map.of("RESULT","SUCCESS");
     }
 
-    //상품삭제
-    @DeleteMapping("{pno}")
-    public Map<String,String> remove(@PathVariable("pno") Long pno){
+    //상품삭제 (프론트에서 사용 하지 말것)
+    @DeleteMapping("{productId}")
+    public Map<String,String> remove(@PathVariable("productId") Long productId){
         //삭제할 파일 알아내기
-        List<String> oldFileNames = productService.get(pno).getUploadFileNames();
-        productService.remove(pno);
+        List<String> oldFileNames = productService.getProductById(productId).getUploadFileNames();
+        productService.remove(productId);
 
         customFileUtil.deleteFiles(oldFileNames);
 
         return Map.of("RESULT","DELETE STCCESS");
     }
-
 
 }
