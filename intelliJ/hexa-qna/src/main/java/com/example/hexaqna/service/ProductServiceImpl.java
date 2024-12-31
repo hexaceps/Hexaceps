@@ -87,8 +87,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById(Long pno) {
-        Optional<Product> result = productRepository.selectOne(pno);
+    public ProductDTO getProductById(Long productId) {
+        Optional<Product> result = productRepository.selectOne(productId);
         Product product = result.orElseThrow();
         ProductDTO productDTO = entityToDTO(product);
         return productDTO;
@@ -165,6 +165,7 @@ public class ProductServiceImpl implements ProductService {
                 .productDescription(product.getProductDescription())
                 .productStock(product.getProductStock())
                 .registeredAt(product.getRegisteredAt())
+                .price(product.getPrice())
                 .build();
 
         List<ProductImage> imageList = product.getImageList();
