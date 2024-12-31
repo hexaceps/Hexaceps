@@ -5,13 +5,19 @@ import FetchingModal from '../common/FetchingModal';
 import ResultModal from '../common/ResultModal'
 import useCustomMove from '../../hooks/useCustomMove';
 
+
+
 const initState = {
-    product_name: '',
-    product_brand: '',
-    product_desc: '',
-    product_stock:false,
+    productId:0,
+    productName:'',
+    productBrand:'',
+    productDescription:'',
+    price:0,
+    productStock:0,
     files: []
 }
+
+
 
 const ProductAddComponent = () => {
     const [product, setProduct]= useState(initState);
@@ -45,11 +51,15 @@ const ProductAddComponent = () => {
             formData.append("files", files[i])
         }
 
+
+
+
         //그외 데이터처리
-        formData.append("product_name", product.product_name)
-        formData.append("product_brand", product.product_brand)
-        formData.append("product_desc", product.product_desc)
-        formData.append("product_stock", product.product_stock)
+        formData.append("productName", product.productName)
+        formData.append("productBrand", product.productBrand)
+        formData.append("productDescription", product.productDescription)
+        formData.append("price", product.price)
+        formData.append("productStock", product.productStock)
         console.log(formData)
         setFetching(true)
 
@@ -73,9 +83,9 @@ const ProductAddComponent = () => {
             <Form.Label>상품명</Form.Label>
             <Form.Control
                 type="text"
-                name="product_name"
+                name="productName"
                 placeholder="상품명을 입력하세요"
-                value={product.product_name}
+                value={product.productName}
                 onChange={handleChangeProduct}
             />
         </Form.Group>
@@ -83,9 +93,19 @@ const ProductAddComponent = () => {
             <Form.Label>브랜드명</Form.Label>
             <Form.Control
                 type="text"
-                name="product_brand"
+                name="productBrand"
                 placeholder="브랜드를 입력하세요"
-                value={product.product_brand}
+                value={product.productBrand}
+                onChange={handleChangeProduct}
+            />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="pnameForm.ControlInput1">
+            <Form.Label>가격</Form.Label>
+            <Form.Control
+                type="text"
+                name="price"
+                placeholder="가격을 입력하세요"
+                value={product.price}
                 onChange={handleChangeProduct}
             />
         </Form.Group>
@@ -94,16 +114,16 @@ const ProductAddComponent = () => {
             <Form.Control
                 as="textarea"
                 rows={4}
-                name="product_desc"
-                value={product.product_desc}
+                name="productDescription"
+                value={product.productDescription}
                 onChange={handleChangeProduct}
             >
                 {product.pdesc}
             </Form.Control>
         </Form.Group>
-            <Form.Select aria-label="product_stock"
-                            value={product.product_stock}
-                            name='product_stock'
+            <Form.Select aria-label="productStock"
+                            value={product.productStock}
+                            name='productStock'
                             onChange={handleChangeProduct}
                         >
                             <option value={false} >사용</option>

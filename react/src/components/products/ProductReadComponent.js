@@ -13,16 +13,15 @@ import ProductSubReview from '../productSub/ProductSubReview'
 
 
 const initState = {
-    pno:0,
-    pname:'',
-    pdesc:'',
-    price:0,  
-    delFlag:false,
-    uploadFileNames: []
-  
+  productId:0,
+  productName:'',
+  productBrand:'',
+  productDescription:'',
+  price:0,
+  uploadFileNames: []
 }
 
-const ProductReadComponent = ({pno}) => {
+const ProductReadComponent = ({productId}) => {
 const [page,setPage] = useState("A");
 const[product,setProduct] = useState(initState);
 const [selectedQna, setSelectedQna] = useState(null);
@@ -55,28 +54,29 @@ const [member, setMember] = useState(() => {
 
 useEffect(()=>{
     setFetching(true)
-    productGetOne(pno).then(data => {
-        console.log(data)
+    productGetOne(productId).then(data => {
+        console.log("product",data)
         setProduct(data)
         setFetching(false)
     })
-},[pno])
+},[productId])
 
   return (
     <>
     {fetching ? <FetchingModal /> : <> </>}
     <Container>
         <Row>
-        <Col md={5}>   <Image src={`${host}/api/products/view/${product.uploadFileNames[0]}`} fluid/> </Col>
+        <Col md={5}>   <Image src={`${host}/api/product/view/${product.uploadFileNames[0]}`} fluid/> </Col>
             <Col md={7} className='ms-auto p-3'>  
-            <p>상품번호 : {product.pno} </p> 
-            <p>상품명 : {product.product_name} </p> 
-            <p>브랜드 : {product.product_brand} </p> 
-            <p>상세설명 : {product.pdesc} </p>
-            <p>product_stock: {product.product_stock ? "재고있음" : "재고없음"}</p>       
+            <p>상품번호 : {product.productId} </p> 
+            <p>상품명 : {product.productName} </p> 
+            <p>브랜드 : {product.productBrand} </p> 
+            <p>상세설명 : {product.productDescription} </p>
+            <p>가격 : {product.price} </p>
+            <p>product_stock: {product.productStock ? "재고있음" : "재고없음"}</p>       
             <div className='mt-3 text-end'>
           <Button variant='primary'  className='me-3' onClick={moveToList}>목록보기</Button>
-          <Button variant='secondary' onClick={() => moveToModify(pno)}>수정</Button>
+          <Button variant='secondary' onClick={() => moveToModify(productId)}>수정</Button>
         </div>      
             </Col>
         </Row>
@@ -156,9 +156,9 @@ useEffect(()=>{
   </Nav.Item>
 </Nav>
 
-      {page === 'A' ? <ProductSubdesc pno={pno} /> : <></>}
-      {page === 'B' ? <ProductSubReview pno={pno}/> : <></>}
-      {page === 'C' ? <ProductSubQna pno={pno} id={member.id} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
+      {page === 'A' ? <ProductSubdesc productId={productId} /> : <></>}
+      {page === 'B' ? <ProductSubReview productId={productId}/> : <></>}
+      {page === 'C' ? <ProductSubQna productId={productId} id={member.id} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
       {page === 'D' ? <ProductSubRefund /> : <></>}
 
     </Container>

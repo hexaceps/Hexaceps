@@ -12,15 +12,15 @@ export const getOne = async(qno) => {
 
 //list
 //http://localhost:8080/api/qna/list?page=3
-export const getList = async(pageParam) => {
+export const getList = async(pageParam,productId) => {
     const {page, size} = pageParam
-    const res = await axios.get(`${prefix}/list`, {params : {page:page, size:size}})
+    const res = await axios.get(`${prefix}/list/${productId}`, {params : {page:page, size:size}},productId)
     return res.data
 }
 
 // 데이터추가
-export const postAdd = async(qna,pno, id) => {
-    const res = await axios.post(`${prefix}/q/${pno}/${id}`, qna,pno,id)
+export const postAdd = async(qna,productId, id) => {
+    const res = await axios.post(`${prefix}/q/${productId}/${id}`, qna,productId,id)
     return res.data
 }
 

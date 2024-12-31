@@ -7,7 +7,7 @@ import useCustomMove from '../../hooks/useCustomMove'
 const initState = {
     subject: '',
     content: '',
-    qna_Date: ''
+    qnaDate: ''
 }
 
 const AddComponent = ({ newQnaData, handleNewQnaChange, handleSaveQna,handleNewQnaSecret }) => {

@@ -4,11 +4,11 @@ import ProductReadComponent from '../../components/products/ProductReadComponent
 
 
 const ProductReadPage = () => {
-    const {pno} = useParams()
+    const {productId} = useParams()
   return (
     <>
-    <div>ProductReadPage {pno} 번</div>
-    <ProductReadComponent pno={pno}/>
+    <div>ProductReadPage {productId} 번</div>
+    <ProductReadComponent productId={productId}/>
     </>
   )
 }

@@ -16,6 +16,7 @@ import ProductModifyPage from './pages/products/ProductModifyPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './pages/member/LoginPage';
 import LogoutPage from './pages/member/LogoutPage';
+import AddMemberPage from './pages/member/AddMemberPage';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/member">
           <Route path="login" element={<LoginPage />} />
           <Route path="logout" element={<LogoutPage />} />
+          <Route path="add" element={<AddMemberPage />} />
         </Route>
         <Route path="/qna/">
           <Route index element={<IndexPage />}/>
@@ -39,8 +41,8 @@ function App() {
           <Route index element={<ProductIndexPage />} />
           <Route path="add" element={<ProductAddPage />} />
           <Route path="list" element={<ProductListPage />} />
-          <Route path="read/:pno" element={<ProductReadPage />} />
-          <Route path="modify/:pno" element={<ProductModifyPage />} />
+          <Route path="read/:productId" element={<ProductReadPage />} />
+          <Route path="modify/:productId" element={<ProductModifyPage />} />
         </Route>
       </Route>
     </Routes>

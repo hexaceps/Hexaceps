@@ -3,12 +3,12 @@ import ListComponent from '../qna/ListComponent';
 import { Container } from 'react-bootstrap';
 import { getOne } from '../../api/qnaApi';
 
-const ProductSubQna = ({ pno,id, setSelectedQna, moveToRead, selectedQna }) => {
+const ProductSubQna = ({ productId,id, setSelectedQna, moveToRead, selectedQna }) => {
   const [qnaList, setQnaList] = useState([]);  // Q&A 리스트 상태
 
   const fetchQnaList = async () => {
     try {
-        const response = await fetch(`/api/qna/list/${pno}`);
+        const response = await fetch(`/api/qna/list/${productId}`);
         const data = await response.json();
         setQnaList(data);
     } catch (error) {
@@ -18,7 +18,7 @@ const ProductSubQna = ({ pno,id, setSelectedQna, moveToRead, selectedQna }) => {
   // 처음 로드될 때 Q&A 리스트 가져오기
   useEffect(() => {
     fetchQnaList();
-}, [pno]);
+}, [productId]);
 
 const handleQnaClick = async (qno) => {
   try {
@@ -32,7 +32,7 @@ const handleQnaClick = async (qno) => {
   return (
     <>
       <Container>
-      <ListComponent pno={pno} id={id} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna} />
+      <ListComponent productId={productId} id={id} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna} />
       </Container>
     </>
   );

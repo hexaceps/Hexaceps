@@ -4,7 +4,7 @@ import { productGetOne } from '../../api/productsApi';
 import { API_SERVER_HOST } from '../../api/qnaApi';
 
 const initState = {
-  pno:0,
+  productId:0,
   pname:'',
   pdesc:'',
   price:0,  
@@ -13,16 +13,16 @@ const initState = {
 
 }
 
-const ProductSubdesc = ({pno}) => {
+const ProductSubdesc = ({productId}) => {
   const[product,setProduct] = useState(initState);
     const host = API_SERVER_HOST;
 
     useEffect(()=>{
-        productGetOne(pno).then(data => {
+        productGetOne(productId).then(data => {
             console.log(data)
             setProduct(data)
         })
-    },[pno])
+    },[productId])
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import useCustomMove from '../../hooks/useCustomMove'
 import useCustomLogin from '../../hooks/useCustomLogin'
 import { checkPw, getList, replyOne } from '../../api/qnaApi'
@@ -32,7 +32,7 @@ const initStateQna = {
 
 
 
-const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
+const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })=> {
     const {loginState,isLogin,doLogout } = useCustomLogin()
     const {page, size, moveToList, refresh} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
@@ -40,18 +40,26 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
     const [reply, setReply] = useState({})
     const [showAddComponent, setShowAddComponent] = useState(false)
     const [newQnaData, setNewQnaData] = useState(initStateQna)
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState({});
     const [passwordInputQna, setPasswordInputQna] = useState(null); 
+
 
 
  
 
     const handleQnaClick = (qna) => {
-      // 비밀번호 인증이 완료된 경우에만 QNA를 열 수 있도록 처리
-      if (passwordInputQna === null || passwordInputQna !== qna.qno) {
-        setOpenQna(openQna === qna.qno ? null : qna.qno); // 이미 펼쳐져 있으면 닫기
-      }
-    };
+
+      // 관리자일 경우, 비밀번호 인증 없이 콜랩스를 열 수 있도록 처리
+  if (loginState.email == 'admin@hexa.com') {
+    setOpenQna(openQna === qna.qno ? null : qna.qno);  // 이미 펼쳐져 있으면 닫기
+  } else {
+    if (qna.secret == 1 ) {
+     
+    } else if (qna.secret == 0) {
+      setOpenQna(openQna == qna.qno ? null : qna.qno); 
+    }
+  }
+};
 
     const handleChangeReply = (e,qna) => {
       setReply({
@@ -69,7 +77,7 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
       replyOne(replyData).then(result => {
         console.log("답변 작성 결과", result);
         // 답변 작성 후 서버에서 데이터를 다시 가져와서 상태를 갱신
-        getList({ page, size }).then(data => {
+        getList({ page, size },productId).then(data => {
           setServerData(data);  // 새로 가져온 데이터로 갱신
         }).catch(e => {
           console.error("게시글 목록 불러오기 실패:", e);
@@ -86,8 +94,11 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
     }
 
     const handleNewQnaChange = (e) => {
-      newQnaData[e.target.name] = e.target.value;
-      setNewQnaData({ ...newQnaData, })
+      const { name, value } = e.target;
+      setNewQnaData(prevData => ({
+        ...prevData,  // 기존 상태를 유지
+        [name]: value, // 변경된 필드만 업데이트
+      }));
 
       
   }
@@ -103,12 +114,12 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
 
   const handleSaveQna = () => {
       console.log('새 문의글 저장:', newQnaData)
-      console.log("pno?",pno) 
+      console.log("pno?",productId) 
       console.log("id?",id) 
-      postAdd(newQnaData,pno,id).then(result => {
-               console.log("pno?",pno) 
+      postAdd(newQnaData,productId,id).then(result => {
+               console.log("pno?",productId) 
                console.log("id?",id) 
-               getList({ page, size }).then(data => {
+               getList({ page, size },productId).then(data => {
                 setServerData(data);  
               }).catch(e => {
                 console.error("게시글 목록 불러오기 실패:", e);
@@ -127,18 +138,21 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
     }
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+  const handlePasswordChange = (e, qna) => {
+    setPassword({
+      ...password,
+      [qna.qno]: e.target.value, 
+    });
   };
 
-  const checkPassword = (qna) => {
-    console.log("비번",password)
-    // 비밀번호 확인 로직
-    checkPw(qna.qno, {password})
+ const checkPassword = (qna) => {
+    console.log("비번", password[qna.qno]); // 각 qno에 맞는 비밀번호
+    checkPw(qna.qno, { password: password[qna.qno] })
       .then((res) => {
         if (res.success) {
           setPasswordInputQna(null); // 비밀번호 맞으면 입력창을 숨기기
           setOpenQna(qna.qno); // 비밀번호가 맞으면 콜랩스를 열 수 있게 설정
+          setPassword('')
         } else {
           alert('비밀번호가 틀렸습니다.');
         }
@@ -147,14 +161,16 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
         console.error('비밀번호 검증 실패', error);
       });
   };
+  
 
 
 
 
 
     useEffect(()=>{
-        getList({page, size}).then(data => {
+        getList({page, size},productId).then(data => {
             console.log("data",data.dtoList)
+            console.log("pno",productId)
             setServerData(data)
             console.log("server",serverData)
            
@@ -183,21 +199,22 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
         </tr>
       </thead>
       <tbody>
-      {serverData.dtoList.filter(qna => qna.product_id.pno == pno).map((qna,index) => (
+      {serverData.dtoList.filter(qna => qna.productId.productId == productId).map((qna,index) => (
                                <React.Fragment key={qna.qno}>
                                <tr>
                                  <td className="text-center" style={{ width: '10%' }}>{index + 1}번</td>
                                  <td
                            onClick={
-                            qna.secret === 1 && passwordInputQna !== qna.qno
+                            qna.secret === 1 && passwordInputQna !== qna.qno 
                               ? () => handlePasswordSubmit(qna)
                               : () => handleQnaClick(qna)
                           }
                           className="text-center"
                           style={{ cursor: 'pointer', width: '60%' }}
                         >
-                          {qna.secret === 1 &&  passwordInputQna !== qna.qno && openQna !== qna.qno? (
-                            <span>비밀글입니다.       <span
+                          
+                          {loginState.email === 'admin@hexa.com' || qna.secret === 0 ? (
+                            <span> {qna.subject} <span
                                 style={{
                                   fontSize: '0.5em',
                                   float: 'right',
@@ -211,14 +228,24 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
                               <input
                               type='password'
                               placeholder="비밀번호를 입력하세요"
-                                value={password}
-                                onChange={handlePasswordChange}
+                              value={password[qna.qno] || ''} 
+                              onChange={(e) => handlePasswordChange(e, qna)} 
                               />
                               <button onClick={() => checkPassword(qna)}>확인</button>
                             </div>
+                          ) :  openQna === qna.qno ? (
+                            <span>{qna.subject}<span
+                            style={{
+                              fontSize: '0.5em',
+                              float: 'right',
+                              color: '#888',
+                            }}
+                          >
+                            {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
+                          </span></span>
                           ) : (
                             <span>
-                              {qna.subject}
+                              비밀글입니다.
                               <span
                                 style={{
                                   fontSize: '0.5em',
@@ -226,15 +253,15 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
                                   color: '#888',
                                 }}
                               >
-                                {qna.reply_at === 0 ? '답변대기중' : '답변완료'}
+                                {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
                               </span>
                                    </span>)}
                                  </td>
                                  <td className="text-center" style={{
-                                       fontSize: '0.8em' , width: '20%'}}>{qna.member_id.name}</td>
+                                       fontSize: '0.8em' , width: '20%'}}>{qna.memberId.name}</td>
                         
                                  <td className="text-center" style={{
-                                       fontSize: '0.5em' , width: '20%'}}>{qna.qna_Date}</td>
+                                       fontSize: '0.5em' , width: '20%'}}>{qna.qnaDate}</td>
                                </tr>
                
                                {/* Q&A 내용이 펼쳐지도록 Collapse 적용 */}
@@ -261,7 +288,7 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
                                             color: '#898989',
                                           }}
                                         >
-                                          {qna.qna_Date}
+                                          {qna.qnaDate}
                                         </span>                              
                                      </div>
                                      <div>
@@ -278,7 +305,7 @@ const ListComponent = ({pno,id, setSelectedQna, selectedQna, moveToRead })=> {
                                       <Button className='me-1' onClick={() => createReply(qna)}>댓글작성</Button></> : <></>  
                                       }
                                        <p></p>   
-                                       {qna.reply_at === 1 ? <p> {qna.reply} 작성자 : 관리자 {qna.reply_Date}</p>  : <></>}               
+                                       {qna.replyAt === 1 ? <p> {qna.reply} 작성자 : 관리자 {qna.replyDate}</p>  : <></>}               
                                        </div>
                                      </td>
                                      </tr>

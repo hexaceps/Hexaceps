@@ -8,15 +8,15 @@ import FetchingModal from '../common/FetchingModal'
 
 
 const initState = {
-    pno:0,
-    pname:'',
-    pdesc:'',
+    productId:0,
+    productName:'',
+    productBrand:'',
+    productDescription:'',
     price:0,
-    delFlag:false,
     uploadFileNames: []
 }
 
-const ProductModifyComponent = ({pno}) => {
+const ProductModifyComponent = ({productId}) => {
     const [product, setProduct] = useState({...initState});
     const {moveToList, moveToRead} = useCustomMove();
     const uploadRef = useRef()
@@ -26,9 +26,9 @@ const ProductModifyComponent = ({pno}) => {
 
     useEffect(()=>{
         setFetching(true)
-        productGetOne(pno).then(data => setProduct(data))
+        productGetOne(productId).then(data => setProduct(data))
         setFetching(false)
-    },[pno])
+    },[productId])
 
     const deleteOldImage = (imageName) =>{
         //삭제할 이미지이름이 들어오면 filtering한다.
@@ -60,10 +60,11 @@ const ProductModifyComponent = ({pno}) => {
         }
 
         //other data
-        formData.append("product_name", product.product_name)
-        formData.append("product_brand", product.product_brand)
-        formData.append("product_desc", product.product_desc)
-        formData.append("product_date", product.product_stock)
+        formData.append("productName", product.productName)
+        formData.append("productBrand", product.productBrand)
+        formData.append("productDescription", product.productDescription)
+        formData.append("productStock", product.productStock)
+        formData.append("price", product.price)
         for (let i = 0; i < product.uploadFileNames.length; i++) {
             formData.append("uploadFileNames", product.uploadFileNames[i])
         }
@@ -72,11 +73,11 @@ const ProductModifyComponent = ({pno}) => {
         setFetching(true)
         setResult('Modified')
 
-        productPutOne(pno, formData).then(data => {
+        productPutOne(productId, formData).then(data => {
             setFetching(false)
          
 
-            console.log("product_stock? ", product.product_stock)
+            console.log("productStock? ", product.productStock)
 
     
         })
@@ -86,7 +87,7 @@ const ProductModifyComponent = ({pno}) => {
      const handleClickDelete = () =>{
         setFetching(true)
         setResult('Deleted')
-        productDeleteOne(pno).then(data  => {
+        productDeleteOne(productId).then(data  => {
       
             setFetching(false)
         })
@@ -98,7 +99,7 @@ const ProductModifyComponent = ({pno}) => {
         if(result === 'Deleted') {
             moveToList()
         } else if (result === 'Modified') {
-            moveToRead(pno)
+            moveToRead(productId)
         }     
     }
 
@@ -112,20 +113,24 @@ const ProductModifyComponent = ({pno}) => {
 <Image className='mx-auto my-5 ' src={`${host}/api/products/view/${product.uploadFileNames[0]}`}  fluid/>
 
     <Form.Group className="mb-3" controlId="pnoForm.ControlInput1">
-            <Form.Label>PNO</Form.Label>
-            <Form.Control type={"text"} name="pno" value={product.pno} onChange={handleChangeproduct} disabled />
+            <Form.Label>productId</Form.Label>
+            <Form.Control type={"text"} name="productId" value={product.productId} onChange={handleChangeproduct} disabled />
         </Form.Group>
         <Form.Group className="mb-3" controlId="pnameForm.ControlInput1">
             <Form.Label>상품명</Form.Label>
-            <Form.Control type={"text"} name="product_name" value={product.product_name} onChange={handleChangeproduct}/>
+            <Form.Control type={"text"} name="productName" value={product.productName} onChange={handleChangeproduct}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="pdescForm.ControlInput1">
             <Form.Label>상품상세설명</Form.Label>
-            <Form.Control type={"text-area"} name="product_desc" value={product.product_desc} onChange={handleChangeproduct}/>
+            <Form.Control type={"text-area"} name="productDescription" value={product.productDescription} onChange={handleChangeproduct}/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="priceForm.ControlInput1">
             <Form.Label>브랜드</Form.Label>
-            <Form.Control type={"text"} name="product_brand" value={product.product_brand} onChange={handleChangeproduct} />
+            <Form.Control type={"text"} name="productBrand" value={product.productBrand} onChange={handleChangeproduct} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="priceForm.ControlInput1">
+            <Form.Label>가격</Form.Label>
+            <Form.Control type={"text"} name="price" value={product.price} onChange={handleChangeproduct} />
         </Form.Group>
             <Form.Select aria-label="product_stock"
                     value={product.product_stock}
