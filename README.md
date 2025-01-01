@@ -42,10 +42,11 @@
 
  - 프론트 설정
    - 1번 스텝을 진행 후 VSCODE 실행
-   - 폴더 선택 후 프로젝트 열기 /{작업 폴더}/intelliJ/react
-   - vscode 터미널이나 cmd를 열고 /{작업 폴더}/intelliJ/react 로 이동
+   - 폴더 선택 후 프로젝트 열기 /{작업 폴더}/react
+   - vscode 터미널이나 cmd를 열고 /{작업 폴더}/react 로 이동
+   - src,public 등 폴더가 있고 package.json 있는지 확인
    - npm install 실행
    - node module 설치 되었는지 확인
-   - /{작업 폴더}/intelliJ/hexa-qna 폴더 내 READEME.md 파일이 있다면 삭제
+   - /{작업 폴더}/react 폴더 내 READEME.md 파일이 있다면 삭제
       - READEME.md 파일은 반드시 /{작업 폴더}/ 최상단에만 존재 해야 함 (git push 이후 충동 생김)
    
