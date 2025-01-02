@@ -57,13 +57,24 @@ public class HexaMemberController {
         return memberService.getlist(pageRequestDTO);
     }
 
+    @PostMapping("/check/{email}")
+    public Map<String , String > chekcEmail(@PathVariable("email") String email){
+        HexaMember emailCheck = memberRepository.getWithRoles(email);
+        log.info("멤버가져오나? {}",emailCheck);
+        if(emailCheck == null) {
+            return Map.of("success","success");
+        } else {
+        return Map.of("error","error");
+    }
+        }
+
     //post방식 - json형식으로 받고 return타입을 json형식으로 해줘야 한다.
     @PostMapping("/")
     public Map<String, Long> register(@RequestBody MemberDTO memberDTO){
         log.info("MemberDTO {}", memberDTO);
 
-        Long id = memberService.register(memberDTO);
-        return Map.of("id", id);
+            Long id = memberService.register(memberDTO);
+            return Map.of("id", id);
     }
 
 
