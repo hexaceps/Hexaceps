@@ -57,7 +57,6 @@ public class Product {
 
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
     @JsonManagedReference("productReference") // Unique reference name
-    private List<Qna> qnaList;
 
     /*
         1. addImage() : 상품의 이미지를 리스트 형태로 저장
