@@ -46,7 +46,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
         //where 조건 추가, 이미지는 0번째 것만 가져와
         query.where(productImage.ord.eq(0));
-       // query.where(ProductImageURL..eq(0));
+        // query.where(ProductImageURL..eq(0));
 
         //페이징처리
 //        getQuerydsl().applyPagination(pageable,query);

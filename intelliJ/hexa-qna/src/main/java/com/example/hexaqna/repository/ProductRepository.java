@@ -31,4 +31,6 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
             " left join p.imageList pi on pi.ord = 0 " +
             " left join p.siteList sl on sl.siteOrd = 0")
     Page<Object[]> findBySelectImageAndSiteList (Pageable pageable);
+
+
 }

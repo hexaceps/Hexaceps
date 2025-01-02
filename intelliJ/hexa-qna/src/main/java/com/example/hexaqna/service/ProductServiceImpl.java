@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO) {
+
         // 페이지목록 만들기
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,

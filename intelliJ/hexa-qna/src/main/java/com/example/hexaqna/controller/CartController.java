@@ -16,13 +16,14 @@ public class CartController {
     public final CartService cartService;
 
     //장바구니 아이템의 추가 / 수정
-    @PostMapping("/{cartId}")
-    public List<CartDTO> changeCart(@PathVariable("cartId") int cartId, @RequestBody CartDTO cartDTO){
+    @PostMapping("/change")
+    public List<CartDTO> changeCart(@RequestBody CartDTO cartDTO){
         //현재 사용자를 찍어보자
         //log.info("현재 인증된 사용자: {}", principal.getName());
-        cartDTO.setCartId(cartId);
         log.info("카트 아이디? {}", cartDTO.getCartId());
         log.info("카트 아이템? {}", cartDTO.getProductId());
+        log.info("제품 수량: {}", cartDTO.getAmount());
+        log.info("제품 사이즈: {}", cartDTO.getSize());
         //if(!Objects.equals(principal.getName(), cartDTO.getUserId())){
         //    throw new IllegalStateException("인증된 사용자와 요청 정보가 일치하지 않습니다.");
         //}

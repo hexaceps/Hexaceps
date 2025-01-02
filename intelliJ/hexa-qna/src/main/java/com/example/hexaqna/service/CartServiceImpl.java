@@ -1,6 +1,7 @@
 package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.Cart;
+import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.CartDTO;
 import com.example.hexaqna.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,17 @@ public class CartServiceImpl implements CartService{
             throw new IllegalArgumentException("Invalid data: Member or Product cannot be null");
         }
         Long memberId = cartDTO.getMemberId().getId(); // 수정된 getter 사용
-        Long productId = cartDTO.getProductId().getProductId(); // 수정된 getter 사용
+        Long productId = cartDTO.getProductId().getProductId();// 수정된 getter 사용
+
+        // Product 정보 조회
+        Product product = cartRepository.getProductById(productId);
+        if (product == null) {
+            throw new IllegalArgumentException("Product not found for ID: " + productId);
+        }
+
+        // CartDTO에 size와 category 추가 (Product에서 값 가져오기)
+        cartDTO.setSize(Integer.parseInt(product.getSize()));
+        cartDTO.setCategory(product.getCategory());
 
         Cart cart = cartRepository.getItemOfProductId(memberId, productId);
 
@@ -35,6 +46,7 @@ public class CartServiceImpl implements CartService{
             // 기존 Cart 수정
             cart.setAmount(cartDTO.getAmount());
             cart.setSize(cartDTO.getSize());
+            cart.setCategory(cartDTO.getCategory());
             cartRepository.save(cart);
         }
 
@@ -56,7 +68,7 @@ public class CartServiceImpl implements CartService{
     //모든 장바구니 아이템 목록
     @Override
     public List<CartDTO> getCartItems(Long memberId) {
-        return cartRepository.getItemsOfCartDTOByUserId(memberId);
+        return cartRepository.getItemsOfCartDTOByMemberId(memberId);
     }
 
     //아이템 삭제
@@ -68,6 +80,6 @@ public class CartServiceImpl implements CartService{
         }
 
         cartRepository.deleteById(cartIdLong);
-        return cartRepository.getItemsOfCartDTOByUserId(cartIdLong);
+        return cartRepository.getItemsOfCartDTOByMemberId(cartIdLong);
     }
 }

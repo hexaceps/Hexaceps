@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString (exclude = {"imageList", "siteList", "cartList"})
+@ToString (exclude = {"imageList", "siteList", "productCartList"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,10 +49,6 @@ public class Product {
     @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
     @JsonManagedReference("productReference")
     private List<Cart> productCartList;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    @JsonManagedReference("categoryReference")
-    private List<Cart> categoryCartList;
 
     @ElementCollection
     @Builder.Default // ProductImage 테이블 생성

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class CartDTO {
     private int cartId;
 
-    private Product category;
+    private String category;
 
     private HexaMember memberId;
 

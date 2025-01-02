@@ -16,14 +16,11 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //    @Query("select c from Cart c where c.memberId = :memberId")
 //    public Optional<Cart> getCartOfMember(@Param("memberId") Long memberId);
 
-    @Query("select " +
-            "new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId, c.productId, c.amount, c.size, c.regAt)" +
-            "from " +
-            "Cart c" +
-            " where " +
-            " c.memberId = :memberId" +
+    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId, c.productId, c.amount, c.size, c.regAt)" +
+            " from Cart c" +
+            " where c.memberId.id = :memberId" +
             " order by c.cartId desc")
-    public List<CartDTO> getItemsOfCartDTOByUserId(@Param("memberId") Long memberId);
+    public List<CartDTO> getItemsOfCartDTOByMemberId(@Param("memberId") Long memberId);
 
     //사용자의 userId와 productId로 해당 장바구니 아이템을 알아내는 기능
     @Query("select c " +
@@ -54,4 +51,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.productId = :productId")
     Product getProductById(@Param("productId") Long productId);
+
+    @Query("SELECT p.category FROM Product p WHERE p.productId = :productId")
+    String getCategoryByProductId(@Param("productId") Long productId);
+
 }

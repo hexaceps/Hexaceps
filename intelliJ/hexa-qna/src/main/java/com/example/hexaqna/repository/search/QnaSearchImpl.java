@@ -25,7 +25,7 @@ public class QnaSearchImpl extends QuerydslRepositorySupport implements QnaSearc
     public Page<Qna> searchQna(PageRequestDTO pageRequestDTO) {
 
         QQna qna = QQna.qna;
-        JPQLQuery<Qna> query = from(qna);
+       JPQLQuery<Qna> query = from(qna);
 //        query.where(qna.title.contains("1"));
 
 //        페이징처리 추가
@@ -33,12 +33,13 @@ public class QnaSearchImpl extends QuerydslRepositorySupport implements QnaSearc
                 pageRequestDTO.getPage()-1,
                 pageRequestDTO.getSize(),
                 Sort.by("qno").descending());
-        this.getQuerydsl().applyPagination(pageable,query);
-        List<Qna> list = query.fetch();
+     //   this.getQuerydsl().applyPagination(pageable,query);
+      //  List<Qna> list = query.fetch();
 
-        long total = query.fetchCount();
-        return new PageImpl<>(list, pageable, total);
+      //  long total = query.fetchCount();
+       // return new PageImpl<>(list, pageable, total);
 
+        return null;
 
 
 
