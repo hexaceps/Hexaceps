@@ -29,7 +29,7 @@ public class Product {
 
     private String productBrand;
 
-    private String category;
+    private String category; // 신상, 브랜드, 럭셔리, 컬렉션...
 
     private int productStock;
 
