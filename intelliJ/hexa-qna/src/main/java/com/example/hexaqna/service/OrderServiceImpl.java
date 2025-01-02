@@ -2,11 +2,13 @@ package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.Order;
+import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.OrderRequestDTO;
 import com.example.hexaqna.dto.OrderResponseDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.repository.HexaMemberRepository;
 import com.example.hexaqna.repository.OrderRepository;
+import com.example.hexaqna.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +23,12 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final HexaMemberRepository memberRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, HexaMemberRepository memberRepository) {
+    private final ProductRepository productRepository;
+
+    public OrderServiceImpl(OrderRepository orderRepository, HexaMemberRepository memberRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -31,18 +36,23 @@ public class OrderServiceImpl implements OrderService {
         HexaMember member = memberRepository.findById(orderRequestDTO.getMemberId())
                 .orElseThrow(() -> new RuntimeException("Member not found with ID: " + orderRequestDTO.getMemberId()));
 
+        // Product 조회 (기본 Product ID 사용)
+        Product product = productRepository.findById(1L) // 예: 기본 상품 ID 1
+                .orElseThrow(() -> new RuntimeException("Default product not found"));
+
         Order order = new Order();
         order.setMember(member);
         order.setCartId(orderRequestDTO.getCartId());
+        order.setProduct(product);
+        order.setProductQuantity(1);
+        order.setProductPrice(product.getPrice());
+        order.setTotalPrice(product.getPrice());
         order.setOrderNumber("ORD-" + System.currentTimeMillis());
         order.setOrderStatus("PENDING");
 
         Order savedOrder = orderRepository.save(order);
         return convertToDTO(savedOrder);
     }
-
-
-
 
     @Override
     public List<OrderResponseDTO> getAllOrders() {
@@ -82,18 +92,23 @@ public class OrderServiceImpl implements OrderService {
         return new PageImpl<>(dtoList, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize()), orders.getTotalElements());
     }
 
+
     private OrderResponseDTO convertToDTO(Order order) {
         OrderResponseDTO dto = new OrderResponseDTO();
         dto.setOrderId(order.getOrderId());
         dto.setOrderNumber(order.getOrderNumber());
+        dto.setMemberId(order.getMember().getId());
+        dto.setCartId(order.getCartId());
 
-        if (order.getMember() != null) {
-            dto.setMemberId(order.getMember().getId());
+        if (order.getProduct() != null) {
+            dto.setProductId(order.getProduct().getProductId());
+            dto.setProductName(order.getProduct().getProductName());
+            dto.setProductPrice(order.getProduct().getPrice());
         }
 
-        dto.setCartId(order.getCartId());
-        dto.setOrderStatus(order.getOrderStatus());
+        dto.setProductQuantity(order.getProductQuantity());
         dto.setTotalPrice(order.getTotalPrice());
+        dto.setOrderStatus(order.getOrderStatus());
 
         return dto;
     }
