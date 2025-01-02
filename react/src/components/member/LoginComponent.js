@@ -7,7 +7,7 @@ const initState = {
     password: '',
 }
 
-const LoginComponent = () => {
+const LoginComponent = ({redirectTo} ) => {
     
     const [loginParm, setLoginParm] = useState({...initState})
     const {moveToLoginReturn,doLogin,moveToPath} = useCustomLogin()
@@ -26,7 +26,8 @@ const LoginComponent = () => {
             if(data.error){
                     alert("이메일과 패스워드를 다시 확인하세요.")
             } else{  alert("로그인에 성공 하였습니다.")
-                moveToPath('/');
+
+                moveToPath(redirectTo || '/');
         }})
     }
 

@@ -3,6 +3,7 @@ package com.example.hexaqna.controller;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.dto.ProductDTO;
+import com.example.hexaqna.dto.QnaDTO;
 import com.example.hexaqna.service.ProductService;
 import com.example.hexaqna.util.CustomFileUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,14 @@ public class ProductController {
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
         return productService.getProductList(pageRequestDTO);
     }
+
+    //상품 필터링 목록 조회
+    @GetMapping("/list/{category}")
+    public PageResponseDTO<ProductDTO> listFilter(PageRequestDTO pageRequestDTO, @PathVariable("category") String category) {
+        log.info("list...{}", pageRequestDTO);
+        return productService.getProductFiterList(pageRequestDTO,category);
+    }
+
 
     // 하나의 상품 조회
     @GetMapping("/{productId}")

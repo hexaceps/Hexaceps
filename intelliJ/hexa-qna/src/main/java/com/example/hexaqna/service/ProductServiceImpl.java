@@ -3,9 +3,11 @@ package com.example.hexaqna.service;
 import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.domain.ProductImage;
 import com.example.hexaqna.domain.ProductSiteLink;
+import com.example.hexaqna.domain.Qna;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.dto.ProductDTO;
+import com.example.hexaqna.dto.QnaDTO;
 import com.example.hexaqna.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
             ProductImage productImage = (ProductImage) arr[1];
             ProductDTO productDTO = ProductDTO.builder()
                     .productId(product.getProductId())
+                    .category(product.getCategory())
                     .productName(product.getProductName())
                     .productBrand(product.getProductBrand())
                     .productDescription(product.getProductDescription())
@@ -64,6 +67,47 @@ public class ProductServiceImpl implements ProductService {
                 .pageRequestDTO(pageRequestDTO)
                 .build();
     }
+
+    @Override
+    public PageResponseDTO<ProductDTO> getProductFiterList(PageRequestDTO pageRequestDTO, String category) {
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("productId").descending()
+        );
+
+        // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
+        Page<Object[]> result = productRepository.selectFilter(category,pageable);
+
+        // 0번째는 product이고 1번째는 productImage이다
+        List<ProductDTO> dtoList = result.get().map(arr -> {
+            Product product = (Product) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
+            ProductDTO productDTO = ProductDTO.builder()
+                    .productId(product.getProductId())
+                    .category(product.getCategory())
+                    .productName(product.getProductName())
+                    .productBrand(product.getProductBrand())
+                    .productDescription(product.getProductDescription())
+                    .productStock(product.getProductStock())
+                    .registeredAt(product.getRegisteredAt())
+                    .build();
+            String imageFileName = productImage.getFileName();
+            productDTO.setUploadFileNames(List.of(imageFileName));
+            return productDTO;
+        }).toList();
+        long totalCount = result.getTotalElements();
+        return PageResponseDTO.<ProductDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
+
+
+
 
     @Override
     public Long registerNewProduct(ProductDTO productDTO) {

@@ -24,6 +24,13 @@ export const productGetList = async(pageParam) => {
     return res.data
 }
 
+export const getListFilter = async(pageParam,category) => {
+    const {page, size} = pageParam
+    const res = await axios.get(`${host}/list/${category}`, {params : {page:page, size:size}})
+    return res.data
+}
+
+
 
 //특정번호의 product조회
 //http://localhost:8080/api/product/50

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { productGetList } from '../../api/productsApi'
+import { getListFilter, productGetList } from '../../api/productsApi'
 import {  Button, Card,Row , Col, Container} from 'react-bootstrap'
-import PageComponent from '../common/PageComponent'
+import PageComponent from '../../components/common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
-import FetchingModal from '../common/FetchingModal'
+import FetchingModal from '../../components/common/FetchingModal'
 import { API_SERVER_HOST } from '../../api/qnaApi'
 
 const initState = {
@@ -19,8 +19,7 @@ const initState = {
     current: 0
 }
 
-
-const ProductListComponent = () => {
+const Brand = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
     const [fetching, setFetching] = useState(false)
@@ -28,9 +27,9 @@ const ProductListComponent = () => {
     const defaultImage = '/path/to/default-image.jpg'
 useEffect(()=>{
     setFetching(true)
-    productGetList({page, size}).then(data => {
+    getListFilter({page, size},"Brand").then(data => {
         console.log(data)
-        setServerData(data)
+        setServerData(data) 
         setFetching(false)
     })
 }, [page, size, refresh])
@@ -41,7 +40,7 @@ useEffect(()=>{
 
           <Container>
         <Row >
-      {serverData.dtoList.map((product) => (
+             {serverData.dtoList.filter(product => product.category == "Brand").map((product,index) => (
         <Col md={6}>
                  <Card  className='mb-5 '>
       <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`}
@@ -67,6 +66,4 @@ useEffect(()=>{
   
 }
 
-export default ProductListComponent
-
-
+export default Brand

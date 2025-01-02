@@ -17,17 +17,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPage from './pages/member/LoginPage';
 import LogoutPage from './pages/member/LogoutPage';
 import AddMemberPage from './pages/member/AddMemberPage';
+import MyPage from './pages/member/MyPage';
+import BrandNew from './pages/products/BrandNew';
+import Luxary from './pages/products/Luxary';
+import Brand from './pages/products/Brand';
+import Collection from './pages/products/Collection';
 
 
 function App() {
-  //     /todo/list, /todo/add, /todo/read/번호, /todo/modify/번호
+  
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route index element={<MainPage />}/>
+        <Route path='/mypage'>  
+          <Route index element={<MyPage /> } />
+        </Route>
         <Route path="/member">
           <Route path="login" element={<LoginPage />} />
-          <Route path="logout" element={<LogoutPage />} />
+          <Route path="logout" element={<MainPage />} />
           <Route path="add" element={<AddMemberPage />} />
         </Route>
         <Route path="/qna/">
@@ -43,6 +51,10 @@ function App() {
           <Route path="list" element={<ProductListPage />} />
           <Route path="read/:productId" element={<ProductReadPage />} />
           <Route path="modify/:productId" element={<ProductModifyPage />} />
+          <Route path='brandnew' element={<BrandNew />} />
+          <Route path='luxary' element={<Luxary />} />
+          <Route path='brand' element={<Brand />} />
+          <Route path='collection' element={<Collection />} />
         </Route>
       </Route>
     </Routes>
