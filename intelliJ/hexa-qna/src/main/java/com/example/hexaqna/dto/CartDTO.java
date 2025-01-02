@@ -1,7 +1,5 @@
 package com.example.hexaqna.dto;
 
-import com.example.hexaqna.domain.HexaMember;
-import com.example.hexaqna.domain.Product;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,9 +16,9 @@ public class CartDTO {
 
     private String category;
 
-    private HexaMember memberId;
+    private Long memberId;
 
-    private Product productId;
+    private Long productId;
 
     private int amount;
 

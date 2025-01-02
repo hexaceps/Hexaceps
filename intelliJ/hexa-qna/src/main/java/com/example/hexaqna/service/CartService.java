@@ -5,7 +5,7 @@ import com.example.hexaqna.dto.CartDTO;
 import java.util.List;
 
 public interface CartService {
-    public List<CartDTO> addOrModify(CartDTO cartDTO);
+    public List<CartDTO> addOrModify(CartDTO cartReqeustDTO);
 
     public List<CartDTO> getCartItems(Long memberId);
 

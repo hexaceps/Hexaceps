@@ -4,6 +4,7 @@ import com.example.hexaqna.domain.Cart;
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.CartDTO;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,7 +17,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //    @Query("select c from Cart c where c.memberId = :memberId")
 //    public Optional<Cart> getCartOfMember(@Param("memberId") Long memberId);
 
-    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId, c.productId, c.amount, c.size, c.regAt)" +
+    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId.id, c.productId.productId, c.amount, c.size, c.regAt)" +
             " from Cart c" +
             " where c.memberId.id = :memberId" +
             " order by c.cartId desc")
@@ -54,5 +55,6 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query("SELECT p.category FROM Product p WHERE p.productId = :productId")
     String getCategoryByProductId(@Param("productId") Long productId);
+
 
 }

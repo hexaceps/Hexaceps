@@ -3,6 +3,8 @@ package com.example.hexaqna.domain;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.mapping.Array;
 
 import java.time.LocalDate;
@@ -52,10 +54,12 @@ public class Product {
 
     @ElementCollection
     @Builder.Default // ProductImage 테이블 생성
+    @Fetch(FetchMode.SUBSELECT)
     private List<ProductImage> imageList = new ArrayList<>();
 
     @ElementCollection
     @Builder.Default // ProductSite 테이블 생성
+    @Fetch(FetchMode.SUBSELECT)
     private List<ProductSiteLink> siteList = new ArrayList<>();
 
     //@OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)

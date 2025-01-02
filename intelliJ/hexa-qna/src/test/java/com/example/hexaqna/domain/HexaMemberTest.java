@@ -48,7 +48,7 @@ class HexaMemberTest {
     void 추가하기 () {
 
         HexaMember hexaMember = HexaMember.builder()
-                .email("admin@hexa.com")
+                .email("yyy@hexa.com")
                 .name("master")
                 .password("1234")
                 .phoneNumber("1234-1234")

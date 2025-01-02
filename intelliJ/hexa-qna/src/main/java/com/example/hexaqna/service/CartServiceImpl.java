@@ -1,6 +1,7 @@
 package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.Cart;
+import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.CartDTO;
 import com.example.hexaqna.repository.CartRepository;
@@ -23,8 +24,8 @@ public class CartServiceImpl implements CartService{
         if (cartDTO.getMemberId() == null || cartDTO.getProductId() == null) {
             throw new IllegalArgumentException("Invalid data: Member or Product cannot be null");
         }
-        Long memberId = cartDTO.getMemberId().getId(); // 수정된 getter 사용
-        Long productId = cartDTO.getProductId().getProductId();// 수정된 getter 사용
+        Long memberId = cartDTO.getMemberId(); // 수정된 getter 사용
+        Long productId = cartDTO.getProductId();// 수정된 getter 사용
 
         // Product 정보 조회
         Product product = cartRepository.getProductById(productId);
@@ -54,10 +55,12 @@ public class CartServiceImpl implements CartService{
     }
 
     private Cart toEntity(CartDTO dto) {
+        HexaMember member = cartRepository.getMemberById(dto.getMemberId());
+        Product product = cartRepository.getProductById(dto.getProductId());
         return Cart.builder()
                 .cartId(dto.getCartId())
-                .memberId(dto.getMemberId()) // HexaMember 객체 필요
-                .productId(dto.getProductId()) // Product 객체 필요
+                .memberId(member) // HexaMember 객체 필요
+                .productId(product) // Product 객체 필요
                 .category(dto.getCategory()) // Product 객체 필요
                 .amount(dto.getAmount())
                 .size(dto.getSize())
