@@ -1,6 +1,6 @@
 package com.example.hexaqna.controller;
 
-import com.example.hexaqna.domain.Order;
+import com.example.hexaqna.dto.OrderRequestDTO;
 import com.example.hexaqna.dto.OrderResponseDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.service.OrderService;
@@ -21,8 +21,11 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderResponseDTO orderDto) {
-        return ResponseEntity.ok(orderService.createOrder(orderDto));
+    public ResponseEntity<OrderResponseDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        if (orderRequestDTO.getMemberId() == null || orderRequestDTO.getCartId() == null) {
+            throw new IllegalArgumentException("memberId and cartId must not be null");
+        }
+        return ResponseEntity.ok(orderService.createOrder(orderRequestDTO));
     }
 
     @GetMapping
@@ -35,9 +38,9 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<OrderResponseDTO> updateOrder(@PathVariable Long id, @RequestBody OrderResponseDTO orderDto) {
-        return ResponseEntity.ok(orderService.updateOrder(id, orderDto));
+    @GetMapping(params = "memberId")
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByMemberId(@RequestParam Long memberId) {
+        return ResponseEntity.ok(orderService.getOrdersByMemberId(memberId));
     }
 
     @DeleteMapping("/{id}")
@@ -47,7 +50,12 @@ public class OrderController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Order>> searchOrders(PageRequestDTO pageRequestDTO) {
+    public ResponseEntity<Page<OrderResponseDTO>> searchOrders(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+        pageRequestDTO.setPage(page);
+        pageRequestDTO.setSize(size);
         return ResponseEntity.ok(orderService.searchOrders(pageRequestDTO));
     }
 }

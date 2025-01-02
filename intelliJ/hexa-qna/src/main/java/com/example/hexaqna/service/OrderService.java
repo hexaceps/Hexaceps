@@ -11,7 +11,7 @@ public interface OrderService {
     OrderResponseDTO createOrder(OrderResponseDTO orderResponseDTO);
     List<OrderResponseDTO> getAllOrders();
     OrderResponseDTO getOrderById(Long orderId);
-    OrderResponseDTO updateOrder(Long orderId, OrderResponseDTO orderResponseDTO);
+    List<OrderResponseDTO> getOrdersByMemberId(Long memberId);
     void deleteOrder(Long orderId);
     Page<Order> searchOrders(PageRequestDTO pageRequestDTO);
 }
