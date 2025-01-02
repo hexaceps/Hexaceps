@@ -27,7 +27,16 @@ export const getOneMember = async(email) => {
 
 
 export const memberPostAdd = async(member) => {
-    const res = await axios.post(`${host}/`, member)
-    return res.data
+        const res = await axios.post(`${host}/`, member); 
+        return res.data;
+   
+}
+
+
+
+export const checkEmail = async(email) => {
+    const res = await axios.post(`${host}/check/${email}`); 
+    return res.data;
+
 }
 

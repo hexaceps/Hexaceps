@@ -3,6 +3,7 @@ package com.example.hexaqna.service;
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.MemberRole;
+import com.example.hexaqna.dto.MemberAgreeDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.dto.MemberDTO;
@@ -58,7 +59,13 @@ public interface MemberService {
                         .map(role -> role.name())
                         .collect(Collectors.toList()))
                 .memberAgrees(member.getMemberAgrees().stream()
-                        .map(agree -> Arrays.asList(agree.isAn1(), agree.isAn2(), agree.isAn3(), agree.isAs1(), agree.isAs2())) // 예시로 Boolean 값을 리스트로 변환
+                        .map(agree -> MemberAgreeDTO.builder()
+                                .an1(agree.isAn1())
+                                .an2(agree.isAn2())
+                                .an3(agree.isAn3())
+                                .as1(agree.isAs1())
+                                .as2(agree.isAs2())
+                                .build())
                         .collect(Collectors.toList()))
                 .build();
 
@@ -83,11 +90,7 @@ public interface MemberService {
                 .memberRoleList(List.of(MemberRole.USER))
                 .build();
 
-        List<MemberAgree> memberAgrees = memberDTO.getMemberAgrees().stream()
-                .map(agree -> new MemberAgree(agree.get(0), agree.get(1), agree.get(2), agree.get(3), agree.get(4))) // 예시로 Boolean 리스트를 MemberAgree 객체로 변환
-                .collect(Collectors.toList());
 
-        member.setMemberAgrees(memberAgrees);
         return member;
     }
 

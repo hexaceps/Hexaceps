@@ -17,6 +17,12 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
     @Query("select p from Product p where p.productId = :productId")
     Optional<Product> selectOne(@Param("productId") Long productId);
 
+
+    //
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.category = :category")
+    Page<Object[]> selectFilter(@Param("category") String category, Pageable pageable);
+
+
     //상품목록이 나올때 이미지도 같이 나와야 한다.
     //selectList
     @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0")
@@ -25,6 +31,7 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
     // 상품 조회 제대로 안될때
     @Query("select p from Product p join fetch p.imageList join fetch p.siteList where p.productId = :productId")
     Optional<Product> findByProductId(@Param("productId") Long productId);
+
 
     // /api/product/list 조회시에 사용할 상품 조회 쿼리
     @Query("select p, pi, sl from Product p" +

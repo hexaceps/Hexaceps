@@ -10,6 +10,8 @@ public interface ProductService {
     // 상품리스트
     PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO);
 
+    PageResponseDTO<ProductDTO> getProductFiterList(PageRequestDTO pageRequestDTO, String category);
+
     // 상품추가
     Long registerNewProduct(ProductDTO productDTO);
 

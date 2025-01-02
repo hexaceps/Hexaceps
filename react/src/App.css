@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
+@import url('https://db.onlinewebfonts.com/c/b932b905cd383ef7bb2f00f7371ac51b?family=Gmarket+Sans+TTF+Medium');
+
+
+body {
+    background-color: #ffffff;
+    font-family: "Gmarket+Sans+TTF+Medium", "Rowdies", sans-serif;
+}
+
+
+/* 커서 탬플릿 https://developer.mozilla.org/en-US/docs/Web/CSS/cursor */
+.pointer {
+    cursor: pointer;
+}
+.wait {
+    cursor: wait;
+}
+.help {
+    cursor: help;
+}
+
+
 .App {
   text-align: center;
 }

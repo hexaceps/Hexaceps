@@ -76,6 +76,7 @@ public class Qna {
     private LocalDateTime qnaDate;
 
 
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -88,9 +89,11 @@ public class Qna {
         this.content = content;
     }
 
+
     public void setSecret(int secret) {
         this.secret = secret;
     }
+
 
     public void setReply(String reply) {
         this.reply = reply;

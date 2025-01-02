@@ -2,7 +2,7 @@ package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.MemberAgree;
-import com.example.hexaqna.domain.ProductImage;
+import com.example.hexaqna.dto.MemberAgreeDTO;
 import com.example.hexaqna.dto.MemberDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,11 +35,29 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long register(MemberDTO dto) {
-        HexaMember member = dtoToEntity(dto);
+        log.info("dto {}", dto);
+        log.info("Received memberAgrees: {}", dto.getMemberAgrees());
+            dto.setActivateYn("1");
+            HexaMember member = dtoToEntity(dto);
+            log.info("Member entity to be saved: {}", member);
 
-        HexaMember result = memberRepository.save(member);
-        return result.getId();
-    }
+            List<MemberAgree> memberAgrees = new ArrayList<>();
+            for (MemberAgreeDTO agree : dto.getMemberAgrees()) {
+                MemberAgree memberAgree = MemberAgree.builder()
+                        .an1(agree.isAn1())
+                        .an2(agree.isAn2())
+                        .an3(agree.isAn3())
+                        .as1(agree.isAs1())
+                        .as2(agree.isAs2())
+                        .member(member)
+                        .build();
+                memberAgrees.add(memberAgree);
+            }
+            member.setMemberAgrees(memberAgrees);
+            HexaMember result = memberRepository.save(member);
+            return result.getId();
+        }
+
 
     @Override
     public void modify(MemberDTO dto) {

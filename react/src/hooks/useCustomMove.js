@@ -30,11 +30,15 @@ const useCustomMove = () => {
         } else {
             queryStr = queryDefault;
         }
-        setRefresh(!refresh)
+        const currentPath = window.location.pathname;
+
+    
         navigate({
-        pathname: `../list/`,
+        pathname: currentPath,
         search : queryStr
         })
+        setRefresh(!refresh); 
+
     }
 
   //http://localhost:3000/todo/read/3

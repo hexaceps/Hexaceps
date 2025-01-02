@@ -1,8 +1,10 @@
 package com.example.hexaqna.dto;
 
+import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.ProductImage;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -56,7 +58,11 @@ public class MemberDTO {
 
     private List<String> roleNames = new ArrayList<>();
 
-    private List<List<Boolean>> memberAgrees = new ArrayList<>();;
+
+    private List<MemberAgreeDTO> memberAgrees;
+
+
+
 
 
 }
