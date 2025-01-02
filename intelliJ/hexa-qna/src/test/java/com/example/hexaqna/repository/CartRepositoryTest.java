@@ -1,8 +1,9 @@
 package com.example.hexaqna.repository;
 
 import com.example.hexaqna.domain.Cart;
+import com.example.hexaqna.domain.HexaMember;
+import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.CartDTO;
-import com.example.hexaqna.repository.search.CartRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @SpringBootTest
 @Slf4j
 public class CartRepositoryTest {
@@ -22,8 +25,10 @@ public class CartRepositoryTest {
 
     @Test
     void 멤버cart가져오기(){
-        String userId = "JiHyeokHan";
-        cartRepository.getItemsOfCartDTOByUserId(userId);
+        Long memberId = 1L;
+        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByUserId(memberId);
+        assertNotNull(cartDTOList);
+        log.info("Member's cart items: {}", cartDTOList);
     }
 
     @Transactional
@@ -31,25 +36,30 @@ public class CartRepositoryTest {
     @Test
     void 장바구니만들기(){
 
-        //사용자가 전송하는 정보
-        String userId = "HyeongjunHan";
-        String productId = "IzenSnickers";
-        String categoryId = "ABCD";
+        // 사용자가 전송하는 정보
+        Long memberId = 1L;
+        Long productId = 2L;
+        Long categoryId = 3L;  // categoryId는 Product 엔티티의 id로 수정
         int size = 270;
         int amount = 2;
 
-        //만일 기존에 사용자의 장바구니 아이템이 있었다면
-        Cart cart = cartRepository.getItemOfProductId(userId, productId);
+        // HexaMember와 Product 엔티티 조회
+        HexaMember member = cartRepository.getMemberById(memberId);  // 조회하는 방식으로 수정
+        Product product = cartRepository.getProductById(productId);  // 조회하는 방식으로 수정
+        Product category = cartRepository.getProductById(categoryId);  // 카테고리도 Product로 수정
+
+        // 만일 기존에 사용자의 장바구니 아이템이 있었다면
+        Cart cart = cartRepository.getItemOfProductId(memberId, productId);
 
         if(cart != null){
             cart.setSize(size);
             cart.setAmount(amount);
             cartRepository.save(cart);
-        }else{
+        } else {
             Cart newCart = Cart.builder()
-                    .userId(userId)
-                    .productId(productId)
-                    .categoryId(categoryId)
+                    .memberId(member)  // HexaMember 객체 설정
+                    .productId(product)  // Product 객체 설정
+                    .category(category)  // 카테고리 설정
                     .amount(amount)
                     .size(size)
                     .regAt(LocalDate.now())
@@ -62,7 +72,7 @@ public class CartRepositoryTest {
     @Test
     @Commit
     public void 장바구니아이템수량및사이즈수정(){
-        Integer cartId = 3;
+        Long cartId = 3L;
         int size = 285;
         int amount = 1;
         Optional<Cart> result = cartRepository.findById(cartId);
@@ -76,8 +86,8 @@ public class CartRepositoryTest {
 
     @Test
     public void 장바구니아이템목록보기(){
-        String userId = "HyeongjunHan";
-        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByUserId(userId);
+        Long memberId = 1L;
+        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByUserId(memberId);
 
         for(CartDTO dto : cartDTOList){
             log.info("장바구니 아이템 목록 {}", dto);
@@ -86,13 +96,19 @@ public class CartRepositoryTest {
 
     @Test
     public void 장바구니아이템삭제후장바구니조회(){
-        //장바구니 아이템 번호
-        Integer cartId = 3;
-        //장바구니 아이템 찾기
+        Long cartId = 3L; // Long 타입으로 변경
+
+        // 삭제
         cartRepository.deleteById(cartId);
-        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByCart(cartId);
-        for(CartDTO dto : cartDTOList){
-            log.info("장바구니 아이템 목록 {}", dto);
+        log.info("Deleted cart item with ID: {}", cartId);
+
+        // 사용자 전체 장바구니 조회
+        Long memberId = 1L; // memberId 지정
+        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByUserId(memberId);
+
+        assertNotNull(cartDTOList);
+        for (CartDTO dto : cartDTOList) {
+            log.info("Remaining cart item: {}", dto);
         }
     }
 }

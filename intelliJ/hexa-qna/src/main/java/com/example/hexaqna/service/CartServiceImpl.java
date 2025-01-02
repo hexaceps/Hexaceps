@@ -2,7 +2,7 @@ package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.Cart;
 import com.example.hexaqna.dto.CartDTO;
-import com.example.hexaqna.repository.search.CartRepository;
+import com.example.hexaqna.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,63 +19,55 @@ public class CartServiceImpl implements CartService{
 
     @Override
     public List<CartDTO> addOrModify(CartDTO cartDTO) {
-        String userId = cartDTO.getUserId();
-        String productId = cartDTO.getProductId();
-        String categoryId = cartDTO.getCategoryId();
-        int amount = cartDTO.getAmount();
-        int size = cartDTO.getSize();
-        Integer cartId = cartDTO.getCartId();
-
-        if(cartId != null){
-            Cart cart = cartRepository.findById(cartId)
-                    .orElseThrow(() -> new IllegalArgumentException("Cart not found for ID: " + cartId));
-            cart.setAmount(amount);
-            cart.setSize(size);
-            cartRepository.save(cart);
-            return getCartItems(userId);
+        if (cartDTO.getMemberId() == null || cartDTO.getProductId() == null) {
+            throw new IllegalArgumentException("Invalid data: Member or Product cannot be null");
         }
+        Long memberId = cartDTO.getMemberId().getId(); // 수정된 getter 사용
+        Long productId = cartDTO.getProductId().getProductId(); // 수정된 getter 사용
 
-        //장바구니 아이템 번호가 없는 경우
-        //사용자의 카트(장바구니) 만들기
-        //이미 동일한 상품이 담긴 적이 있을 수 있으므로 일단 가져온다.
-        Cart cart = cartRepository.getItemOfProductId(userId, productId);
-        if(cart == null){
-            //장바구니 카트에 해당 상품이 없다는 뜻, 상품을 찾아서 카트 아이템에 담음
-            //Product product = Product.builder().pno(pno).build();
-            //cart = Cart.builder().product(product).cart(cart).qty(qty).build();
-            Cart newCart = Cart.builder()
-                    .userId(userId)
-                    .productId(productId)
-                    .categoryId(categoryId)
-                    .amount(amount)
-                    .size(size)
-                    .regAt(LocalDate.now())
-                    .build();
-            cartRepository.save(newCart);
-        }else{
-            //동일한 상품이 카트 아이템 리스트에 있다는 것, 수량만 변경한다.
-            cart.setAmount(amount);
-            cart.setSize(size);
+        Cart cart = cartRepository.getItemOfProductId(memberId, productId);
+
+        if (cart == null) {
+            // 새로운 Cart 생성
+            cart = toEntity(cartDTO);
+            cartRepository.save(cart);
+        } else {
+            // 기존 Cart 수정
+            cart.setAmount(cartDTO.getAmount());
+            cart.setSize(cartDTO.getSize());
             cartRepository.save(cart);
         }
 
-        return getCartItems(userId);
+        return getCartItems(memberId);
+    }
+
+    private Cart toEntity(CartDTO dto) {
+        return Cart.builder()
+                .cartId(dto.getCartId())
+                .memberId(dto.getMemberId()) // HexaMember 객체 필요
+                .productId(dto.getProductId()) // Product 객체 필요
+                .category(dto.getCategory()) // Product 객체 필요
+                .amount(dto.getAmount())
+                .size(dto.getSize())
+                .regAt(dto.getRegAt() != null ? dto.getRegAt() : LocalDate.now())
+                .build();
     }
 
     //모든 장바구니 아이템 목록
     @Override
-    public List<CartDTO> getCartItems(String userId) {
-        return cartRepository.getItemsOfCartDTOByUserId(userId);
+    public List<CartDTO> getCartItems(Long memberId) {
+        return cartRepository.getItemsOfCartDTOByUserId(memberId);
     }
 
     //아이템 삭제
     @Override
-    public List<CartDTO> remove(Integer cartId){
-        //카트 아이템 삭제
-        if (!cartRepository.existsById(cartId)) {
+    public List<CartDTO> remove(int cartId){
+        Long cartIdLong = (long) cartId;
+        if (!cartRepository.existsById(cartIdLong)) {
             throw new IllegalArgumentException("Cart not found for ID: " + cartId);
         }
-        cartRepository.deleteById(cartId);
-        return cartRepository.getItemsOfCartDTOByCart(cartId);
+
+        cartRepository.deleteById(cartIdLong);
+        return cartRepository.getItemsOfCartDTOByUserId(cartIdLong);
     }
 }

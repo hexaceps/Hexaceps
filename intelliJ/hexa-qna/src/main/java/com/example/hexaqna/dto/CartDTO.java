@@ -1,22 +1,26 @@
 package com.example.hexaqna.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.hexaqna.domain.HexaMember;
+import com.example.hexaqna.domain.Product;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@ToString
 @Data
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class CartDTO {
     private int cartId;
 
-    private String categoryId;
+    private Product category;
 
-    private String userId;
+    private HexaMember memberId;
 
-    private String productId;
+    private Product productId;
 
     private int amount;
 
@@ -24,18 +28,4 @@ public class CartDTO {
 
     private LocalDate regAt;
 
-    private String fileName;
-
-    //이미지를 포함한 다른 항목들은 DB 연결하면서 추가할 예정,
-
-    public CartDTO(int cartId, String categoryId, String userId, String productId, int amount, int size, LocalDate regAt, String fileName) {
-        this.cartId = cartId;
-        this.categoryId = categoryId;
-        this.userId = userId;
-        this.productId = productId;
-        this.amount = amount;
-        this.size = size;
-        this.regAt = regAt;
-        this.fileName = fileName;
-    }
 }

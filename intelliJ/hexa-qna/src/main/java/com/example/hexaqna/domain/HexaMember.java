@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"memberRoleList" })
+@ToString(exclude = {"memberRoleList", "cartList"})
 public class HexaMember {
 
     @Id
@@ -75,6 +75,9 @@ public class HexaMember {
         memberRoleList.clear();
     }
 
+    @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
+    @JsonManagedReference("memberReference")
+    private List<Cart> cartList;
 
     @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
     @JsonManagedReference("memberReference")
