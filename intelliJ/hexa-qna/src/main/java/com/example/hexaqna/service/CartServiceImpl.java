@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
         }
 
         // CartDTO에 size와 category 추가 (Product에서 값 가져오기)
-        cartDTO.setSize(Integer.parseInt(product.getSize()));
+        cartDTO.setSize(product.getSize());
         cartDTO.setCategory(product.getCategory());
 
         Cart cart = cartRepository.getItemOfProductId(memberId, productId);
