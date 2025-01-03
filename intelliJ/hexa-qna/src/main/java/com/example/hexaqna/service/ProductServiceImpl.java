@@ -31,6 +31,71 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+
+    @Override
+    public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand, Integer  size, Integer minPrice, Integer maxPrice) {
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("productId").descending()
+        );
+
+        // 조건에 맞는 repository 메서드를 호출
+        Page<Object[]> result;
+
+
+        // 필터 조건에 따라 리포지토리 메서드 결정
+        if (category != null) {
+            result = productRepository.selectFilter(category, pageable);  // 카테고리 필터
+        } else if (productBrand != null) {
+            result = productRepository.selectFilterBrand(productBrand, pageable);  // 브랜드 필터
+        } else if (minPrice != null) {
+            // 가격 범위 필터링 로직을 추가하려면, 가격 범위에
+                result = productRepository.selectFilterPrice( minPrice, maxPrice ,pageable);  // 0 ~ 10만원
+        } else if(size != null) {
+            if (size <= 240) {
+                result = productRepository.selectFilterSizeDown(240,pageable);  // 0 ~ 10만원
+            } else {
+                result = productRepository.selectFilterSizeUp( 245, pageable);  // 100만원 이상
+            }
+        }else{
+                result = productRepository.selectList(pageable);  // 기본 목록 조회
+            }
+
+
+        // 0번째는 product이고 1번째는 productImage이다
+        List<ProductDTO> dtoList = result.get().map(arr -> {
+            Product product = (Product) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
+            ProductDTO productDTO = ProductDTO.builder()
+                    .productId(product.getProductId())
+                    .category(product.getCategory())
+                    .price(product.getPrice())
+                    .size(product.getSize())
+                    .productName(product.getProductName())
+                    .productBrand(product.getProductBrand())
+                    .productDescription(product.getProductDescription())
+                    .productStock(product.getProductStock())
+                    .registeredAt(product.getRegisteredAt())
+                    .build();
+            String imageFileName = productImage.getFileName();
+            productDTO.setUploadFileNames(List.of(imageFileName));
+            return productDTO;
+        }).toList();
+
+        long totalCount = result.getTotalElements();
+
+        return PageResponseDTO.<ProductDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
+
+
+    /*
     @Override
     public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO) {
         // 페이지목록 만들기
@@ -106,7 +171,43 @@ public class ProductServiceImpl implements ProductService {
 
 
 
+    @Override
+    public PageResponseDTO<ProductDTO> getProductFiterBrand(PageRequestDTO pageRequestDTO, String productBrand) {
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                Sort.by("productId").descending()
+        );
 
+        // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
+        Page<Object[]> result = productRepository.selectFilterBrand(productBrand,pageable);
+
+        // 0번째는 product이고 1번째는 productImage이다
+        List<ProductDTO> dtoList = result.get().map(arr -> {
+            Product product = (Product) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
+            ProductDTO productDTO = ProductDTO.builder()
+                    .productId(product.getProductId())
+                    .category(product.getCategory())
+                    .productName(product.getProductName())
+                    .productBrand(product.getProductBrand())
+                    .productDescription(product.getProductDescription())
+                    .productStock(product.getProductStock())
+                    .registeredAt(product.getRegisteredAt())
+                    .build();
+            String imageFileName = productImage.getFileName();
+            productDTO.setUploadFileNames(List.of(imageFileName));
+            return productDTO;
+        }).toList();
+        long totalCount = result.getTotalElements();
+        return PageResponseDTO.<ProductDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+*/
 
 
     @Override
@@ -119,6 +220,8 @@ public class ProductServiceImpl implements ProductService {
         Long pno = productRepository.save(product).getProductId();
         return pno;
     }
+
+
 
     @Override
     @Transactional

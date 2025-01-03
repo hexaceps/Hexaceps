@@ -42,7 +42,7 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final ListPath<ProductSiteLink, QProductSiteLink> siteList = this.<ProductSiteLink, QProductSiteLink>createList("siteList", ProductSiteLink.class, QProductSiteLink.class, PathInits.DIRECT2);
 
-    public final StringPath size = createString("size");
+    public final NumberPath<Integer> size = createNumber("size", Integer.class);
 
     public final DatePath<java.time.LocalDate> updatedAt = createDate("updatedAt", java.time.LocalDate.class);
 

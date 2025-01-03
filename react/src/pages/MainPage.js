@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ProductCarousel from '../components/common/ProductCarousel'
 import MainCarousel from '../components/common/MainCarousel'
 import MainImageSlider from '../components/common/MainImageSlider'
@@ -6,6 +6,8 @@ import { Container, Row } from 'react-bootstrap'
 
 
 const MainPage = () => {
+
+
 
   const items = [ // 카테고리별 이미지 좌우 슬라이드 샘플
     "/images/raw1.jpg","/images/raw2.jpg","/images/raw3.jpg",

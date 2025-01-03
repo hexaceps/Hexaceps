@@ -40,7 +40,7 @@ public class Product {
 
     private LocalDate updatedAt;
 
-    private String size;
+    private int size;
 
     @ElementCollection
     @Builder.Default // ProductImage 테이블 생성
@@ -132,7 +132,7 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-    public void setSize(String size) {
+    public void setSize(int size) {
         this.size = size;
     }
 }

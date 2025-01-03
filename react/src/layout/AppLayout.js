@@ -49,7 +49,7 @@ const AppLayout = () => {
                 <Nav.Link href="#">고객센터</Nav.Link>
                 <Nav.Link href="#">마이쇼핑</Nav.Link>
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
-                <Nav.Link href="#">관심</Nav.Link>
+                <Nav.Link href="#">장바구니</Nav.Link>
                 {isLogin ? (
                  <Nav.Link href="/member/logout" onClick={doLogout}>
                    {member.name}님 로그아웃

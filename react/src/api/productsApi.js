@@ -24,11 +24,21 @@ export const productGetList = async(pageParam) => {
     return res.data
 }
 
-export const getListFilter = async(pageParam,category) => {
-    const {page, size} = pageParam
-    const res = await axios.get(`${host}/list/${category}`, {params : {page:page, size:size}})
-    return res.data
-}
+export const getListFilter = async (pageParam, category, productBrand, size, minPrice, maxPrice) => {
+    const { page, size: pageSize } = pageParam;  // pageParam에서 page와 size를 추출
+    const params = {
+      page,
+      size: pageSize,
+      category: category || null,   
+      productBrand: productBrand || null,      
+      size: size || null,      
+      minPrice: minPrice || null,   
+      maxPrice: maxPrice || null
+    }
+
+      const res = await axios.get(`${host}/list`, { params });
+      return res.data; 
+  };
 
 
 

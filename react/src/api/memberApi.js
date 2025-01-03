@@ -39,4 +39,4 @@ export const checkEmail = async(email) => {
     return res.data;
 
 }
-
+    

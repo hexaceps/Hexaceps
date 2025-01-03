@@ -221,7 +221,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
                                   color: '#888',
                                 }}
                               >
-                                {qna.reply_at === 0 ? '답변대기중' : '답변완료'}
+                                {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
                               </span></span>
                           ) : passwordInputQna === qna.qno ? (
                             <div>

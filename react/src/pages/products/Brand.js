@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getListFilter, productGetList } from '../../api/productsApi'
-import {  Button, Card,Row , Col, Container} from 'react-bootstrap'
+import { getListFilter, getListFilterBrand, productGetList } from '../../api/productsApi'
+import {  Button, Card,Row , Col, Container,Form} from 'react-bootstrap'
 import PageComponent from '../../components/common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../../components/common/FetchingModal'
@@ -23,24 +23,39 @@ const Brand = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
     const [fetching, setFetching] = useState(false)
+    const [productBrand, setProductBrand] = useState(null)
     const host = API_SERVER_HOST
     const defaultImage = '/path/to/default-image.jpg'
+
+    const cheangNike = () => {setProductBrand("NIKE")}
+    const cheangAdidas = () => {setProductBrand("ADIDAS")}
+    const cheangGuggi = () => {setProductBrand("GUCCI")}
+
 useEffect(()=>{
     setFetching(true)
-    getListFilter({page, size},"Brand").then(data => {
+    getListFilter({page, size},productBrand).then(data => {
         console.log(data)
         setServerData(data) 
         setFetching(false)
     })
-}, [page, size, refresh])
+}, [page, size, refresh,productBrand])
   return (
     <>
         {fetching ? <FetchingModal /> : <></>}
 
-
           <Container>
+
+        <div > 
+        <Form.Group className="mt-5 text-center" controlId="formBasicCheckbox" >
+              <Form.Check className='mb-2 me-5  d-inline-block' type="checkbox" label="NIKE" onClick={cheangNike}  checked={productBrand === "NIKE"} />
+              <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="ADIDAS" onClick={cheangAdidas}  checked={productBrand === "ADIDAS"} />
+              <Form.Check className='mb-2  me-5 d-inline-block' type="checkbox" label="GUCCI" onClick={cheangGuggi} checked={productBrand === "GUCCI"} />
+          </Form.Group>
+        </div>
+
+
         <Row >
-             {serverData.dtoList.filter(product => product.category == "Brand").map((product,index) => (
+             {serverData.dtoList.filter(product => productBrand === null || product.productBrand == productBrand).map((product,index) => (
         <Col md={6}>
                  <Card  className='mb-5 '>
       <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`}

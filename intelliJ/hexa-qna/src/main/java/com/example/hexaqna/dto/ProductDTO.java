@@ -28,7 +28,7 @@ public class ProductDTO {
     private String productDescription;
     private LocalDate registeredAt;
     private LocalDate updatedAt;
-    private String size;
+    private int size;
 
     // 실제 파일을 업로드할 MultipartFile 리스트
     private List<MultipartFile> files = new ArrayList<>();

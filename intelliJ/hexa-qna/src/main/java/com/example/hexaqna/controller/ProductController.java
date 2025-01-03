@@ -44,6 +44,21 @@ public class ProductController {
         return customFileUtil.getFile(fileName);
     }
 
+
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO,
+                                            @RequestParam(value = "category", required = false) String category,
+                                            @RequestParam(value = "productBrand", required = false) String productBrand,
+                                            @RequestParam(value =  "size", required = false) Integer  size,
+                                            @RequestParam(value = "minPrice", required = false) Integer minPrice,
+                                            @RequestParam(value = "maxPrice", required = false) Integer maxPrice) {
+        log.info("list with category: {}, brand: {},size : {}, min : {}, max: {}", category, productBrand,size,minPrice,maxPrice);
+            return productService.getProductList(pageRequestDTO,category,productBrand,size,minPrice,maxPrice);
+
+    }
+
+    /*
     //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
     //    상품목록 조회
     @GetMapping("/list")
@@ -58,6 +73,14 @@ public class ProductController {
         return productService.getProductFiterList(pageRequestDTO,category);
     }
 
+
+    //브랜드 필터링
+    @GetMapping("/list1/{brand}")
+    public PageResponseDTO<ProductDTO> brandFilter(PageRequestDTO pageRequestDTO, @PathVariable("brand") String brand) {
+        log.info("list...{}", pageRequestDTO);
+        return productService.getProductFiterBrand(pageRequestDTO,brand);
+    }
+*/
 
     // 하나의 상품 조회
     @GetMapping("/{productId}")
