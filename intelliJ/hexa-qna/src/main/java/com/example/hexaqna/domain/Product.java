@@ -64,6 +64,7 @@ public class Product {
      */
     public void addImage(ProductImage image) {
         image.setOrd(this.imageList.size());
+        image.setProduct(this);
         this.imageList.add(image);
     }
     public void addImageString(String fileName) {
@@ -83,6 +84,7 @@ public class Product {
      */
     public void addProductSite(ProductSiteLink productSite) {
         productSite.setSiteOrd(this.siteList.size());
+        productSite.setProduct(this);
         this.siteList.add(productSite);
     }
     public void addSiteLink(String siteLink, int orderNum) {

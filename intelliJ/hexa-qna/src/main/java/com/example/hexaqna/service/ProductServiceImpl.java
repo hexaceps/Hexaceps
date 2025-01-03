@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,14 +40,17 @@ public class ProductServiceImpl implements ProductService {
                 pageRequestDTO.getSize(),
                 Sort.by("productId").descending()
         );
+        log.info("getProductList() 페이지 목록 만들기 롸져 1111111111111111111111111");
 
         // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
-        Page<Object[]> result = productRepository.selectList(pageable);
+        Page<Object[]> result = productRepository.findBySelectImageAndSiteList(pageable); // selectList(pageable);
+        log.info("getProductList() 대표 이미지랑 사이트 링크 가져와라 오바!!!!222222222222222");
 
         // 0번째는 product이고 1번째는 productImage이다
         List<ProductDTO> dtoList = result.get().map(arr -> {
             Product product = (Product) arr[0];
             ProductImage productImage = (ProductImage) arr[1];
+            ProductSiteLink productSiteLink = (ProductSiteLink) arr[2];
             ProductDTO productDTO = ProductDTO.builder()
                     .productId(product.getProductId())
                     .category(product.getCategory())
@@ -55,11 +59,17 @@ public class ProductServiceImpl implements ProductService {
                     .productDescription(product.getProductDescription())
                     .productStock(product.getProductStock())
                     .registeredAt(product.getRegisteredAt())
+                    .size(product.getSize())
+                    .price(product.getPrice())
                     .build();
-            String imageFileName = productImage.getFileName();
-            productDTO.setUploadFileNames(List.of(imageFileName));
+            List<String> uploadFileNames = productImage != null ? List.of(productImage.getFileName()) : new ArrayList<>();
+            productDTO.setUploadFileNames(uploadFileNames);
+            List<String> productSiteNames = productSiteLink != null ? List.of(productSiteLink.getSiteLink()) : new ArrayList<>();
+            productDTO.setProductSiteNames(productSiteNames);
+
             return productDTO;
         }).toList();
+        log.info("getProductList()     맵돌려서 응답결과 만들었다 오바... 33333333");
         long totalCount = result.getTotalElements();
         return PageResponseDTO.<ProductDTO>withAll()
                 .dtoList(dtoList)
@@ -103,11 +113,6 @@ public class ProductServiceImpl implements ProductService {
                 .pageRequestDTO(pageRequestDTO)
                 .build();
     }
-
-
-
-
-
 
     @Override
     public Long registerNewProduct(ProductDTO productDTO) {
@@ -206,6 +211,7 @@ public class ProductServiceImpl implements ProductService {
                 .productId(product.getProductId())
                 .productName(product.getProductName())
                 .productBrand(product.getProductBrand())
+                .category(product.getCategory())
                 .productDescription(product.getProductDescription())
                 .productStock(product.getProductStock())
                 .registeredAt(product.getRegisteredAt())
@@ -213,14 +219,18 @@ public class ProductServiceImpl implements ProductService {
                 .build();
 
         List<ProductImage> imageList = product.getImageList();
-
         if(imageList == null || imageList.isEmpty()) {
             return productDTO;
         }
-
         List<String> fileNameList = imageList.stream().map(productImage -> productImage.getFileName()).toList();
-
         productDTO.setUploadFileNames(fileNameList);
+
+        List<ProductSiteLink> siteList = product.getSiteList();
+        if (siteList == null || siteList.isEmpty()) {
+            return productDTO;
+        }
+        List<String> siteNameList = siteList.stream().map(productSiteLink -> productSiteLink.getSiteLink()).toList();
+        productDTO.setProductSiteNames(siteNameList);
 
         return productDTO;
     }

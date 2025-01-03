@@ -58,7 +58,6 @@ public class ProductController {
         return productService.getProductFiterList(pageRequestDTO,category);
     }
 
-
     // 하나의 상품 조회
     @GetMapping("/{productId}")
     public ProductDTO read(@PathVariable("productId") Long productId){
