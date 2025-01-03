@@ -76,12 +76,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder(Long orderId) {
-        if (!orderRepository.existsById(orderId)) {
-            throw new RuntimeException("Order not found");
-        }
-        orderRepository.deleteById(orderId);
+    public void deleteOrderByMemberIdAndCartId(Long memberId, Long cartId) {
+        Order order = orderRepository.findByMemberIdAndCartId(memberId, cartId)
+                .orElseThrow(() -> new RuntimeException("Order not found for memberId: " + memberId + " and cartId: " + cartId));
+        orderRepository.delete(order);
     }
+
 
     @Override
     public Page<OrderResponseDTO> searchOrders(PageRequestDTO pageRequestDTO) {

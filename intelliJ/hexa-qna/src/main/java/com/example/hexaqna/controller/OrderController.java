@@ -43,11 +43,12 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrdersByMemberId(memberId));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping
+    public ResponseEntity<Void> deleteOrderByMemberIdAndCartId(@RequestParam Long memberId, @RequestParam Long cartId) {
+        orderService.deleteOrderByMemberIdAndCartId(memberId, cartId);
         return ResponseEntity.noContent().build();
     }
+
 
     @GetMapping("/search")
     public ResponseEntity<Page<OrderResponseDTO>> searchOrders(

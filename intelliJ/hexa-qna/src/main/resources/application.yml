@@ -26,6 +26,11 @@ logging.level:
   org.hibernate.SQL: debug
   org.hibernate.orm.jdbc.bind: trace
   org.springframework.security.web: trace
+
+google:
+  client:
+    id: ${GOOGLE_CLIENT_ID:default-client-id}
+    pw: ${GOOGLE_CLIENT_PW:default-client-pw}
     
 server:
   port: 8010

@@ -12,6 +12,6 @@ public interface OrderService {
     List<OrderResponseDTO> getAllOrders();
     OrderResponseDTO getOrderById(Long orderId);
     List<OrderResponseDTO> getOrdersByMemberId(Long memberId);
-    void deleteOrder(Long orderId);
+    void deleteOrderByMemberIdAndCartId(Long memberId, Long cartId);
     Page<OrderResponseDTO> searchOrders(PageRequestDTO pageRequestDTO);
 }
