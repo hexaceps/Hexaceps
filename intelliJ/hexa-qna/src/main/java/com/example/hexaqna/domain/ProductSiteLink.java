@@ -13,7 +13,7 @@ import lombok.*;
 public class ProductSiteLink {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productProductId")
+    @Column(name = "productImgId")
     private Long id;
 
     private String siteLink;
@@ -21,7 +21,7 @@ public class ProductSiteLink {
     private int siteOrd; // 0 = hexaceps, 1 = kream, 2 = stockx, 3 = amazon
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prductId")
+    @JoinColumn(name = "productId")
     private Product product;
     // site sorting 순서 정리
     public void setSiteOrd(int siteOrd) {

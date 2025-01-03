@@ -13,7 +13,7 @@ import lombok.*;
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "productProductId")
+    @Column(name = "productSiteId")
     private Long id;
 
     private String fileName;
