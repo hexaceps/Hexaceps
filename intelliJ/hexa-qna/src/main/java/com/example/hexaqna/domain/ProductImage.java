@@ -1,9 +1,9 @@
 package com.example.hexaqna.domain;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import lombok.*;
 
-@Embeddable
+@Entity
 @Getter
 @ToString
 @Builder
@@ -11,31 +11,23 @@ import lombok.*;
 @NoArgsConstructor
 
 public class ProductImage {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "productProductId")
+    private Long id;
+
     private String fileName;
     private int ord; // 0 이 대표 이미지, 원하는 번호만 볼수 있게 ordering
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
+    private Product product;
+
     public void setOrd(int ord) {
         this.ord = ord;
     }
-}
 
-/*
-@Embeddable
-@Getter
-@ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProductImage {
-
-    private String fileName;
-
-    //각 이미지마다 번호지정, 원하는 번호만 볼수있도록(대표이미지)
-    private int ord;
-
-    //이미지순서
-    public void setOrd(int ord) {
-        this.ord = ord;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
- */
