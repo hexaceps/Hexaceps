@@ -32,8 +32,9 @@ const MyPageSubMemberCheck = ({id}) => {
  
   return (
    <>
-   {ispw ?   <Container className='d-flex  my-5'>
-    <Form className='ms-5 border p-5' >
+   {ispw ?   <Container  className="d-flex  align-items-center my-5"
+          style={{ height: '60vh' }}>
+    <Form className='border p-5' >
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label className='mb-3'>비밀번호 인증</Form.Label>
         <InputGroup className='mb-5'>
@@ -51,7 +52,7 @@ const MyPageSubMemberCheck = ({id}) => {
       </Form.Group>
       <div className='text-center'>
       <Button className="mb-3 " style={{ backgroundColor: '#8B4513', color: 'white' }}  onClick={checkPw}>
-         가입하기
+         인증하기
       </Button>
       </div>
       </Form>

@@ -41,9 +41,15 @@ public class QnaController {
     }
 
 
+    //멤버별리스트
+    @GetMapping("/idList/{id}")
+    public PageResponseDTO<QnaDTO> listId(PageRequestDTO pageRequestDTO,@PathVariable("id") Long id) {
+        log.info("list...{}", pageRequestDTO);
+        return qnaService.getlistId(pageRequestDTO,id);
+    }
 
 
-    //리스트
+    //상품별리스트
     @GetMapping("/list/{productId}")
     public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,@PathVariable("productId") Long productId) {
         log.info("list...{}", pageRequestDTO);

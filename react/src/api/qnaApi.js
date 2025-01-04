@@ -18,6 +18,12 @@ export const getList = async(pageParam,productId) => {
     return res.data
 }
 
+export const getListId = async(pageParam,id) => {
+    const {page, size} = pageParam
+    const res = await axios.get(`${prefix}/idList/${id}`, {params : {page:page, size:size}},id)
+    return res.data
+}
+
 // 데이터추가
 export const postAdd = async(qna,productId, id) => {
     const res = await axios.post(`${prefix}/q/${productId}/${id}`, qna,productId,id)

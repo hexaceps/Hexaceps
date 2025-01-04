@@ -52,9 +52,15 @@ const MyPageComponent = () => {
       height: '60px',  
       display: 'flex', 
       alignItems: 'stretch',
-      fontSize : 'large' 
+      fontSize : 'large' ,
+      justifyContent: 'space-between'
+
      }}>
-  <Nav.Item style={{ height: '100%' }} >
+  <Nav.Item style={{ height: '100%',
+              flex: 1, 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'}} >
     <Nav.Link
       eventKey="A"
       onClick={() => handleTabClick('A')}
@@ -70,7 +76,11 @@ const MyPageComponent = () => {
       회원정보 수정
     </Nav.Link>
   </Nav.Item>
-  <Nav.Item style={{ height: '100%' }}>
+  <Nav.Item style={{  height: '100%',
+              flex: 1, 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center' }}>
     <Nav.Link
       eventKey="B"
       onClick={() => handleTabClick('B')}
@@ -86,7 +96,11 @@ const MyPageComponent = () => {
       {member.name} 님의 리뷰
     </Nav.Link>
   </Nav.Item>
-  <Nav.Item style={{ height: '100%' }}>
+  <Nav.Item style={{  height: '100%',
+              flex: 1, 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center' }}>
     <Nav.Link
       eventKey="C"
       onClick={() => handleTabClick('C')}
@@ -105,9 +119,11 @@ const MyPageComponent = () => {
  
 </Nav>
 
-      {page === 'A' ? <MyPageSubMemberCheck id={member.id} /> : <></>}
-      {page === 'B' ? <MypageSubReview id={member.id}/> : <></>}
-      {page === 'C' ? <MyPageSubQna  id={member.id} /> : <></>}
+    <div style={{ width: '60%',margin: '0 auto' }}>
+      {page === 'A' ? <MyPageSubMemberCheck id={member?.id} /> : <></>}
+    </div>      
+      {page === 'B' ? <MypageSubReview id={member?.id}/> : <></>}
+      {page === 'C' ? <MyPageSubQna  id={member?.id} /> : <></>}
    
 
     </Container>

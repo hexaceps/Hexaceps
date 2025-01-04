@@ -112,4 +112,22 @@ public class QnaServiceImpl implements QnaService {
                 .totalCount(result.getTotalElements())
                 .build();
     }
+
+    @Override
+    public PageResponseDTO<QnaDTO> getlistId(PageRequestDTO pageRequestDTO, Long id) {
+
+        //가져온다, Qna의 리스트
+        Page<Qna> result = qnaRepository.findByMemberID(id, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
+
+        log.info("값은? {}",result);
+        List<QnaDTO> dtoList = result.getContent().stream()
+                .map(this::entityToDTO)
+                .collect(Collectors.toList());
+        log.info("값은? {}",dtoList);
+        return PageResponseDTO.<QnaDTO>withAll()
+                .dtoList(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(result.getTotalElements())
+                .build();
+    }
 }
