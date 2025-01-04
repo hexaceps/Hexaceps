@@ -23,7 +23,7 @@ public class CartController {
         log.info("카트 아이디? {}", cartDTO.getCartId());
         log.info("카트 아이템? {}", cartDTO.getProductId());
         log.info("제품 수량: {}", cartDTO.getAmount());
-        log.info("제품 사이즈: {}", cartDTO.getSize());
+        log.info("제품 사이즈: {}", cartDTO.getProductSize());
         //if(!Objects.equals(principal.getName(), cartDTO.getUserId())){
         //    throw new IllegalStateException("인증된 사용자와 요청 정보가 일치하지 않습니다.");
         //}

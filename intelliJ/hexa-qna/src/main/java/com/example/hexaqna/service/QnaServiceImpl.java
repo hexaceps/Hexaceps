@@ -101,10 +101,11 @@ public class QnaServiceImpl implements QnaService {
         //가져온다, Qna의 리스트
         Page<Qna> result = qnaRepository.findByProductProductID(productId, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
 
+        log.info("값은? {}",result);
         List<QnaDTO> dtoList = result.getContent().stream()
                 .map(this::entityToDTO)
                 .collect(Collectors.toList());
-
+        log.info("값은? {}",dtoList);
         return PageResponseDTO.<QnaDTO>withAll()
                 .dtoList(dtoList)
                 .pageRequestDTO(pageRequestDTO)

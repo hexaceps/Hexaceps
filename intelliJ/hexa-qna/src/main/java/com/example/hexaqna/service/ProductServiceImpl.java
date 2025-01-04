@@ -32,70 +32,45 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
+
     @Override
-    public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO) {
-        // 페이지목록 만들기
+    public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand, Integer  productSize, String minPrice, Integer maxPrice) {
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,
                 pageRequestDTO.getSize(),
                 Sort.by("productId").descending()
         );
-        log.info("getProductList() 페이지 목록 만들기 롸져 1111111111111111111111111");
 
-        // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
-        Page<Object[]> result = productRepository.findBySelectImageAndSiteList(pageable); // selectList(pageable);
-        log.info("getProductList() 대표 이미지랑 사이트 링크 가져와라 오바!!!!222222222222222");
+        Page<Object[]> result;
+
+
+        // 필터 조건에 따라 리포지토리 메서드 결정
+        if (category != null) {
+            result = productRepository.selectFilter(category, pageable);
+        } else if (productBrand != null) {
+            result = productRepository.selectFilterBrand(productBrand, pageable);
+        } else if (minPrice != null && maxPrice != null) {
+            result = productRepository.selectFilterPrice( Integer.parseInt(minPrice) , maxPrice ,pageable);
+        } else if(productSize != null) {
+            if (productSize <= 240) {
+                result = productRepository.selectFilterSizeDown(240,pageable);
+            } else {
+                result = productRepository.selectFilterSizeUp( 245, pageable);
+            }
+        }else{
+            result = productRepository.selectList(pageable);
+        }
+
 
         // 0번째는 product이고 1번째는 productImage이다
         List<ProductDTO> dtoList = result.get().map(arr -> {
             Product product = (Product) arr[0];
             ProductImage productImage = (ProductImage) arr[1];
-            ProductSiteLink productSiteLink = (ProductSiteLink) arr[2];
             ProductDTO productDTO = ProductDTO.builder()
                     .productId(product.getProductId())
                     .category(product.getCategory())
-                    .productName(product.getProductName())
-                    .productBrand(product.getProductBrand())
-                    .productDescription(product.getProductDescription())
-                    .productStock(product.getProductStock())
-                    .registeredAt(product.getRegisteredAt())
-                    .size(product.getSize())
                     .price(product.getPrice())
-                    .build();
-            List<String> uploadFileNames = productImage != null ? List.of(productImage.getFileName()) : new ArrayList<>();
-            productDTO.setUploadFileNames(uploadFileNames);
-            List<String> productSiteNames = productSiteLink != null ? List.of(productSiteLink.getSiteLink()) : new ArrayList<>();
-            productDTO.setProductSiteNames(productSiteNames);
-
-            return productDTO;
-        }).toList();
-        log.info("getProductList()     맵돌려서 응답결과 만들었다 오바... 33333333");
-        long totalCount = result.getTotalElements();
-        return PageResponseDTO.<ProductDTO>withAll()
-                .dtoList(dtoList)
-                .totalCount(totalCount)
-                .pageRequestDTO(pageRequestDTO)
-                .build();
-    }
-
-    @Override
-    public PageResponseDTO<ProductDTO> getProductFiterList(PageRequestDTO pageRequestDTO, String category) {
-        Pageable pageable = PageRequest.of(
-                pageRequestDTO.getPage() - 1,
-                pageRequestDTO.getSize(),
-                Sort.by("productId").descending()
-        );
-
-        // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
-        Page<Object[]> result = productRepository.selectFilter(category,pageable);
-
-        // 0번째는 product이고 1번째는 productImage이다
-        List<ProductDTO> dtoList = result.get().map(arr -> {
-            Product product = (Product) arr[0];
-            ProductImage productImage = (ProductImage) arr[1];
-            ProductDTO productDTO = ProductDTO.builder()
-                    .productId(product.getProductId())
-                    .category(product.getCategory())
+                    .productSize(product.getProductSize())
                     .productName(product.getProductName())
                     .productBrand(product.getProductBrand())
                     .productDescription(product.getProductDescription())
@@ -106,7 +81,9 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setUploadFileNames(List.of(imageFileName));
             return productDTO;
         }).toList();
+
         long totalCount = result.getTotalElements();
+
         return PageResponseDTO.<ProductDTO>withAll()
                 .dtoList(dtoList)
                 .totalCount(totalCount)
@@ -186,7 +163,7 @@ public class ProductServiceImpl implements ProductService {
                 .productDescription(productDTO.getProductDescription())
                 .productStock(productDTO.getProductStock())
                 .price(productDTO.getPrice())
-                .size(productDTO.getSize())
+                .productSize(productDTO.getProductSize())
                 // .registeredAt(LocalDate.now())
                 // .updatedAt(productDTO.getUpdatedAt())
                 .build();
@@ -215,6 +192,7 @@ public class ProductServiceImpl implements ProductService {
                 .productDescription(product.getProductDescription())
                 .productStock(product.getProductStock())
                 .registeredAt(product.getRegisteredAt())
+                .productSize(product.getProductSize())
                 .price(product.getPrice())
                 .build();
 
@@ -245,7 +223,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getPrice())
                 .productStock(product.getProductStock())
                 .category(product.getCategory())
-                .size(product.getSize())
+                .productSize(product.getProductSize())
                 .registeredAt(product.getRegisteredAt())
                 .updatedAt(product.getUpdatedAt())
                 .build();
@@ -278,7 +256,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(productDTO.getPrice())
                 .productStock(productDTO.getProductStock())
                 .category(productDTO.getCategory())
-                .size(productDTO.getSize())
+                .productSize(productDTO.getProductSize())
                 // .registeredAt(LocalDate.now())
                 // .updatedAt(LocalDate.now()) 수정할떄, set으로 처리
                 .build();

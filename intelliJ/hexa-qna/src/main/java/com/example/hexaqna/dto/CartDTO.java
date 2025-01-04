@@ -22,7 +22,7 @@ public class CartDTO {
 
     private int amount;
 
-    private int size;
+    private int productSize;
 
     private LocalDate regAt;
 

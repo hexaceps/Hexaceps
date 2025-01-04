@@ -2,6 +2,8 @@ package com.example.hexaqna.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -12,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString
+@ToString(exclude = {"productId", "memberId"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,12 +26,12 @@ public class Qna {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "memberId")
-    @JsonBackReference("memberReference")
+    @JsonBackReference("member-qna")
     private HexaMember memberId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId")
-    @JsonBackReference("productReference")
+    @JsonBackReference("product-qna")
     private Product productId;
 
     @NotEmpty

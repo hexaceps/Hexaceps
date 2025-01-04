@@ -34,7 +34,7 @@ public class CartServiceImpl implements CartService{
         }
 
         // CartDTO에 size와 category 추가 (Product에서 값 가져오기)
-        cartDTO.setSize(product.getSize());
+        cartDTO.setProductSize(product.getProductSize());
         cartDTO.setCategory(product.getCategory());
 
         Cart cart = cartRepository.getItemOfProductId(memberId, productId);
@@ -46,7 +46,7 @@ public class CartServiceImpl implements CartService{
         } else {
             // 기존 Cart 수정
             cart.setAmount(cartDTO.getAmount());
-            cart.setSize(cartDTO.getSize());
+            cart.setProductSize(cartDTO.getProductSize());
             cart.setCategory(cartDTO.getCategory());
             cartRepository.save(cart);
         }
@@ -63,7 +63,7 @@ public class CartServiceImpl implements CartService{
                 .productId(product) // Product 객체 필요
                 .category(dto.getCategory()) // Product 객체 필요
                 .amount(dto.getAmount())
-                .size(dto.getSize())
+                .productSize(dto.getProductSize())
                 .regAt(dto.getRegAt() != null ? dto.getRegAt() : LocalDate.now())
                 .build();
     }

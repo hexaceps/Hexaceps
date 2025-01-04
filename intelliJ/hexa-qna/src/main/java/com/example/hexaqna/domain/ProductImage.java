@@ -1,15 +1,18 @@
 package com.example.hexaqna.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
 @Getter
-@ToString
+@ToString(exclude = {"product"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +24,7 @@ public class ProductImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
+    @JsonBackReference("product-image")
     private Product product;
 
     public void setOrd(int ord) {

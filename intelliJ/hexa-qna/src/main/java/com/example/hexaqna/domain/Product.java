@@ -1,5 +1,6 @@
 package com.example.hexaqna.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@ToString (exclude = {"imageList", "siteList", "qnaList"})
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,23 +38,25 @@ public class Product {
 
     private LocalDate updatedAt;
 
-    private int size;
+    private int productSize;
 
     // orphanRemoval : product 객체정보 삭제시 자식 테이블 내용도 삭제
     // CascadeType.ALL 모든 테이블 관계에 post, put, delete, get 가능한 JPA
     // @ElementCollection // 사용 변경
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @Builder.Default // ProductImage 테이블 생성
+    @JsonManagedReference("product-image")
     private List<ProductImage> imageList = new ArrayList<>();
 
     // @ElementCollection // 사용 변경
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Builder.Default // ProductSite 테이블 생성
+    @Builder.Default // ProductSite 테이블 생성// Unique reference name
+    @JsonManagedReference("product-site")
     private List<ProductSiteLink> siteList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference("productReference") // Unique reference name
-    private List<Qna> qnaList;
+    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL)
+    @JsonManagedReference("product-qna")
+    private List<Qna> qnaList = new ArrayList<>();
 
     /*
         1. addImage() : 상품의 이미지를 리스트 형태로 저장
@@ -135,7 +138,7 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setProductSize(int productSize) {
+        this.productSize = productSize;
     }
 }

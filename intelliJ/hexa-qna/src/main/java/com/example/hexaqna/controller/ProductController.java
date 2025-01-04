@@ -44,19 +44,30 @@ public class ProductController {
         return customFileUtil.getFile(fileName);
     }
 
+
+
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO,
+                                            @RequestParam(value = "category", required = false) String category,
+                                            @RequestParam(value = "productBrand", required = false) String productBrand,
+                                            @RequestParam(value =  "productSize", required = false) Integer  productSize,
+                                            @RequestParam(value = "minPrice", required = false) String minPrice,
+                                            @RequestParam(value = "maxPrice", required = false) Integer maxPrice) {
+        log.info("list with category: {}, brand: {},productSize : {}, min : {}, max: {}", category, productBrand,productSize,minPrice,maxPrice);
+        return productService.getProductList(pageRequestDTO,category,productBrand,productSize,minPrice,maxPrice);
+
+    }
+    /*
     //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
     //    상품목록 조회
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
         return productService.getProductList(pageRequestDTO);
     }
+*/
 
-    //상품 필터링 목록 조회
-    @GetMapping("/list/{category}")
-    public PageResponseDTO<ProductDTO> listFilter(PageRequestDTO pageRequestDTO, @PathVariable("category") String category) {
-        log.info("list...{}", pageRequestDTO);
-        return productService.getProductFiterList(pageRequestDTO,category);
-    }
+
+
 
     // 하나의 상품 조회
     @GetMapping("/{productId}")

@@ -42,6 +42,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
     const [newQnaData, setNewQnaData] = useState(initStateQna)
     const [password, setPassword] = useState({});
     const [passwordInputQna, setPasswordInputQna] = useState(null); 
+    const [currentPage, setCurrentPage] = useState(1)
 
 
 
@@ -77,7 +78,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
       replyOne(replyData).then(result => {
         console.log("답변 작성 결과", result);
         // 답변 작성 후 서버에서 데이터를 다시 가져와서 상태를 갱신
-        getList({ page, size },productId).then(data => {
+        getList({ page : currentPage, size },productId).then(data => {
           setServerData(data);  // 새로 가져온 데이터로 갱신
         }).catch(e => {
           console.error("게시글 목록 불러오기 실패:", e);
@@ -119,7 +120,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
       postAdd(newQnaData,productId,id).then(result => {
                console.log("pno?",productId) 
                console.log("id?",id) 
-               getList({ page, size },productId).then(data => {
+               getList({ page: currentPage, size },productId).then(data => {
                 setServerData(data);  
               }).catch(e => {
                 console.error("게시글 목록 불러오기 실패:", e);
@@ -168,14 +169,14 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
 
 
     useEffect(()=>{
-        getList({page, size},productId).then(data => {
+        getList({page :currentPage, size},productId).then(data => {
             console.log("data",data.dtoList)
             console.log("pno",productId)
             setServerData(data)
             console.log("server",serverData)
            
         })
-    }, [page, size, refresh])
+    }, [currentPage, size, refresh])
 
     
   return (
@@ -221,7 +222,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
                                   color: '#888',
                                 }}
                               >
-                                {qna.reply_at === 0 ? '답변대기중' : '답변완료'}
+                                {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
                               </span></span>
                           ) : passwordInputQna === qna.qno ? (
                             <div>
@@ -317,7 +318,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
     </Table>
                 )}
     </Container>
-    <PageComponent serverData={serverData} moveToList={moveToList}/>
+    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} /> 
     {!showAddComponent && (
     <div className="d-flex justify-content-end">
         <Button className='btn-secondary me-5' onClick={createQna}>문의글 작성하기</Button>

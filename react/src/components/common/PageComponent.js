@@ -1,7 +1,7 @@
 import React from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 
-const PageComponent = ({ serverData, moveToList}) => {
+const PageComponent = ({ serverData, moveToList,currentPage,setCurrentPage}) => {
     console.log("현재페이지" + serverData.current)
   return (
     <>
@@ -9,19 +9,26 @@ const PageComponent = ({ serverData, moveToList}) => {
         <Pagination className='justify-content-center'>
             {serverData.prev ? 
                 <Pagination.Prev 
-                    onClick={()=>moveToList({page : serverData.prevPage})}
+                onClick={() => { 
+                    setCurrentPage(serverData.prevPage); 
+                    moveToList({ page: serverData.prevPage })}} 
                 /> : <></>}
             {serverData.pageNumList.map(pageNum => 
                 <Pagination.Item
-                    active = {serverData.current === pageNum}
-                    onClick = { () => moveToList({page : pageNum})}
+                active={currentPage === pageNum}  
+                onClick={() => {
+                    setCurrentPage(pageNum);
+                    moveToList({ page: pageNum })  }}
                 >
                     {pageNum}
                 </Pagination.Item>
             )}
             {serverData.next ? 
                 <Pagination.Next 
-                    onClick={() => moveToList({page : serverData.nextPage})}
+                onClick={() => { 
+                    setCurrentPage(serverData.nextPage); 
+                    moveToList({ page: serverData.nextPage }) 
+                }}
                 /> 
                 : <></>}  
         </Pagination>

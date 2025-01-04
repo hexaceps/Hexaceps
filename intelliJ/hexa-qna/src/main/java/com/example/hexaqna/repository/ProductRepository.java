@@ -21,18 +21,34 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
     @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.category = :category")
     Page<Object[]> selectFilter(@Param("category") String category, Pageable pageable);
 
-    //상품목록이 나올때 이미지도 같이 나와야 한다. <-- http://localhost:8010/api/product/list 조회 사용 (올드)
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.productBrand = :productBrand")
+    Page<Object[]> selectFilterBrand(@Param("productBrand") String productBrand, Pageable pageable);
+
+
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.price >= :minPrice and p.price <= :maxPrice")
+    Page<Object[]> selectFilterPrice(@Param("minPrice") int minPrice,@Param("maxPrice") int maxPrice, Pageable pageable);
+
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.productSize <= :productSize")
+    Page<Object[]> selectFilterSizeDown(@Param("productSize") int productSize, Pageable pageable);
+
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.productSize >= :productSize")
+    Page<Object[]> selectFilterSizeUp(@Param("productSize")  int productSize,Pageable pageable);
+
+
+
+    //상품목록이 나올때 이미지도 같이 나와야 한다.
     //selectList
-    // @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0")
-    // Page<Object[]> selectList(Pageable pageable);
+    @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0")
+    Page<Object[]> selectList(Pageable pageable);
 
     // 상품 조회 제대로 안될때
     @Query("select p from Product p join fetch p.imageList join fetch p.siteList where p.productId = :productId")
     Optional<Product> findByProductId(@Param("productId") Long productId);
 
-    // /api/product/list 조회시에 사용할 상품 조회 쿼리 <-- http://localhost:8010/api/product/list 조회 사용 (뉴)
+
+    // /api/product/list 조회시에 사용할 상품 조회 쿼리
     @Query("select p, pi, sl from Product p" +
-            " left join p.imageList pi" +
-            " left join p.siteList sl")
+            " left join p.imageList pi on pi.ord = 0 " +
+            " left join p.siteList sl on sl.siteOrd = 0")
     Page<Object[]> findBySelectImageAndSiteList (Pageable pageable);
 }

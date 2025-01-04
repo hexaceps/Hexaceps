@@ -24,13 +24,21 @@ export const productGetList = async(pageParam) => {
     return res.data
 }
 
-export const getListFilter = async(pageParam,category) => {
-    const {page, size} = pageParam
-    const res = await axios.get(`${host}/list/${category}`, {params : {page:page, size:size}})
-    return res.data
-}
+export const getListFilter = async (pageParam, category, productBrand, productSize, minPrice, maxPrice) => {
+    const { page, size: pageSize } = pageParam;  
+    const params = {
+      page,
+      size: pageSize,
+      category: category || null,   
+      productBrand: productBrand || null,      
+      productSize: productSize || null,      
+      minPrice: minPrice || null,   
+      maxPrice: maxPrice || null
+    }
 
-
+      const res = await axios.get(`${host}/list`, { params });
+      return res.data; 
+  };
 
 //특정번호의 product조회
 //http://localhost:8080/api/product/50

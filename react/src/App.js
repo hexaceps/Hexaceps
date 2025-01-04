@@ -22,6 +22,8 @@ import BrandNew from './pages/products/BrandNew';
 import Luxary from './pages/products/Luxary';
 import Brand from './pages/products/Brand';
 import Collection from './pages/products/Collection';
+import Size from './pages/products/Size';
+import Price from './pages/products/Price';
 
 
 function App() {
@@ -55,6 +57,8 @@ function App() {
           <Route path='luxary' element={<Luxary />} />
           <Route path='brand' element={<Brand />} />
           <Route path='collection' element={<Collection />} />
+          <Route path='size' element={<Size />} />
+          <Route path='price' element={<Price />} />
         </Route>
       </Route>
     </Routes>

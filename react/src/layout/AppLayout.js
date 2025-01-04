@@ -41,8 +41,8 @@ const AppLayout = () => {
               <Nav.Link href="/products/brand" className='me-3'>브랜드</Nav.Link>
               <Nav.Link href="/products/luxary" className='me-3'>럭셔리</Nav.Link>
               <Nav.Link href="/products/collection" className='me-3'>컬렉션</Nav.Link>
-              <Nav.Link href="/products/list" className='me-3'>사이즈</Nav.Link>
-              <Nav.Link href="/products/list" >가격대</Nav.Link>
+              <Nav.Link href="/products/size" className='me-3'>사이즈</Nav.Link>
+              <Nav.Link href="/products/price" >가격대</Nav.Link>
             </Nav>
             <div>
               <Nav bg="white" variant="light" className="justify-content-end mb-2 fs-6">

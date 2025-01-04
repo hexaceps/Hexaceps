@@ -22,6 +22,7 @@ const initState = {
 const BrandNew = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
+    const [currentPage, setCurrentPage] = useState(1)
     const [fetching, setFetching] = useState(false)
     const host = API_SERVER_HOST
     const defaultImage = '/path/to/default-image.jpg'
@@ -58,8 +59,7 @@ useEffect(()=>{
       ))}
     </Row>
     <div className='my-5'>
-    <PageComponent  serverData={serverData} moveToList={moveToList}/>
-    </div>
+    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    </div>
     </Container>
     </>
   )

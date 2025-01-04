@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { getListFilter, productGetList } from '../../api/productsApi'
-import {  Button, Card,Row , Col, Container} from 'react-bootstrap'
 import PageComponent from '../../components/common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../../components/common/FetchingModal'
 import { API_SERVER_HOST } from '../../api/qnaApi'
-
+import { getListFilter, getListFilterBrand, productGetList } from '../../api/productsApi'
+import {  Button, Card,Row , Col, Container,Form} from 'react-bootstrap'
 
 const initState = {
     dtoList: [],
@@ -20,30 +19,46 @@ const initState = {
     current: 0
 }
 
-const Luxary = () => {
- 
+const Size = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
+    //필터클릭시 페이지네이션 1록가게
     const [currentPage, setCurrentPage] = useState(1)
     const [fetching, setFetching] = useState(false)
+    const [productSize, setProductSize] = useState(null)
     const host = API_SERVER_HOST
     const defaultImage = '/path/to/default-image.jpg'
 
+        //브랜드명 현재 나이키 아디다스 구찌
+    const cheangeWomen = () => {  if (productSize === 240) {setProductSize(null);} else {setProductSize(240) } setCurrentPage(1)}
+    const cheangeMan = () => {if (productSize === 245) {setProductSize(null); } else {setProductSize(245)}  setCurrentPage(1)}
+
+
 useEffect(()=>{
     setFetching(true)
-    getListFilter({page, size},"luxury").then(data => {
+    getListFilter({page :currentPage, size},null,null,productSize).then(data => {
         console.log(data)
         setServerData(data) 
         setFetching(false)
     })
-}, [page, size, refresh])
-
+}, [currentPage, size, refresh,productSize])
   return (
     <>
         {fetching ? <FetchingModal /> : <></>}
+
           <Container>
+
+        <div > 
+        <Form.Group className="mt-5 text-center" controlId="formBasicCheckbox" >
+              <Form.Check className='mb-2 me-5  d-inline-block' type="checkbox" label="여성용(240이하)" onClick={cheangeWomen}  checked={productSize === 240} />
+              <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="남성용(245이상)" onClick={cheangeMan}  checked={productSize === 245} />
+          </Form.Group>
+        </div>
+
+
         <Row >
-             {serverData.dtoList.filter(product => product.category == "luxury").map((product,index) => (
+             {serverData.dtoList.filter(product =>    !productSize || parseInt(product.productSize) <= productSize || parseInt(product.productSize) >= productSize).map((product,index) => (
+                
         <Col md={6}>
                  <Card  className='mb-5 '>
       <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`}
@@ -61,12 +76,12 @@ useEffect(()=>{
       ))}
     </Row>
     <div className='my-5'>
-    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    </div>
+    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />
+    </div>
     </Container>
     </>
   )
   
 }
 
-
-export default Luxary
+export default Size

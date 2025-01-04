@@ -58,6 +58,8 @@ public class QnaController {
         log.info("QnaDTO {}", qnaDTO);
         HexaMember member = memberRepository.findById(id).orElseThrow();
         Product product = productRepository.findById(productId).orElseThrow();
+        log.info("member {}",member);
+        log.info("product {}",product);
         qnaDTO.setProductId(product);
         qnaDTO.setMemberId(member);
         Long qno = qnaService.registerQ(qnaDTO);
