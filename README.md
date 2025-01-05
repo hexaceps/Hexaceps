@@ -1,5 +1,8 @@
 ## HEXACEPS APP INSTALL GUIDE
 
+주소찾기 구현위해 설치 필요
+**npm install --save react-daum-postcode
+
 ### 개발 시작 전 [CAUTION] 주의사항
 
 - 소스코드 안에 InteliJ (백엔드), React (프론트) 의 초기 설정이 되어 있습니다
