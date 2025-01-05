@@ -1,7 +1,5 @@
 package com.example.hexaqna.service;
 
-import com.example.hexaqna.domain.HexaMember;
-import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.MemberRole;
 import com.example.hexaqna.dto.MemberAgreeDTO;
 import com.example.hexaqna.dto.MemberDTO;
@@ -13,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Slf4j
