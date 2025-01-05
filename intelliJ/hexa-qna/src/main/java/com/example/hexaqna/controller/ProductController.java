@@ -4,8 +4,10 @@ import com.example.hexaqna.dto.PageRequestDTO;
 import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.dto.ProductDTO;
 import com.example.hexaqna.dto.QnaDTO;
+import com.example.hexaqna.service.ProductImportService;
 import com.example.hexaqna.service.ProductService;
 import com.example.hexaqna.util.CustomFileUtil;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -25,22 +28,38 @@ public class ProductController {
 
     private final ProductService productService;
     private final CustomFileUtil customFileUtil;
+    private final ProductImportService productImportService;
 
-    // 파일 업로드 => 저장
+    // RPA에서 가져온 csv 데이터를 db로 저장 (신규 추가)
+    @PostMapping("/import")
+    public Map<String, String> importProductsByCSV(@RequestParam("file") MultipartFile file) {
+        log.info("importProductsByCSV() 컨트롤러 시작");
+        try {
+            productImportService.importProductsByCSV(file);
+            return Map.of("result", "success");
+        } catch (IOException e) {
+            log.error("파일 처리 중 오류 발생", e);
+            throw new RuntimeException("파일 처리 중 오류가 발생했습니다.", e);
+        } catch (IllegalArgumentException | CsvValidationException e) {
+            log.error("CSV 형식 오류", e);
+            throw new RuntimeException("잘못된 CSV 형식입니다.", e);
+        }
+    }
+    // 상품 저장 (사진파일 => 저장포함, 사용중 25.1.4)
     @PostMapping("/")
     public Map<String, Long> addNewProduct(ProductDTO productDTO) {
+        log.info("addNewProduct() 컨트롤러 시작");
         List<MultipartFile> files = productDTO.getFiles();
-        List<String> uploadFileNames = customFileUtil.saveFiles(files);
-        // 저장
-        productDTO.setUploadFileNames(uploadFileNames);
-        // 서비스호출
-        Long productId = productService.registerNewProduct(productDTO);
+        List<String> uploadFileNames = customFileUtil.saveFiles(files); // 이미지 저장
+        productDTO.setUploadFileNames(uploadFileNames); // 이미지파일 이름 담기
+        Long productId = productService.registerNewProduct(productDTO); // product db 저장
         return Map.of("result", productId);
     }
 
     //업로드 파일 조회
     @GetMapping("/view/{fileName}")
     public ResponseEntity<Resource> viewFileGET(@PathVariable("fileName") String fileName) {
+        log.info("viewFileGET() 컨트롤러 시작");
         return customFileUtil.getFile(fileName);
     }
 
@@ -63,9 +82,10 @@ public class ProductController {
 
     /*
     //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
-    //    상품목록 조회
+    //  상품목록 조회 (현재 사용 중 25.1.4)
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
+        log.info("list() 컨트롤러 시작");
         return productService.getProductList(pageRequestDTO);
     }
 */

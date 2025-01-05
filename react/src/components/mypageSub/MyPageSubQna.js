@@ -20,15 +20,26 @@ const initState = {
   current: 0
 }
 
+const initStateQna = {
+subject: '',
+content: '',
+password: '',
+secret : 0
+}
 
-
-const MyPageSubQna = ({id}) => {
+const MyPageSubQna = () => {
   const {loginState,isLogin,doLogout } = useCustomLogin()
   const {page, size, moveToList, refresh} = useCustomMove()
   const [serverData, setServerData] = useState(initState)
   const [openQna, setOpenQna] = useState(null)
+  const [reply, setReply] = useState({})
+  const [password, setPassword] = useState({});
+  const [passwordInputQna, setPasswordInputQna] = useState(null); 
   const [currentPage, setCurrentPage] = useState(1)
-
+  const [member, setMember] = useState(() => {
+      const storedMember = localStorage.getItem('member');
+      return storedMember ? JSON.parse(storedMember) : null;
+    });
 
 
 
@@ -46,9 +57,9 @@ if (loginState.email == 'admin@hexa.com') {
 
 
   useEffect(()=>{
-      getListId({page :currentPage, size},id).then(data => {
+      getListId({page :currentPage, size},member.id).then(data => {
           console.log("data",data.dtoList)
-          console.log("pno",id)
+          console.log("pno",member.id)
           setServerData(data)
           console.log("server",serverData)
          
@@ -70,7 +81,7 @@ return (
       </tr>
     </thead>
     <tbody>
-    {serverData.dtoList.filter(qna => qna.memberId.id == id).map((qna,index) => (
+    {serverData.dtoList.filter(qna => qna.memberId.id == member.id).map((qna,index) => (
                              <React.Fragment key={qna.qno}>
                              <tr>
                                <td className="text-center" style={{ width: '10%' }}>{index + 1}번</td>

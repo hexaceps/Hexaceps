@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
     @Query("select p from Product p where p.productId = :productId")
     Optional<Product> selectOne(@Param("productId") Long productId);
 
-    //
+    /*
     @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.category = :category")
     Page<Object[]> selectFilter(@Param("category") String category, Pageable pageable);
 
@@ -34,7 +34,7 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
     @Query("select p, pi from Product p left join p.imageList pi where pi.ord = 0 and p.productSize >= :productSize")
     Page<Object[]> selectFilterSizeUp(@Param("productSize")  int productSize,Pageable pageable);
 
-
+*/
 
     //상품목록이 나올때 이미지도 같이 나와야 한다.
     //selectList
@@ -51,4 +51,21 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
             " left join p.imageList pi on pi.ord = 0 " +
             " left join p.siteList sl on sl.siteOrd = 0")
     Page<Object[]> findBySelectImageAndSiteList (Pageable pageable);
+
+    @Query("select p, pi, sl from Product p    left join p.imageList pi on pi.ord = 0 " +
+            " left join p.siteList sl on sl.siteOrd = 0 where  p.category = :category")
+    Page<Object[]> selectFilter(@Param("category") String category, Pageable pageable);
+
+    @Query("select p, pi, sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd = 0 where  p.productBrand = :productBrand")
+    Page<Object[]> selectFilterBrand(@Param("productBrand") String productBrand, Pageable pageable);
+
+
+    @Query("select p, pi, sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd = 0  where  p.price >= :minPrice and p.price <= :maxPrice")
+    Page<Object[]> selectFilterPrice(@Param("minPrice") int minPrice,@Param("maxPrice") int maxPrice, Pageable pageable);
+
+    @Query("select p, pi, sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd = 0 where  p.productSize <= :productSize")
+    Page<Object[]> selectFilterSizeDown(@Param("productSize") int productSize, Pageable pageable);
+
+    @Query("select p, pi, sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd = 0 where  p.productSize >= :productSize")
+    Page<Object[]> selectFilterSizeUp(@Param("productSize")  int productSize,Pageable pageable);
 }

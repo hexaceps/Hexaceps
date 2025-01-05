@@ -41,6 +41,7 @@ public class QnaController {
     }
 
 
+
     //멤버별리스트
     @GetMapping("/idList/{id}")
     public PageResponseDTO<QnaDTO> listId(PageRequestDTO pageRequestDTO,@PathVariable("id") Long id) {
