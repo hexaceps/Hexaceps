@@ -1,7 +1,7 @@
 ## HEXACEPS APP INSTALL GUIDE
 
 주소찾기 구현위해 설치 필요
-**npm install --save react-daum-postcode
+**npm install --save react-daum-postcode**
 
 ### 개발 시작 전 [CAUTION] 주의사항
 
