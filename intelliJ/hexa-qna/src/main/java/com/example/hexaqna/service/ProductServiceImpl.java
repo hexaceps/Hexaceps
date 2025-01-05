@@ -40,11 +40,10 @@ public class ProductServiceImpl implements ProductService {
                 pageRequestDTO.getSize(),
                 Sort.by("productId").descending()
         );
-        log.info("getProductList() 페이지 목록 만들기 롸져 1111111111111111111111111");
+        log.info("getProductList() 페이지 목록 만들기 서비스로직 실행");
 
         // 리포지터리에가서 목록가져온다(상품에 대표이미지하나 가져온다)
         Page<Object[]> result = productRepository.findBySelectImageAndSiteList(pageable); // selectList(pageable);
-        log.info("getProductList() 대표 이미지랑 사이트 링크 가져와라 오바!!!!222222222222222");
 
         // 0번째는 product이고 1번째는 productImage이다
         List<ProductDTO> dtoList = result.get().map(arr -> {
@@ -69,7 +68,6 @@ public class ProductServiceImpl implements ProductService {
 
             return productDTO;
         }).toList();
-        log.info("getProductList()     맵돌려서 응답결과 만들었다 오바... 33333333");
         long totalCount = result.getTotalElements();
         return PageResponseDTO.<ProductDTO>withAll()
                 .dtoList(dtoList)
@@ -183,24 +181,31 @@ public class ProductServiceImpl implements ProductService {
                 .productId(productDTO.getProductId())
                 .productName(productDTO.getProductName())
                 .productBrand(productDTO.getProductBrand())
+                .category(productDTO.getCategory())
                 .productDescription(productDTO.getProductDescription())
                 .productStock(productDTO.getProductStock())
                 .price(productDTO.getPrice())
                 .size(productDTO.getSize())
-                // .registeredAt(LocalDate.now())
+                .registeredAt(LocalDate.now())
                 // .updatedAt(productDTO.getUpdatedAt())
                 .build();
 
-        //업로드 처리가 끝난 파일들의 이름 리스트
+        // 업로드 처리가 끝난 파일들의 이름 리스트
         List<String> uploadFileNames = productDTO.getUploadFileNames();
-
         if(uploadFileNames == null || uploadFileNames.isEmpty()) {
             return product;
         }
-
         uploadFileNames.stream().forEach(uploadName -> {
             product.addImageString(uploadName);
         });
+
+        // 사이트 리스트 추가
+        List<String> productSiteNames = productDTO.getProductSiteNames();
+        if (productSiteNames != null && !productSiteNames.isEmpty()) {
+            for (int i = 0; i < productSiteNames.size(); i++) {
+                product.addSiteLink(productSiteNames.get(i), i);
+            }
+        }
 
         return product;
     }
@@ -279,7 +284,7 @@ public class ProductServiceImpl implements ProductService {
                 .productStock(productDTO.getProductStock())
                 .category(productDTO.getCategory())
                 .size(productDTO.getSize())
-                // .registeredAt(LocalDate.now())
+                .registeredAt(LocalDate.now())
                 // .updatedAt(LocalDate.now()) 수정할떄, set으로 처리
                 .build();
         // 이미지 리스트 추가
