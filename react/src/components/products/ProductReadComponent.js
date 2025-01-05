@@ -40,26 +40,37 @@ const [member, setMember] = useState(() => {
       };
 
 
+        const getSiteName = (siteUrl) => {
+          if (siteUrl.includes('kream')) {
+            return '크림';
+          } else if (siteUrl.includes('stockx')) {
+            return '스톡';
+          } else {
+            return 'Hexa'; 
+          }
+        };
+      
+
   
         useEffect(() => {
           if (loginState.email) {
             getOneMember(loginState.email).then(data => {
               setMember(data);
-              console.log("data",data)
-              // Store member in localStorage
+              console.log("data", data);
               localStorage.setItem('member', JSON.stringify(data));
             });
           }
-        }, [loginState]);
-
-useEffect(()=>{
-    setFetching(true)
-    productGetOne(productId).then(data => {
-        console.log("product",data)
-        setProduct(data)
-        setFetching(false)
-    })
-},[productId])
+        
+          if (productId) {
+            setFetching(true);
+            productGetOne(productId).then(data => {
+              console.log("product", data);
+              setProduct(data);
+              setFetching(false);
+            });
+          }
+        }, [loginState, productId]);  
+        
 
   return (
     <>
@@ -73,7 +84,21 @@ useEffect(()=>{
             <p>브랜드 : {product.productBrand} </p> 
             <p>상세설명 : {product.productDescription} </p>
             <p>가격 : {product.price} </p>
-            <p>product_stock: {product.productStock ? "재고있음" : "재고없음"}</p>       
+            <p>제품 재고: {product.productStock ? "재고있음" : "재고없음"}</p> 
+            <p>제품 사이트</p>
+              <div>
+                {product.productSiteNames && product.productSiteNames.length > 0 ? (
+                  product.productSiteNames.map((siteUrl, index) => (
+                    <span key={index} style={{ marginRight: '10px' }}>
+                      <a href={siteUrl} target="_blank" rel="noopener noreferrer">
+                        {getSiteName(siteUrl)}
+                      </a>
+                    </span>
+                  ))
+                ) : (
+                  <p>등록된 사이트가 없습니다.</p>
+                )}
+              </div>
             <div className='mt-3 text-end'>
           <Button variant='primary'  className='me-3' onClick={moveToList}>목록보기</Button>
           <Button variant='secondary' onClick={() => moveToModify(productId)}>수정</Button>

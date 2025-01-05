@@ -1,6 +1,7 @@
 package com.example.hexaqna.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Table (name = "like_item")
 @Getter
 @Setter
+@JsonIgnoreProperties({"memberId", "productId"})
 public class Like {
 
     @Id
@@ -17,12 +19,12 @@ public class Like {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
-    @JsonBackReference("memberReference")
+   // @JsonBackReference("memberReference")
     private HexaMember member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
-    @JsonBackReference("productReference")
+   // @JsonBackReference("productReference")
     private Product product;
 
     private int count = 0;

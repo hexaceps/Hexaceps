@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { getListFilter, getListFilterBrand, productGetList } from '../../api/productsApi'
-import {  Button, Card,Row , Col, Container,Form,Dropdown } from 'react-bootstrap'
-import { ArrowDownUp } from 'react-bootstrap-icons'; 
 import PageComponent from '../../components/common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../../components/common/FetchingModal'
 import { API_SERVER_HOST } from '../../api/qnaApi'
+import { getListFilter, getListFilterBrand, productGetList } from '../../api/productsApi'
+import {  Button, Card,Row , Col, Container,Form,Dropdown } from 'react-bootstrap'
+import { ArrowDownUp } from 'react-bootstrap-icons'; 
+
 
 const initState = {
     dtoList: [],
@@ -20,34 +21,36 @@ const initState = {
     current: 0
 }
 
-const Brand = () => {
+const Price = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
-    const [currentPage, setCurrentPage] = useState(1)  
+    const [currentPage, setCurrentPage] = useState(1)
     const [fetching, setFetching] = useState(false)
-    const [productBrand, setProductBrand] = useState(null)
+    const [minPrice, setMinPrice] = useState(null)
+    const [maxPrice, setMaxPrice] = useState(null)
     const [sortBy, setSortBy] = useState('productId');  
     const [sortOrder, setSortOrder] = useState('desc');  
     const host = API_SERVER_HOST
     const defaultImage = '/path/to/default-image.jpg'
+  
+    const cheangeLev1 = () => {if (maxPrice === 100000)  {setMinPrice("0"); setMaxPrice(null);} else { setMinPrice("0"); setMaxPrice(100000);}setCurrentPage(1)};
+    const cheangeLev2 = () => {if (maxPrice === 1000000) {setMinPrice("0");setMaxPrice(null);} else {setMinPrice("100000");setMaxPrice(1000000);}setCurrentPage(1)};
+    const cheangeLev3 = () => {if (minPrice === "1000000") {setMinPrice("0");setMaxPrice(null);} else {setMinPrice("1000000");setMaxPrice(99999999);}setCurrentPage(1)};
 
-        //브랜드명 현재 나이키 아디다스 구찌
-    const cheangeNike = () => {  if (productBrand === "NIKE") {setProductBrand(null);} else {setProductBrand("NIKE")}setCurrentPage(1)}
-    const cheangeAdidas = () => {if (productBrand === "ADIDAS") {setProductBrand(null); } else {setProductBrand("ADIDAS")}setCurrentPage(1)}
-    const cheangeGuggi = () => {if (productBrand === "GUCCI") {setProductBrand(null);} else {setProductBrand("GUCCI")}setCurrentPage(1)}
     const handleSortChange = (newSortBy, newSortOrder) => {
       setSortBy(newSortBy);
       setSortOrder(newSortOrder);
       setCurrentPage(1); 
     };
+  
 useEffect(()=>{
     setFetching(true)
-    getListFilter({page : currentPage, size},null,productBrand,null,null, null,sortBy, sortOrder).then(data => {
+    getListFilter({page :currentPage, size},null,null,null, minPrice, maxPrice,sortBy, sortOrder ).then(data => {
         console.log(data)
         setServerData(data) 
         setFetching(false)
     })
-}, [currentPage, size, refresh,productBrand, sortBy, sortOrder])
+}, [currentPage, size, refresh,minPrice,maxPrice, sortBy, sortOrder])
   return (
     <>
         {fetching ? <FetchingModal /> : <></>}
@@ -58,9 +61,9 @@ useEffect(()=>{
             </div>
         <div > 
         <Form.Group className="mt-5 text-center" controlId="formBasicCheckbox" >
-              <Form.Check className='mb-2 me-5  d-inline-block' type="checkbox" label="NIKE" onClick={cheangeNike}  checked={productBrand === "NIKE"} />
-              <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="ADIDAS" onClick={cheangeAdidas}  checked={productBrand === "ADIDAS"} />
-              <Form.Check className='mb-2  me-5 d-inline-block' type="checkbox" label="GUCCI" onClick={cheangeGuggi} checked={productBrand === "GUCCI"} />
+              <Form.Check className='mb-2 me-5  d-inline-block' type="checkbox" label="10만원이하" onClick={cheangeLev1}    checked={minPrice === "0" && maxPrice === 100000}  />
+              <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="10만~100만" onClick={cheangeLev2}     checked={minPrice === "100000" && maxPrice === 1000000}/>
+              <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="100만원이상" onClick={cheangeLev3}     checked={minPrice === "1000000" && maxPrice === 99999999} />
           </Form.Group>
         </div>
         <div className="text-end mb-3">
@@ -77,7 +80,8 @@ useEffect(()=>{
         </div>
 
         <Row >
-             {serverData.dtoList.filter(product => !productBrand || product.productBrand == productBrand).map((product,index) => (
+             {serverData.dtoList.filter(product => (minPrice === null || parseInt(product.price) >= parseInt(minPrice)) &&
+                (maxPrice === null || parseInt(product.price) <= maxPrice) ).map((product,index) => (
         <Col md={6}>
                  <Card  className='mb-5 '>
       <Card.Img variant="top " className='mx-auto my-3' style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`}
@@ -103,5 +107,4 @@ useEffect(()=>{
   )
   
 }
-
-export default Brand
+export default Price

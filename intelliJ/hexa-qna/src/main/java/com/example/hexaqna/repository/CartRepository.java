@@ -15,7 +15,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //    @Query("select c from Cart c where c.memberId = :memberId")
 //    public Optional<Cart> getCartOfMember(@Param("memberId") Long memberId);
 
-    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId.id, c.productId.productId, c.amount, c.size, c.regAt)" +
+    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId.id, c.productId.productId, c.amount, c.productSize, c.regAt)" +
             " from Cart c" +
             " where c.memberId.id = :memberId" +
             " order by c.cartId desc")

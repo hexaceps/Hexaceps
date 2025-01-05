@@ -17,7 +17,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findPaymentsByMemberId(@Param("memberId") Long memberId);
 
     // orderId 로 주문 정보, 사용자 정보, 상품 정보를 조회 (paymentDTO 생성을 위해서 필요함)
-    @Query("SELECT o.member.id, o.product.productId, o.product.productName, o.product.productBrand, o.product.price, o.product.size, " +
+    @Query("SELECT o.member.id, o.product.productId, o.product.productName, o.product.productBrand, o.product.price, o.product.productSize, " +
             "m.name, m.email, m.address, m.phoneNumber, " +
             "o.productQuantity, o.totalPrice, o.productPrice " +
             "FROM Order o " +

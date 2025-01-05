@@ -34,6 +34,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public final StringPath productName = createString("productName");
 
+    public final NumberPath<Integer> productSize = createNumber("productSize", Integer.class);
+
     public final NumberPath<Integer> productStock = createNumber("productStock", Integer.class);
 
     public final ListPath<Qna, QQna> qnaList = this.<Qna, QQna>createList("qnaList", Qna.class, QQna.class, PathInits.DIRECT2);
@@ -41,8 +43,6 @@ public class QProduct extends EntityPathBase<Product> {
     public final DatePath<java.time.LocalDate> registeredAt = createDate("registeredAt", java.time.LocalDate.class);
 
     public final ListPath<ProductSiteLink, QProductSiteLink> siteList = this.<ProductSiteLink, QProductSiteLink>createList("siteList", ProductSiteLink.class, QProductSiteLink.class, PathInits.DIRECT2);
-
-    public final StringPath size = createString("size");
 
     public final DatePath<java.time.LocalDate> updatedAt = createDate("updatedAt", java.time.LocalDate.class);
 

@@ -24,16 +24,17 @@ const ProductListComponent = () => {
     const {page, size, moveToList, refresh, moveToRead} = useCustomMove()
     const [serverData, setServerData] = useState(initState)
     const [fetching, setFetching] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)  
     const host = API_SERVER_HOST
     const defaultImage = '/path/to/default-image.jpg'
 useEffect(()=>{
     setFetching(true)
-    productGetList({page, size}).then(data => {
+    productGetList({page: currentPage, size}).then(data => {
         console.log(data)
         setServerData(data)
         setFetching(false)
     })
-}, [page, size, refresh])
+}, [currentPage, size, refresh])
   return (
     <>
         {fetching ? <FetchingModal /> : <></>}
@@ -59,7 +60,7 @@ useEffect(()=>{
       ))}
     </Row>
     <div className='my-5'>
-    <PageComponent  serverData={serverData} moveToList={moveToList}/>
+    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    
     </div>
     </Container>
     </>

@@ -1,6 +1,8 @@
     package com.example.hexaqna.domain;
 
+    import com.fasterxml.jackson.annotation.JsonBackReference;
     import com.fasterxml.jackson.annotation.JsonFormat;
+    import com.fasterxml.jackson.annotation.JsonIgnore;
     import com.fasterxml.jackson.annotation.JsonManagedReference;
     import jakarta.persistence.*;
     import jakarta.validation.constraints.NotEmpty;
@@ -16,7 +18,7 @@
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
-    @ToString(exclude = {"memberRoleList"})
+    @ToString(exclude = {"memberRoleList","qnaList","memberAgrees"})
     public class HexaMember {
 
         @Id
@@ -67,7 +69,7 @@
         @Builder.Default
         private List<MemberRole> memberRoleList = new ArrayList<>();
 
-        //권한부여
+        //권한부여s
         public void addRole(MemberRole memberRole) {
             memberRoleList.add(memberRole);
         }
@@ -79,8 +81,8 @@
 
 
         @OneToMany(mappedBy = "memberId", cascade = CascadeType.ALL)
-        @JsonManagedReference("memberReference")
-        private List<Qna> qnaList;
+        @JsonManagedReference("member-qna")
+        private List<Qna> qnaList = new ArrayList<>();
 
         //  @OneToMany(mappedBy =  "reply_id", cascade = CascadeType.ALL)
         //  @JsonManagedReference  //무한 루프 방지 이쪽이 부모임을 나타냄

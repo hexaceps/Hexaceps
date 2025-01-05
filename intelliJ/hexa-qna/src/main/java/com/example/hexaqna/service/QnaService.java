@@ -25,6 +25,7 @@ public interface QnaService {
 
 
     PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long productId);
+    PageResponseDTO<QnaDTO> getlistId(PageRequestDTO pageRequestDTO, Long id);
 
 
     //java8버전부터는 default기능이 추가되어 기본기능을 설정해 줄 수 있다.

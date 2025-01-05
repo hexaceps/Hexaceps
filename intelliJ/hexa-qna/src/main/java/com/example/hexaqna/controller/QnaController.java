@@ -42,8 +42,15 @@ public class QnaController {
 
 
 
+    //멤버별리스트
+    @GetMapping("/idList/{id}")
+    public PageResponseDTO<QnaDTO> listId(PageRequestDTO pageRequestDTO,@PathVariable("id") Long id) {
+        log.info("list...{}", pageRequestDTO);
+        return qnaService.getlistId(pageRequestDTO,id);
+    }
 
-    //리스트
+
+    //상품별리스트
     @GetMapping("/list/{productId}")
     public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,@PathVariable("productId") Long productId) {
         log.info("list...{}", pageRequestDTO);
@@ -58,6 +65,8 @@ public class QnaController {
         log.info("QnaDTO {}", qnaDTO);
         HexaMember member = memberRepository.findById(id).orElseThrow();
         Product product = productRepository.findById(productId).orElseThrow();
+        log.info("member {}",member);
+        log.info("product {}",product);
         qnaDTO.setProductId(product);
         qnaDTO.setMemberId(member);
         Long qno = qnaService.registerQ(qnaDTO);
