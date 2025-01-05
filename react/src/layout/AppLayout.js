@@ -52,8 +52,9 @@ const AppLayout = () => {
                 <Nav.Link href="#">관심</Nav.Link>
                 {isLogin ? (
                  <Nav.Link href="/member/logout" onClick={doLogout}>
-                   {member.name}님 로그아웃
-                 </Nav.Link>
+                   
+                   {member && member.name ? `${member.name}님 로그아웃` : '로그아웃'}
+                   </Nav.Link>
                   ) : (
                     <Nav.Link href="/member/login">로그인</Nav.Link>
                   )}

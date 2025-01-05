@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import useCustomLogin from '../../hooks/useCustomLogin'
 import { Container, FormControl, Form ,InputGroup,Button } from 'react-bootstrap'
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
+import ModifyMemberComponent from './ModifyMemberComponent';
 
 
 const MyPageSubMemberCheck = ({id}) => {
@@ -56,7 +57,7 @@ const MyPageSubMemberCheck = ({id}) => {
       </Button>
       </div>
       </Form>
-      </Container> : <></> }
+      </Container> : <ModifyMemberComponent id={id}/> }
  
    </>
   )

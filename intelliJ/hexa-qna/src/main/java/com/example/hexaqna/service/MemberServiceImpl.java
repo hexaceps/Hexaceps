@@ -74,10 +74,6 @@ public class MemberServiceImpl implements MemberService{
         member.setSocialYn(dto.getSocialYn());
         member.setActivateYn(dto.getActivateYn());
 
-
-
-
-
         memberRepository.save(member);
     }
 

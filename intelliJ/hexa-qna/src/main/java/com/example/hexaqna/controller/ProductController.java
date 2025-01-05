@@ -50,13 +50,17 @@ public class ProductController {
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO,
                                             @RequestParam(value = "category", required = false) String category,
                                             @RequestParam(value = "productBrand", required = false) String productBrand,
-                                            @RequestParam(value =  "productSize", required = false) Integer  productSize,
+                                            @RequestParam(value = "productSize", required = false) Integer productSize,
                                             @RequestParam(value = "minPrice", required = false) String minPrice,
-                                            @RequestParam(value = "maxPrice", required = false) Integer maxPrice) {
-        log.info("list with category: {}, brand: {},productSize : {}, min : {}, max: {}", category, productBrand,productSize,minPrice,maxPrice);
-        return productService.getProductList(pageRequestDTO,category,productBrand,productSize,minPrice,maxPrice);
+                                            @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+                                            @RequestParam(value = "sortBy", required = false) String sortBy,
+                                            @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+        log.info("list with category: {}, brand: {}, productSize : {}, min : {}, max: {}, sortBy: {}, sortOrder: {}",
+                category, productBrand, productSize, minPrice, maxPrice, sortBy, sortOrder);
 
+        return productService.getProductList(pageRequestDTO, category, productBrand, productSize, minPrice, maxPrice, sortBy, sortOrder);
     }
+
     /*
     //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
     //    상품목록 조회

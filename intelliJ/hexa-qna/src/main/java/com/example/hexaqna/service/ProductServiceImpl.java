@@ -34,11 +34,25 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand, Integer  productSize, String minPrice, Integer maxPrice) {
+    public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand,
+                       Integer  productSize, String minPrice, Integer maxPrice ,String sortBy, String sortOrder) {
+
+        // 기본값 설정 (예: productId 기준 내림차순)
+        Sort sort = Sort.by("productId").descending();
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            if ("asc".equalsIgnoreCase(sortOrder)) {
+                sort = Sort.by(Sort.Order.asc(sortBy));
+            } else if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = Sort.by(Sort.Order.desc(sortBy));
+            }
+        }
+
+
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,
                 pageRequestDTO.getSize(),
-                Sort.by("productId").descending()
+                sort
         );
 
         Page<Object[]> result;

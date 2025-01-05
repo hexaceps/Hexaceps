@@ -40,3 +40,10 @@ export const checkEmail = async(email) => {
 
 }
 
+
+export const putOneMember = async(id,member) => {
+    const res = await axios.put(`${host}/${id}`,member)
+    return res.data
+}
+
+

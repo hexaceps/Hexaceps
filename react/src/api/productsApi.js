@@ -24,7 +24,7 @@ export const productGetList = async(pageParam) => {
     return res.data
 }
 
-export const getListFilter = async (pageParam, category, productBrand, productSize, minPrice, maxPrice) => {
+export const getListFilter = async (pageParam, category, productBrand, productSize, minPrice, maxPrice,sortBy,sortOrder) => {
     const { page, size: pageSize } = pageParam;  
     const params = {
       page,
@@ -33,7 +33,9 @@ export const getListFilter = async (pageParam, category, productBrand, productSi
       productBrand: productBrand || null,      
       productSize: productSize || null,      
       minPrice: minPrice || null,   
-      maxPrice: maxPrice || null
+      maxPrice: maxPrice || null,
+      sortBy : sortBy || null,
+      sortOrder : sortOrder || null
     }
 
       const res = await axios.get(`${host}/list`, { params });
