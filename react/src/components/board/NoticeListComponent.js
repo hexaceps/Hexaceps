@@ -3,6 +3,9 @@ import { Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'react-bootstrap-icons';
 import { getCategoryList } from '../../api/boardApi';
+import PageComponent from '../common/PageComponent'
+import useCustomMove from '../../hooks/useCustomMove'
+import FetchingModal from '../common/FetchingModal'
 
 const initState = {
   id: 0,
@@ -30,10 +33,13 @@ const dateFormatted = (dateString) => {
 };
 
 const NoticeListComponent = () => {
+
+  const {page, size, moveToList, refresh} = useCustomMove()
+  const [currentPage, setCurrentPage] = useState(1)
   const [serverData, setServerData] = useState(initState)
   useEffect(() => {
     getCategoryList("notice").then(data => {
-      console.log("공지 Data recieved from back-end serve : ", data)
+      console.log("공지 Data recieved from back-end server : ", data)
       setServerData(data)
     })
   }, [])
@@ -63,8 +69,8 @@ const NoticeListComponent = () => {
         </div>
         <Table hover className='mt-5' style={{borderBottom : "1px solid #625244"}}>
           <tbody>
-            {serverData.content && serverData.content.length > 0 ? (
-              serverData.content.map((noticeList) => (
+            {serverData.dtoList && serverData.dtoList.length > 0 ? (
+              serverData.dtoList.map((noticeList) => (
                 <tr key={noticeList.id}>
                   <td className='text-center'>{noticeList.category==="notice" ? "공지" : "기타"}</td>
                   <td onClick={() => moveToRead(noticeList.id)} style={{cursor : "pointer", paddingLeft : "30px"}}>{noticeList.title}</td>
@@ -79,6 +85,9 @@ const NoticeListComponent = () => {
             )}
           </tbody>
         </Table>
+        {/* <div className='my-5'>
+          <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    
+        </div> */}
       </div>
     </>
   )

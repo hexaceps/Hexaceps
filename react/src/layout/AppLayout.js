@@ -46,7 +46,7 @@ const AppLayout = () => {
             </Nav>
             <div>
               <Nav bg="white" variant="light" className="justify-content-end mb-2 fs-6">
-                <Nav.Link href="/board/qna">고객센터</Nav.Link>
+                <Nav.Link href="/board/notice">고객센터</Nav.Link>
                 <Nav.Link href="#">마이쇼핑</Nav.Link>
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
                 <Nav.Link href="#">관심</Nav.Link>

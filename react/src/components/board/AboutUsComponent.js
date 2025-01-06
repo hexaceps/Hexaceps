@@ -1,9 +1,9 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Row, Card, Container } from 'react-bootstrap'
 import { FaBeer } from 'react-icons/fa'; // 리액트 아이콘 사용 npm install react-icons --save, https://react-icons.github.io/react-icons/
 import { FaTruckFast, FaBuildingShield, FaBasketShopping } from "react-icons/fa6";
-
+import { sendEmailForSubscribe } from '../../api/boardApi'
 
 
 // 일단 여기에 뉴스레터 신청 post 구현 (나중에 api로 이동)
@@ -12,7 +12,13 @@ import { FaTruckFast, FaBuildingShield, FaBasketShopping } from "react-icons/fa6
 const AboutUsComponent = () => {
   const [email, setEmail] = useState("")
   const [agree, setAgree] = useState(false)
+  const [serverData, setServerData] = useState("")
 
+  const sendEmail = () => {
+    sendEmailForSubscribe({ email }).then(data =>{
+        console.log("NewsLetter subscribe sent done : ", data)
+        setServerData(data)
+  })}
   const handleSubmitClick = async (e) => {
     e.preventDefault()
     if(!email || !agree) {
@@ -20,8 +26,10 @@ const AboutUsComponent = () => {
         return
     }
     try {
-        const res = await axios.post("/api/member/subscribe", { email })
+        const result = sendEmail({ email });
+        if (!result===null) {
         alert("뉴스레터 신청이 완료 되었습니다")
+    }
     } catch (error) {
         console.error("에러 발생 : ", error)
         alert("뉴스레터 신청 중 문제가 발생했습니다")

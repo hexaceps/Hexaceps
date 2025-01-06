@@ -3,18 +3,24 @@ package com.example.hexaqna.service;
 import com.example.hexaqna.domain.Board;
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.dto.BoardDTO;
+import com.example.hexaqna.dto.PageRequestDTO;
+import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.repository.BoardRepository;
 import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,19 +29,69 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
 
-    // 카테고리 별로 조회 하는 서비스 추가
+    // 카테고리 별로 조회 후 페이징 처리 해서 넘겨주는 서비스 로직 (25.1.6 수정)
     @Override
-    public Page<BoardDTO> getBoardsByCategory(String category, Pageable pageable) {
-        Page<Board> boards = boardRepository.findByCategory(category, pageable);
-        log.info("getBoardsByCategory : {}", boards.toString());
-        return boards.map(this::mapToDTO);
+    public PageResponseDTO<BoardDTO> getBoardsByCategory(String category, PageRequestDTO pageRequestDTO) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage()-1,
+                pageRequestDTO.getSize(), sort
+        );
+        Page<Board> result = boardRepository.selectList(category, pageable);
+
+        List<BoardDTO> boardDTOList = result.stream().map(board -> BoardDTO.builder()
+                .memberId(board.getId())
+                .category(board.getCategory())
+                .author(board.getAuthor())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createdAt(board.getCreatedAt())
+                .updatedAt(board.getUpdatedAt())
+                .isActive(board.isActive())
+                .id(board.getId())
+                .build()
+        ).toList();
+        long totalCount = result.getTotalElements();
+
+        return  PageResponseDTO.<BoardDTO>withAll()
+                .dtoList(boardDTOList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
     }
 
-    // 키워드 별로 조회 하는 서비스 추가 (카테고리 값을 함께 받아서 필터 처럼 적용)
+    // 키워드 별로 조회 하는 서비스 추가 (사용X 25.1.6)
+//    @Override
+//    public Page<BoardDTO> getSearchBoards(String category, String keyword, Pageable pageable) {
+//        Page<Board> boards = boardRepository.searchByCategoryAndKeyword(category, keyword, pageable);
+//        return boards.map(this::mapToDTO);
+//    }
+
+    // 검색 및 필터링
     @Override
-    public Page<BoardDTO> getSearchBoards(String category, String keyword, Pageable pageable) {
-        Page<Board> boards = boardRepository.searchByCategoryAndKeyword(category, keyword, pageable);
-        return boards.map(this::mapToDTO);
+    public List<BoardDTO> searchBoardByKeyword(String category, String keyword) { // Boolean isActive 사용X
+        if (keyword == null || keyword.trim().isEmpty()) {
+            keyword = "";
+        }
+        List<Board> boardList = boardRepository.searchByKeyword(category, keyword);
+        log.info("검색 결과 리턴, 리스트 갯수 : " + boardList.size());
+        List<BoardDTO> boardDTOList = boardList.stream().map(board -> BoardDTO.builder()
+                        .id(board.getId())
+                        .memberId(board.getId())
+                        .author(board.getAuthor())
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .category(board.getCategory())
+                        .createdAt(board.getCreatedAt())
+                        .count(board.getCount())
+                        .updatedAt(board.getUpdatedAt())
+                        .isActive(board.isActive())
+                        .tags(board.getTags())
+                        .build())
+                .collect(Collectors.toList());
+        log.info("BoardDTOList 리스트 결과 : " + boardDTOList);
+        return  boardDTOList; // boardRepository.searchByKeyword(keyword, category);
     }
 
     // id 로 게시글 조회 및 조회 하는 경우에 view count 증가 하는 서비스 구현
@@ -70,7 +126,6 @@ public class BoardServiceImpl implements BoardService{
                 .build();
 
         Board savedBoard = boardRepository.save(board);
-
         return mapToDTO(savedBoard);
     }
 
@@ -85,9 +140,7 @@ public class BoardServiceImpl implements BoardService{
         existBoard.setUpdatedAt(LocalDateTime.now());
         existBoard.setIsActive(boardDTO.isActive());
         existBoard.setTags(boardDTO.getTags());
-
         Board updatedBoard = boardRepository.save(existBoard);
-
         return mapToDTO(updatedBoard);
     }
 
@@ -105,28 +158,7 @@ public class BoardServiceImpl implements BoardService{
                 .count(board.getCount())
                 .tags(board.getTags())
                 .build();
-//        BoardDTO boardDTO = new BoardDTO();
-//        boardDTO.setMemberId(board.getMemberId().getId());
-//        boardDTO.setId(board.getId());
-//        boardDTO.setCategory(board.getCategory());
-//        boardDTO.setTitle(board.getTitle());
-//        boardDTO.setContent(board.getContent());
-//        boardDTO.setAuthor(board.getAuthor());
-//        boardDTO.setCreatedAt(board.getCreatedAt());
-//        boardDTO.setUpdatedAt(board.getUpdatedAt());
-//        boardDTO.setCount(board.getCount());
-//        boardDTO.setTags(board.getTags());
-//        boardDTO.setActive(board.isActive());
-
         return boardDTO;
-    }
-
-    // 검색 및 필터링
-    public List<BoardDTO> searchBoard(String keyword, String category, Boolean isActive) {
-        if (keyword == null || keyword.trim().isEmpty()) {
-            keyword = "";
-        }
-        return boardRepository.searchWithFilters(keyword, category, isActive);
     }
 
     // 삭제 (관리자용)

@@ -33,7 +33,7 @@ const FAQListComponent = () => {
   const [serverData, setServerData] = useState(initState)
     useEffect(() => {
       getCategoryList("faq").then(data => {
-        console.log("FAQ Data recieved from back-end serve : ", data)
+        console.log("FAQ Data recieved from back-end server : ", data)
         setServerData(data)
       })
     }, [])
@@ -72,8 +72,8 @@ const FAQListComponent = () => {
             </tr>
           </thead>
           <tbody>
-            {serverData.content && serverData.content.length > 0 ? (
-              serverData.content.map((faqList) => (
+            {serverData.dtoList && serverData.dtoList.length > 0 ? (
+              serverData.dtoList.map((faqList) => (
                 <tr key={faqList.id}>
                   <td className='text-center'>{faqList.category==="faq" ? "FAQ" : "기타"}</td>
                   <td onClick={() => moveToRead(faqList.id)} style={{cursor : "pointer", paddingLeft : "30px"}}>{faqList.title}</td>

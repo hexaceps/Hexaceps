@@ -22,10 +22,9 @@ public class Board {
     @JsonBackReference("memberReference")
     private HexaMember memberId;
 
-    //@Column(nullable = false)
     private String category; // category 값은 notice or faq
 
-    //@Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String title;
 
     @Column(columnDefinition = "TEXT")
@@ -37,7 +36,6 @@ public class Board {
 
     private LocalDateTime updatedAt;
 
-    //@Column(nullable = false)
     private int count;
 
     private boolean isActive = true;
