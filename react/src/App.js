@@ -22,13 +22,8 @@ import BrandNew from './pages/products/BrandNew';
 import Luxary from './pages/products/Luxary';
 import Brand from './pages/products/Brand';
 import Collection from './pages/products/Collection';
-import NoticePage from './pages/board/NoticePage';
-import QnAPage from './pages/board/QnAPage';
-import FAQPage from './pages/board/FAQPage';
-import BoardDetailPage from './pages/board/BoardDetailPage';
-import BoardCreatePage from './pages/board/BoardCreatePage'
-import BoardUpdatePage from './pages/board/BoardUpdatePage';
-import AboutUsPage from './pages/board/AboutUsPage';
+import Size from './pages/products/Size';
+import Price from './pages/products/Price';
 
 
 function App() {
@@ -62,15 +57,8 @@ function App() {
           <Route path='luxary' element={<Luxary />} />
           <Route path='brand' element={<Brand />} />
           <Route path='collection' element={<Collection />} />
-        </Route>
-        <Route path="/board/">
-          <Route path="notice" element={<NoticePage />} />
-          <Route path="faq" element={<FAQPage />} />
-          <Route path="aboutus" element={<AboutUsPage />} />
-          <Route path="qna" element={<QnAPage />} />
-          <Route path=':board_id' element={<BoardDetailPage />} />
-          <Route path='update/:board_id' element={<BoardUpdatePage />} />
-          <Route path='create' element={<BoardCreatePage />} />
+          <Route path='size' element={<Size />} />
+          <Route path='price' element={<Price />} />
         </Route>
       </Route>
     </Routes>
