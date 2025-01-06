@@ -1,6 +1,8 @@
 package com.example.hexaqna.controller;
 
 import com.example.hexaqna.dto.BoardDTO;
+import com.example.hexaqna.dto.PageRequestDTO;
+import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,26 +31,26 @@ public class BoardController {
 //        return new ResponseEntity<>(boards, HttpStatus.OK);
 //    }
     @GetMapping
-    public ResponseEntity<Page<BoardDTO>> getBoardsByCategory(@RequestParam String category, Pageable pageable) {
+    public PageResponseDTO<BoardDTO> getBoardsByCategory(@RequestParam String category, PageRequestDTO pageRequestDTO) {
         log.info("getBoardsByCategory");
-        Page<BoardDTO> boards = boardService.getBoardsByCategory(category, pageable);
-        return new ResponseEntity<>(boards, HttpStatus.OK);
+        PageResponseDTO<BoardDTO> boardDTOList = boardService.getBoardsByCategory(category, pageRequestDTO);
+        return boardDTOList;
     }
 
-    // 게시판 검색
-    @GetMapping("/{category}/{keyword}/search")
-    public ResponseEntity<Page<BoardDTO>> getSearchBoards(@PathVariable("category") String category, @PathVariable("keyword") String keyword, Pageable pageable) {
-        log.info("getSearchBoards");
-        Page<BoardDTO> boards = boardService.getSearchBoards(category, keyword, pageable);
-        return new ResponseEntity<>(boards, HttpStatus.OK);
+    // 게시판 Keyword 검색
+    @GetMapping("/{category}")
+    public List<BoardDTO> getSearchBoards(@PathVariable("category") String category, @RequestParam("keyword") String keyword) {
+        log.info("getSearchBoards {category : " + category + ", keyword : " + keyword + "}");
+        List<BoardDTO> boardDTOList = boardService.searchBoardByKeyword(category, keyword);
+        return boardDTOList;
     }
 
     // 게시글 id로 조회 (조회수 기능 증가)
-    @GetMapping("/{id}")
-    public ResponseEntity<BoardDTO> getBoardById(@PathVariable Long id) {
+    @GetMapping("/id/{id}")
+    public BoardDTO getBoardById(@PathVariable Long id) {
         log.info("getBoardById");
         BoardDTO board = boardService.getBoardCountById(id);
-        return new ResponseEntity<>(board, HttpStatus.OK);
+        return board;
     }
 
     // 게시글 작성
@@ -58,14 +61,14 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PutMapping("{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<BoardDTO> updateBoard(@PathVariable Long id, @RequestBody BoardDTO board) {
         BoardDTO updatedBoard = boardService.updateBoard(id, board);
         return new ResponseEntity<>(updatedBoard, HttpStatus.OK);
     }
 
-    // 게시글 삭제
-    @DeleteMapping("{id}")
+    // 게시글 삭제 (사용하지 말것)
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Map<String, String>> deleteFAQ(@PathVariable("id") Long id) {
         Map<String, String> response = new HashMap<>();
         try {

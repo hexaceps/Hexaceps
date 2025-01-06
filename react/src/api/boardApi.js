@@ -33,3 +33,10 @@ export const updateBoardById = async(updateData) => {
     console.log("updateBoardById() API Called from Reactside")
     return res.data
 }
+
+// 뉴스레터 구독 요청
+export const sendEmailForSubscribe = async({ email }) => {
+    const res = await axios.post(`${board_path}/member/subscribe`, { email })
+    console.log("sendEmailForSubscribe() API Called from Reactside")
+    return res.data
+}

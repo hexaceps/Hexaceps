@@ -22,11 +22,11 @@ const HelpDeskLayout = () => {
                         <Nav.Link className='text-secondary'>AboutUs</Nav.Link>
                     </LinkContainer>
                 </Nav.Item>
-                <Nav.Item>
+                {/* <Nav.Item>
                     <LinkContainer to="/board/qna">
                         <Nav.Link className='text-secondary'>Q&A(삭제예정)</Nav.Link>
                     </LinkContainer>
-                </Nav.Item>
+                </Nav.Item> */}
             </Nav>
         </Container>
     </>
