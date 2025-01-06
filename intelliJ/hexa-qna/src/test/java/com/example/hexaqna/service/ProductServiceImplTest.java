@@ -18,22 +18,27 @@ class ProductServiceImplTest {
 
     @Autowired private ProductServiceImpl productService;
     @Test
-    void 상품120개추가() {
-        String[] productBrands = {"NIKE", "ADIDAS", "NEWBALANCE", "JORDAN"};
+    void 상품160개추가() {
+        String[] productBrands = {"BALENCIAGA", "GUCCI", "HERMES", "DIOR", "NIKE", "ADIDAS", "SUPREME", "ASICS", "JORDAN", "NEWBALANCE", "UGG"};
         int[] sizes = {230, 240, 250, 260, 270, 280, 290};
-        String[] categories = {"NEW", "LUX", "COLLECT"};
+        String[] categories = {"LUXURY", "BRAND", "SEASON"};
 
-        for (int i = 1; i < 121; i++) {
+        for (int i = 1; i < 161; i++) {
             String productBrand = productBrands[(i - 1) % productBrands.length];
             int size = sizes[(i - 1) % sizes.length];
-            String category = categories[(i - 1) % categories.length];
+            String category = (productBrand.equals("BALENCIAGA") ||
+                    productBrand.equals("GUCCI") ||
+                    productBrand.equals("HERMES") ||
+                    productBrand.equals("DIOR"))
+                    ? categories[0]
+                    : (i % 2 == 0 ? categories[1] : categories[2]);
 
             Product product = Product.builder()
-                    .productName(productBrand + " x Travis Scott Starship_" + i*10 + "_Low Cactus Jack ver_" + (1981+i))
+                    .productName(productBrand + " x Donad Trump New Clear Edition_" + i*10 + "_I LOVE KJE ver_" + (1981+i))
                     .productBrand(productBrand)
                     .productStock(10)
-                    .productDescription(productBrand + " x 트래비스 스캇 스타쉽_" + i*10 + "_로우 캑터스 잭 출시년도_" + (1981+i))
-                    .size(size)
+                    .productDescription(productBrand + " x 도널트 트럼프 핵미사일 에디션_" + i*10 + "_나만큼 김정은이랑 친하면 니가 짱먹어 에디션_" + (1981+i))
+                    .productSize(size)
                     .price(99000*i)
                     .category(category)
                     .registeredAt(LocalDate.now())
@@ -55,7 +60,7 @@ class ProductServiceImplTest {
                     .productStock(product.getProductStock())
                     .registeredAt(product.getRegisteredAt())
                     .price(product.getPrice())
-                    .size(product.getSize())
+                    .productSize(product.getProductSize())
                     .build();
             List<ProductImage> imageList = product.getImageList();
             if(imageList == null || imageList.isEmpty()) {

@@ -16,12 +16,12 @@ class PaymentServiceTest {
     @Autowired private PaymentService paymentService;
     @Autowired private PaymentRepository paymentRepository;
     @Test
-    void 결제20건추가() {
+    void 결제40건추가() {
         String[] status = {"결제대기중", "결제진행중", "결제확인중", "결제완료", "결제취소", "결제오류"};
         String[] vender = {"우리은행", "하나은행", "국민은행", "카캌오뱅크", "토스", "신한은행", "농협", "현대카드", "신한카드", "삼성카드"};
         String[] type = {"VISA", "MASTER", "AMEX", "JCB", "계좌이체", "QR전송"};
 
-        for (int i = 1; i < 21; i++) {
+        for (int i = 1; i < 41; i++) {
             Long orderId = (long) i;
             String setStatus = status[(i-1) % status.length];
             String setVender = vender[(i-1) % vender.length];

@@ -1,11 +1,13 @@
 package com.example.hexaqna.service;
 
+import com.example.hexaqna.domain.Cart;
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.Order;
 import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.dto.OrderRequestDTO;
 import com.example.hexaqna.dto.OrderResponseDTO;
 import com.example.hexaqna.dto.PageRequestDTO;
+import com.example.hexaqna.repository.CartRepository;
 import com.example.hexaqna.repository.HexaMemberRepository;
 import com.example.hexaqna.repository.OrderRepository;
 import com.example.hexaqna.repository.ProductRepository;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,11 +27,13 @@ public class OrderServiceImpl implements OrderService {
     private final HexaMemberRepository memberRepository;
 
     private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, HexaMemberRepository memberRepository, ProductRepository productRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, HexaMemberRepository memberRepository, ProductRepository productRepository, CartRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.memberRepository = memberRepository;
         this.productRepository = productRepository;
+        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -36,9 +41,11 @@ public class OrderServiceImpl implements OrderService {
         HexaMember member = memberRepository.findById(orderRequestDTO.getMemberId())
                 .orElseThrow(() -> new RuntimeException("Member not found with ID: " + orderRequestDTO.getMemberId()));
 
+        Optional<Cart> cart = cartRepository.findById(orderRequestDTO.getCartId());
+        Product product = cart.get().getProductId();
         // Product 조회 (기본 Product ID 사용)
-        Product product = productRepository.findById(1L) // 예: 기본 상품 ID 1
-                .orElseThrow(() -> new RuntimeException("Default product not found"));
+        // Product product = productRepository.findById(1L) // 예: 기본 상품 ID 1
+        //         .orElseThrow(() -> new RuntimeException("Default product not found"));
 
         Order order = new Order();
         order.setMember(member);
