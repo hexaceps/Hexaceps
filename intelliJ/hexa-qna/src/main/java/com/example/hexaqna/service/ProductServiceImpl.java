@@ -47,7 +47,6 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-
         Pageable pageable = PageRequest.of(
                 pageRequestDTO.getPage() - 1,
                 pageRequestDTO.getSize(),
@@ -55,7 +54,6 @@ public class ProductServiceImpl implements ProductService {
         );
 
         Page<Object[]> result;
-
 
         // 필터 조건에 따라 리포지토리 메서드 결정
         if (category != null) {
@@ -73,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
         }else{
             result = productRepository.selectList(pageable);
         }
-
 
         // 0번째는 product이고 1번째는 productImage이다
         List<ProductDTO> dtoList = result.get().map(arr -> {
@@ -103,7 +100,6 @@ public class ProductServiceImpl implements ProductService {
                 .pageRequestDTO(pageRequestDTO)
                 .build();
     }
-
 
     @Override
     public Long registerNewProduct(ProductDTO productDTO) {
@@ -178,21 +174,26 @@ public class ProductServiceImpl implements ProductService {
                 .productStock(productDTO.getProductStock())
                 .price(productDTO.getPrice())
                 .productSize(productDTO.getProductSize())
-                // .registeredAt(LocalDate.now())
+                .category(productDTO.getCategory())
+                .registeredAt(LocalDate.now())
                 // .updatedAt(productDTO.getUpdatedAt())
                 .build();
 
         //업로드 처리가 끝난 파일들의 이름 리스트
         List<String> uploadFileNames = productDTO.getUploadFileNames();
-
         if(uploadFileNames == null || uploadFileNames.isEmpty()) {
             return product;
         }
-
         uploadFileNames.stream().forEach(uploadName -> {
             product.addImageString(uploadName);
         });
-
+        // 사이트 리스트 추가
+        List<String> productSiteNames = productDTO.getProductSiteNames();
+        if (productSiteNames != null && !productSiteNames.isEmpty()) {
+            for (int i = 0; i < productSiteNames.size(); i++) {
+                product.addSiteLink(productSiteNames.get(i), i);
+            }
+        }
         return product;
     }
 
@@ -270,7 +271,7 @@ public class ProductServiceImpl implements ProductService {
                 .productStock(productDTO.getProductStock())
                 .category(productDTO.getCategory())
                 .productSize(productDTO.getProductSize())
-                // .registeredAt(LocalDate.now())
+                .registeredAt(LocalDate.now())
                 // .updatedAt(LocalDate.now()) 수정할떄, set으로 처리
                 .build();
         // 이미지 리스트 추가

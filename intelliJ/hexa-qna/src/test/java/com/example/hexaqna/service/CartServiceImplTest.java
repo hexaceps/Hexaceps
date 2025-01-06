@@ -12,11 +12,11 @@ class CartServiceImplTest {
 
     @Autowired private CartService cartService;
     @Test
-    void 장바구니랜덤50개추가() {
+    void 장바구니랜덤70개추가() {
 
-        for (int i = 1; i < 50; i++) {
-            Long randomProductId = (long) (Math.random() * 50) + 1;
-            Long randomMemberId = (long) (Math.random() * 50) + 1;
+        for (int i = 1; i < 71; i++) {
+            Long randomProductId = (long) (Math.random() * 70) + 1;
+            Long randomMemberId = (long) (Math.random() * 70) + 1;
             CartDTO cartDTO = CartDTO.builder()
                     .productId(randomProductId)
                     .memberId(randomMemberId)
