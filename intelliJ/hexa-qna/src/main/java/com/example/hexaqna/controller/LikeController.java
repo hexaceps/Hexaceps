@@ -18,7 +18,7 @@ public class LikeController {
 
     @GetMapping("/m/{memberId}") // 사용자 별 찜 목록 조회
     public List<LikeDTO> getMemberLikes(@PathVariable("memberId") Long memberId) {
-        log.info("뭐가 들어왔냐?"+memberId);
+        log.info("사용자 찜 조회 시작 (컨트롤러) "+memberId);
         return likeService.getMemberLikes(memberId);
     }
 
@@ -43,5 +43,4 @@ public class LikeController {
         likeService.removeLike(memberId, productId);
         return Map.of("status", "delete success");
     }
-
 }

@@ -2,6 +2,8 @@ package com.example.hexaqna.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -16,5 +18,11 @@ public class LikeDTO {
 
     private Long productId;
 
-    private int count = 0;
+    private String productName;
+
+    private int price;
+
+    private int count;
+
+    private List<String> imageList; // 이미지 파일 이름 목록
 }
