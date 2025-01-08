@@ -2,7 +2,7 @@ import React from 'react'
 import Pagination from 'react-bootstrap/Pagination';
 
 const PageComponent = ({ serverData, moveToList,currentPage,setCurrentPage}) => {
-    console.log("현재페이지" + serverData.current)
+    console.log("현재페이지 : " + serverData.current)
   return (
     <>
     {/* http://localhost:3000/todo/list?page=11&size=10 */}

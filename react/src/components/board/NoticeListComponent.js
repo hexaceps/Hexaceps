@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Table } from 'react-bootstrap'
+import { Container, Row, Table } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import { Search } from 'react-bootstrap-icons';
 import { getCategoryList } from '../../api/boardApi';
@@ -8,65 +8,79 @@ import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
 
 const initState = {
-  id: 0,
-  category: "notice",
-  title: null,
-  content: null,
-  author: null,
-  createdAt: null,
-  updatedAt: null,
-  count: 0,
-  visible: false
+  dtoList: [],
+  pageNumList: [],
+  pageRequestDTO: null,
+  prev: false,
+  next: false,
+  totalCount: 0,
+  prevPage: 0,
+  nextPage: 0,
+  totalPage: 0,
+  current: 0
 }
 
 const dateFormatted = (dateString) => {
   if (!dateString) return "1970-01-01 00:00:00";
   const date = new Date(dateString);
-  const pad = (n) => (n < 10 ? `0${n}` : n);
-  const yyyy = date.getFullYear();
-  const MM = pad(date.getMonth() + 1);
-  const dd = pad(date.getDate());
-  const hh = pad(date.getHours());
-  const mm = pad(date.getMinutes());
-  const ss = pad(date.getSeconds());
-  return `${yyyy}-${MM}-${dd} ${hh}:${mm}:${ss}`;
-};
+  const pad = (n) => (n < 10 ? `0${n}` : n)
+  const yyyy = date.getFullYear()
+  const MM = pad(date.getMonth() + 1)
+  const dd = pad(date.getDate())
+  return `${yyyy}-${MM}-${dd}`
+}
 
 const NoticeListComponent = () => {
 
-  const {page, size, moveToList, refresh} = useCustomMove()
+  const { page, size, moveToList, refresh } = useCustomMove()
   const [currentPage, setCurrentPage] = useState(1)
   const [serverData, setServerData] = useState(initState)
-  useEffect(() => {
-    getCategoryList("notice").then(data => {
-      console.log("공지 Data recieved from back-end server : ", data)
+  const [fetching, setFetching] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+
+  useEffect(() => { // 공지사항 리스트 가져오는 로직
+    setFetching(true)
+    console.log("공지항 리스트 useEffect 진입")
+    const fetchData = async () => {
+      console.log("공지항리스트 API 리스트 가져오는 중")
+      const data = await getCategoryList({ category: "notice", pageParam: { page: currentPage, size } })
       setServerData(data)
-    })
-  }, [])
-  
-  const navigate = useNavigate();
-  const moveToRead = (board_id) => {
+      setFetching(false)
+      console.log(data)
+    }
+    fetchData()
+  }, [currentPage, size, refresh])
+
+  const navigate = useNavigate()
+  const moveToRead = (board_id) => { // 공지사항 타이틀 선택 하면 세부 항목으로 이동하는 로직
     navigate(`/board/${board_id}`)
+    console.log("Board ID 게시글로 이동 : ", board_id)
   }
-  const search = (e) => {
-    if(e.key === "Enter") {
-      e.preventDefault();
-      console.log("Enter 확인", e.key, e.target.value);
-      let keyword = e.target.value;
-      navigate(`/?q=${keyword}`);
+ 
+  const search = (e) => { // 검색 창 로직
+    if (e.key === "Enter") {
+      e.preventDefault()
+      const trimKeyword = searchValue.trim()
+      if (!trimKeyword) {
+        alert("검색어가 입력되지 않았습니다")
+        return
+      }
+      navigate(`/board/q?category=notice&query=${encodeURIComponent(trimKeyword)}`)
+      console.log ("조회를 요청 합니다", trimKeyword)
     }
   }
   
   return (
     <>
-      <div className='ms-3'>
-        <div className="" style={{width : "50%", margin : "0 auto"}}>
+      {fetching ? <FetchingModal /> : <></>}
+      <Container className='ms-3'>
+        <Row className="" style={{width : "50%", margin : "0 auto"}}>
           <form className='border border-dark rounded-pill mb-3 d-flex justfy-content-end align-items-center help' role='search'>
             <Search className='ms-3'/>
             <input className='form-control me-2 border-0 border-bottom' type='search' placeholder='Search' 
-            onKeyDown={(e) => search(e)}/>
+              value={searchValue} onChange={(e) => setSearchValue(e.target.value)} onKeyDown={search}/> 
           </form>
-        </div>
+        </Row>
         <Table hover className='mt-5' style={{borderBottom : "1px solid #625244"}}>
           <tbody>
             {serverData.dtoList && serverData.dtoList.length > 0 ? (
@@ -80,15 +94,17 @@ const NoticeListComponent = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={"4"} className='text-warning text-center bold'><h2>아직 등록 된 공지사항이 없습니다</h2></td>
+                <td colSpan={"4"} className='text-secondary text-center bold'><h2>아직 등록 된 공지사항이 없습니다</h2></td>
               </tr>
             )}
           </tbody>
         </Table>
-        {/* <div className='my-5'>
-          <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    
-        </div> */}
-      </div>
+        <Row>
+          <div className='my-5'>
+            <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} />    
+          </div>
+        </Row>
+      </Container>
     </>
   )
 }

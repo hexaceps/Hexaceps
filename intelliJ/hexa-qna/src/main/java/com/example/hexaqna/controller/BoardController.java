@@ -31,8 +31,8 @@ public class BoardController {
 //        return new ResponseEntity<>(boards, HttpStatus.OK);
 //    }
     @GetMapping
-    public PageResponseDTO<BoardDTO> getBoardsByCategory(@RequestParam String category, PageRequestDTO pageRequestDTO) {
-        log.info("getBoardsByCategory");
+    public PageResponseDTO<BoardDTO> getBoardsByCategory(@RequestParam("category") String category, @ModelAttribute PageRequestDTO pageRequestDTO) {
+        log.info("getBoardsByCategory() 컨트롤러 진입 : "+category);
         PageResponseDTO<BoardDTO> boardDTOList = boardService.getBoardsByCategory(category, pageRequestDTO);
         return boardDTOList;
     }
@@ -46,8 +46,8 @@ public class BoardController {
     }
 
     // 게시글 id로 조회 (조회수 기능 증가)
-    @GetMapping("/id/{id}")
-    public BoardDTO getBoardById(@PathVariable Long id) {
+    @GetMapping("/id/{boardId}")
+    public BoardDTO getBoardById(@PathVariable("boardId") Long id) {
         log.info("getBoardById");
         BoardDTO board = boardService.getBoardCountById(id);
         return board;
@@ -61,8 +61,8 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PutMapping("/update/{id}")
-    public ResponseEntity<BoardDTO> updateBoard(@PathVariable Long id, @RequestBody BoardDTO board) {
+    @PutMapping("/update/{boardId}")
+    public ResponseEntity<BoardDTO> updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardDTO board) {
         BoardDTO updatedBoard = boardService.updateBoard(id, board);
         return new ResponseEntity<>(updatedBoard, HttpStatus.OK);
     }
