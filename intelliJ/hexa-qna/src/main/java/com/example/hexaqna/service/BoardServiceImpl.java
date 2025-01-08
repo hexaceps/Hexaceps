@@ -48,6 +48,7 @@ public class BoardServiceImpl implements BoardService{
                 .content(board.getContent())
                 .createdAt(board.getCreatedAt())
                 .updatedAt(board.getUpdatedAt())
+                .count(board.getCount())
                 .isActive(board.isActive())
                 .id(board.getId())
                 .build()
