@@ -3,6 +3,7 @@ package com.example.hexaqna.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @ToString
 @Data
@@ -12,18 +13,24 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class CartDTO {
+
     private int cartId;
 
-    private String category;
-
     private Long memberId;
+    private String name;
+    private String address;
+    private String phoneNumber;
 
     private Long productId;
-
-    private int amount;
-
+    private String category;
+    private String productBrand;
+    private String productName;
+    private int price;
     private int productSize;
 
+    private int amount;
     private LocalDate regAt;
+
+    private List<String> imageName;
 
 }

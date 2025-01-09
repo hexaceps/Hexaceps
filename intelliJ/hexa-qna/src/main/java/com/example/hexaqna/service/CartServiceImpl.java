@@ -22,7 +22,7 @@ public class CartServiceImpl implements CartService{
     @Override
     public List<CartDTO> addOrModify(CartDTO cartDTO) {
         if (cartDTO.getMemberId() == null || cartDTO.getProductId() == null) {
-            throw new IllegalArgumentException("Invalid data: Member or Product cannot be null");
+            throw new IllegalArgumentException("memberId, productId problem : Member or Product cannot be null");
         }
         Long memberId = cartDTO.getMemberId(); // 수정된 getter 사용
         Long productId = cartDTO.getProductId();// 수정된 getter 사용
@@ -39,19 +39,17 @@ public class CartServiceImpl implements CartService{
 
         Cart cart = cartRepository.getItemOfProductId(memberId, productId);
 
-        if (cart == null) {
-            // 새로운 Cart 생성
+        if (cart == null) { // 새로운 Cart 생성
             cart = toEntity(cartDTO);
             cartRepository.save(cart);
-        } else {
-            // 기존 Cart 수정
+        } else { // 기존 Cart 수정
             cart.setAmount(cartDTO.getAmount());
             cart.setProductSize(cartDTO.getProductSize());
             cart.setCategory(cartDTO.getCategory());
             cartRepository.save(cart);
         }
-
-        return getCartItems(memberId);
+        List<CartDTO> cartItemList = getCartItems(memberId);
+        return cartItemList;
     }
 
     private Cart toEntity(CartDTO dto) {
@@ -71,7 +69,13 @@ public class CartServiceImpl implements CartService{
     //모든 장바구니 아이템 목록
     @Override
     public List<CartDTO> getCartItems(Long memberId) {
-        return cartRepository.getItemsOfCartDTOByMemberId(memberId);
+        List<CartDTO> cartDTOList = cartRepository.getItemsOfCartDTOByMemberId(memberId);
+
+        for (CartDTO list : cartDTOList) {
+            List<String> imageList = cartRepository.findImageFilesByProductId(list.getProductId());
+            list.setImageName(imageList);
+        }
+        return cartDTOList;
     }
 
     //아이템 삭제

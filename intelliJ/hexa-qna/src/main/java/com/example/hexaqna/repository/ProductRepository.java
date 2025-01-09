@@ -52,7 +52,7 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
             " left join p.siteList sl on sl.siteOrd = 0")
     Page<Object[]> findBySelectImageAndSiteList (Pageable pageable);
 
-    @Query("select p, pi, sl from Product p    left join p.imageList pi on pi.ord = 0 " +
+    @Query("select p, pi, sl from Product p left join p.imageList pi on pi.ord = 0 " +
             " left join p.siteList sl on sl.siteOrd = 0 where  p.category = :category")
     Page<Object[]> selectFilter(@Param("category") String category, Pageable pageable);
 
