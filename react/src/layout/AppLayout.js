@@ -4,8 +4,8 @@ import { Search } from 'react-bootstrap-icons'; // 돋보기 아이콘 추가
 import { Outlet } from 'react-router-dom';
 import  useCustomLogin from '../hooks/useCustomLogin'
 import { getOneMember } from '../api/memberApi';
-
-
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 const initState = {   
   
 }
@@ -29,6 +29,10 @@ const AppLayout = () => {
           });
         }
       }, [loginState]);
+      const navigate = useNavigate();
+      const handleToAbooutUs = () => {
+        navigate("/board/aboutus")
+  }
   return (
     <div>
         <Navbar expand="lg" className="bg-body-white mb-5 border-bottom">
@@ -83,17 +87,102 @@ const AppLayout = () => {
                 <Col md="12"><Outlet /></Col>
             </Row>
         </Container>
-        <div className='bg-body-tertiary border-top mt-5 py-2 text-center'>
-          HEXACEPS
-        </div>
+        <Container>
+          <FooterWrapper>
+            <LeftFooter>
+              <div className='footerNav'>
+                <div onClick={handleToAbooutUs} style={{ cursor: 'pointer' }}>회사 소개</div>
+                <div>이용 약관</div>
+                <div>개인정보 처리방침</div>
+                <div>운동화 세탁 방법</div>
+              </div>
+              <div className='logoBox'>
+                <img src='/images/logo.png' alt='logo' />
+              </div>
+            </LeftFooter>
+            <RightFooter>
+              <span>고객센터</span>
+              <span>FAQ</span>
+              <span>메일 주소</span>
+              <span>전화번호</span>
+              <DonaButton>기부하기</DonaButton>
+            </RightFooter> 
+          </FooterWrapper> 
+        </Container>
     </div>
   )
 }
 
 export default AppLayout
 
+const FooterWrapper = styled.div`
+  margin-top: 51px;
+  border-top: 1px solid black;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-top: 8px;
+  padding-bottom: 10px;
+`
 
+const LeftFooter = styled.div`
+  font-size: 20px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  @media (max-width: 765px) {
+    font-size: 14px;
+  }
+  .footerNav {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    gap: 21px;
+    div {
+      width: 100%;
+    }
+    @media (max-width: 765px) {
+      gap: 8px;
+    }
+  }
+  .logoBox {
+    width: 103px;
+    height: 103px;
+    @media (max-width: 765px) {
+      width: 85px;
+      height: 85px;
+    }
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`
 
+const RightFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  @media (max-width: 765px) {
+    font-size: 14px;
+  }
+`
+
+const DonaButton = styled.button`
+  margin-top: 8px;
+  width: 108px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: #625244;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: white;
+`
 
 
 {/*
