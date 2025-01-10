@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { API_SERVER_HOST } from './qnaApi'
-const prefix = `${API_SERVER_HOST}/api/cart`
+const prefix = `${API_SERVER_HOST}/api/product/cart`
 
-//장바구니 추가 및 수정
+// 장바구니 추가 및 수정
 export const changeCart = async (cart) => {
     const { productId, amount, memberId, cartId } = cart;
     console.log("api로 들어왔어... 이제 장바구니 담고 장바구니 아이디 바덩")
@@ -17,12 +17,14 @@ export const changeCart = async (cart) => {
     }
   };
 
-//장바구니 목록
+// 멤버 아이디로 장바구니 목록 조회
 export const getCartItems = async(memberId) => {
-    const res = await axios.get(`${prefix}/${memberId}`)
+    const res = await axios.get(`${prefix}/m/${memberId}`)
     console.log("리스트 : ", res)
     return res.data
 }
+
+// localhost:8010/api/product/cart/c/12
 
 //장바구니 항목 삭제
 export const removeFromCart = async(cartId) => {

@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { API_SERVER_HOST } from './qnaApi'
 
-const prefix = `${API_SERVER_HOST}/api/order`
+const prefix = `${API_SERVER_HOST}/api/order/payment`
 
-export const createOrder = async(orderData) => {
-    console.log("전송할 주문 데이터", orderData)
-    const res = await axios.post(`${prefix}/`, orderData);
-    console.log("api 호출 후 받은 결과 데이터", res.data);
+export const requestPayment = async(payData) => {
+    console.log("결제 데이터 확인 requestPayment : ", payData)
+    const res = await axios.post(`${prefix}/`, payData);
+    console.log("결제 api 호출 후 받은 결과 데이터", res);
     return res.data
 };
 

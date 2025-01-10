@@ -35,13 +35,13 @@ public class OrderController {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/o/") // orderId 로 조회 ("/{orderId}")
-    public ResponseEntity<OrderResponseDTO> getOrderById(@RequestParam Long orderId) { // @PathVariable Long orderId
+    @GetMapping("/o/") // orderId 로 조회
+    public ResponseEntity<OrderResponseDTO> getOrderById(@PathVariable("orderId") Long orderId) { // @PathVariable Long orderId
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
 
     @GetMapping ("/m/")// memberId 로 조회 (params = "/memberId")
-    public ResponseEntity<List<OrderResponseDTO>> getOrdersByMemberId(@RequestParam Long memberId) {
+    public ResponseEntity<List<OrderResponseDTO>> getOrdersByMemberId(@PathVariable("memberId") Long memberId) {
         log.info("getOrdersByMemberId 조회 요청, 리액트 요청 유저 아이디 정보 : "+memberId);
         return ResponseEntity.ok(orderService.getOrdersByMemberId(memberId));
     }

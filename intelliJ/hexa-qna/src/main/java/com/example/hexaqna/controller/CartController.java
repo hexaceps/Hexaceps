@@ -38,8 +38,8 @@ public class CartController {
     //사용자 장바구니 목록
     //@PreAuthroize("hasAnyRole('USER')")
     //@GetMapping("items")
-    @GetMapping("/{memberId}")
-    public List<CartDTO> getCartItems(@PathVariable("memberId") Long memberId){
+    @GetMapping("/m/{memberId}")
+    public List<CartDTO> getCartItemsByMemberId(@PathVariable("memberId") Long memberId){
         //String userId = principal.getName();
         //log.info("인증된 사용자 아이디는? {}", userId);
         if (memberId == null || memberId <= 0) {
@@ -47,6 +47,12 @@ public class CartController {
         }
         log.info("인증된 사용자 아이디는? {}", memberId);
         return cartService.getCartItems(memberId);
+    }
+
+    @GetMapping("/c/{cartId}")
+    public CartDTO getCartItemByCartId(@PathVariable("cartId") Long cartId){
+        CartDTO cartItem = cartService.getCartItem(cartId);
+        return cartItem;
     }
 
     //장바구니 아이템 삭제
