@@ -26,12 +26,13 @@ import Size from './pages/products/Size';
 import Price from './pages/products/Price';
 import NoticePage from './pages/board/NoticePage';
 import FAQPage from './pages/board/FAQPage';
-import BoardQueryPage from './pages/board/BoardQueryPage';
+// import BoardQueryPage from './pages/board/BoardQueryPage';
 import AboutUsPage from './pages/board/AboutUsPage';
 import BoardDetailPage from './pages/board/BoardDetailPage';
 import BoardCreatePage from './pages/board/BoardCreatePage'
 import BoardUpdatePage from './pages/board/BoardUpdatePage';
-
+import OrderPage from './pages/order/OrderPage';
+import CartPage from './pages/cart/CartPage';
 function App() {
   
   return (
@@ -69,11 +70,15 @@ function App() {
         <Route path="/board" >
           <Route path="notice" element={<NoticePage />} />
           <Route path="faq" element={<FAQPage />} />
-          <Route path="q" element={<BoardQueryPage />} />
+          {/* <Route path="q" element={<BoardQueryPage />} /> */}
           <Route path="aboutus" element={<AboutUsPage />} />
           <Route path=':board_id' element={<BoardDetailPage />} />
           <Route path='update/:board_id' element={<BoardUpdatePage />} />
           <Route path='create' element={<BoardCreatePage />} />
+        </Route>
+        <Route path="/order/:cartId" element={<OrderPage/>}/>
+        <Route path="/myshop/">
+          <Route path="cart" element={<CartPage/>}/>
         </Route>
       </Route>
     </Routes>

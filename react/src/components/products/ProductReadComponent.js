@@ -14,6 +14,7 @@ import ProductSizeTable from './ProductSizeTableComponent';
 import styled from 'styled-components';
 import {SuitHeart, LightningCharge, Star} from 'react-bootstrap-icons';
 import { useNavigate } from 'react-router-dom';
+import useCustomCart from '../../hooks/useCustomCart';
 
 const initState = {
   productId:0,
@@ -29,13 +30,15 @@ const [page,setPage] = useState("A");
 const[product,setProduct] = useState(initState);
 const [selectedQna, setSelectedQna] = useState(null);
 const [selectedSize, setSelectedSize] = useState("모든 사이즈");
-const{moveToList, moveToModify, moveToRead } = useCustomMove();
+const {moveToList, moveToModify, moveToRead } = useCustomMove();
 const [fetching, setFetching] = useState(false)
 const host = API_SERVER_HOST;
 const {loginState,isLogin,doLogout } = useCustomLogin()
 const [showPurchase, setShowPurchase] = useState(false);
 const [showCart, setShowCart] = useState(false);
+const [showCartResult, setShowCartResult] = useState(false);
 const handleClosePurchase = () => setShowPurchase(false);
+const handleCloseCartResult = () => setShowCartResult(false);
 const handleShowPurchase = () => setShowPurchase(true);
 const handleCloseCart = () => setShowCart(false);
 const handleShowCart = () => setShowCart(true);
@@ -51,6 +54,8 @@ const [member, setMember] = useState(() => {
         setPage(pageName);
       };
 
+      const {changeCart} = useCustomCart()
+
       const navigate = useNavigate();
       
         const handleToNikeBrand = () => {
@@ -61,15 +66,70 @@ const [member, setMember] = useState(() => {
           navigate("/products/brand?brand=ADIDAS")
         }
         
-        const handleToPurchase = () => {
-          navigate("/myshop/delivery")
-        }
+        const handleToPurchase = async () => {
+          let amount = 1;
+          const cartDTO = { 
+            productId: product.productId, 
+            amount: amount, 
+            memberId: member.id,
+            cartId: 0 // 새로운 cartId는 서버에서 생성되므로 0을 전달
+          };
+        
+          console.log("Cart DTO:", cartDTO);  // DTO 값 확인
+        
+          try {
+            // 장바구니에 상품 추가
+            console.log("상품 추가 할꺼야..울라라라라라라")
+            const result = await changeCart(cartDTO); // res.data
+            
+            if (result &&  result[0].cartId) {
+              // 장바구니 추가 성공, 해당 cartId로 주문 페이지로 이동
+              console.log("Cart 생성해쪄 with ID:", result.cartId); // order 페이지로 이동
+              navigate(`/order/${result[0].cartId}`);
+            } else {
+              console.error("안되쪄 to create cart.", result);
+            }
+          } catch (error) {
+            console.error("Error in handleToPurchase:", error);
+          }
+        };
+
+        const handleToCart = async () => {
+          let amount = 1;
+          const cartDTO = { 
+            productId: product.productId, 
+            amount: amount, 
+            memberId: member.id, 
+          };
+          // const cartDTO = await changeCart({ 
+          //   productId: product.productId, 
+          //   amount: amount, 
+          //   memberId: member.id, 
+          // });
+          console.log("Cart DTO:", cartDTO);
+          try {
+            console.log("상품 장바구니 추가")
+            const result = await changeCart(cartDTO);
+            if (result && result[0].cartId) {
+              console.log("Cart를 아이디와 함께 생성하였음", result.cartId);
+              setShowCart(false);
+              setShowCartResult(true);
+              console.log("Cart created with ID:", result.cartId);
+            } else {
+              console.error("Failed to create cart.", result);
+            }
+          } catch (error) {
+            console.error("Error in handleToPurchase", error);
+          }
+        };
 
         useEffect(() => {
           if (loginState.email) {
             getOneMember(loginState.email).then(data => {
               setMember(data);
               console.log("data", data);
+              console.log("memberId: ", member.id);
+              console.log("productId: ", product.productId);
               localStorage.setItem('member', JSON.stringify(data));
             });
           }
@@ -104,49 +164,67 @@ const [member, setMember] = useState(() => {
             <ProductDesc>{product.productDescription}</ProductDesc>
             <ProductPrice >가격: {product.price}원</ProductPrice>
 
-            {/* 상품 구매 버튼 클릭시 모달 구현 */}
-            <Modal
-              show={showPurchase}
-              onHide={handleClosePurchase}
-              backdrop="static"
-              keyboard={false}
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>상품 구매 여부</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                해당 상품을 구매하시겠습니까?
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="success" style={{borderRadius: "15px"}} onClick={() => handleToPurchase()}>구매</Button>
-                <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleClosePurchase}>
-                  취소
-                </Button>
-              </Modal.Footer>
-            </Modal>
+            
             {/* <ProductStock>제품 재고: {product.productStock ? "재고있음" : "재고없음"}</ProductStock> */}
 
             <ButtonContainer>
-              <BrownButton onClick={handleShowPurchase}>구매하기 <LightningCharge/></BrownButton>
               <Modal
-                show={showCart}
-                onHide={handleCloseCart}
+                show={showPurchase}
+                onHide={handleClosePurchase}
                 backdrop="static"
                 keyboard={false}
               >
-              <Modal.Header closeButton>
-                <Modal.Title>상품 장바구니 추가 여부</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                해당 상품을 장바구니로 이동하시겠습니까?
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="success" style={{borderRadius: "15px"}} onClick={handleCloseCart}>이동</Button>
-                <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleCloseCart}>
-                  취소
-                </Button>
-              </Modal.Footer>
-            </Modal>
+                <Modal.Header closeButton>
+                  <Modal.Title>상품 구매 여부</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  해당 상품을 구매하시겠습니까?
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="success" style={{borderRadius: "15px"}} onClick={() => handleToPurchase()}>구매</Button>
+                  <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleClosePurchase}>
+                    취소
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              <BrownButton onClick={handleShowPurchase}>구매하기 <LightningCharge/></BrownButton>
+              {/* 상품 구매 버튼 클릭시 모달 구현 */}
+           
+                <Modal
+                    show={showCart}
+                    onHide={setShowCartResult}
+                    backdrop="static"
+                    keyboard={false}
+                  >
+                  <Modal.Header closeButton>
+                    <Modal.Title>상품 장바구니 추가 여부</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    해당 상품을 장바구니에다가 추가하시겠습니까?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="success" style={{borderRadius: "15px"}} onClick={() => handleToCart()}>추가</Button>
+                    <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleCloseCart}>
+                      취소
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+
+                <Modal
+                  show={showCartResult}
+                  onHide={handleCloseCartResult}
+                  >
+                  <Modal.Header closeButton>
+                    <Modal.Title>상품 추가 완료</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    해당 상품이 장바구니에 추가되었습니다.
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="success" style={{borderRadius: "15px"}} onClick={handleCloseCartResult}>확인</Button>
+                  </Modal.Footer>
+                </Modal>
+                
               <BrownButton onClick={handleShowCart}>장바구니 추가 <SuitHeart/>  </BrownButton>
             </ButtonContainer>
             <Line/>
@@ -465,10 +543,3 @@ const Line = styled.hr`
 //             </Col>
 //         </Row>
 //         <hr />
-  
-
-
-
-
-
-
