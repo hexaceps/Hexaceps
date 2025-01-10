@@ -5,11 +5,16 @@ import com.example.hexaqna.dto.CartDTO;
 import java.util.List;
 
 public interface CartService {
-    public List<CartDTO> addOrModify(CartDTO cartReqeustDTO);
+    // 장바구니 추가, 변경
+    List<CartDTO> addOrModify(CartDTO cartReqeustDTO);
 
-    public List<CartDTO> getCartItems(Long memberId);
+    // 멤버로 장바구니 리스트 조회
+    List<CartDTO> getCartItems(Long memberId);
 
-    //아이템 삭제
-    public List<CartDTO> remove(int cartId);
+    // 카트아이디로 장바구니 조회
+    CartDTO getCartItem(Long cartId);
+
+    // 장바구니 삭제
+    List<CartDTO> remove(int cartId);
 }
 

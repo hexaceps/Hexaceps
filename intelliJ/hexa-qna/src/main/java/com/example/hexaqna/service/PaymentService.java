@@ -46,7 +46,14 @@ public class PaymentService {
         paymentForm에는 최소한 orderId, paymentMethod, paymentVender 정보를 포함해야 함
      */
     public PaymentDTO createPayment(PaymentDTO paymentForm) {
-        log.info("createPayment 시작. Order ID: {}", paymentForm.getOrderId());
+        log.info("createPayment 3초 지연 후 결제 시작. Order ID: {}", paymentForm.getOrderId());
+
+        try {
+            Thread.sleep(3000); // 3초 (5000ms)
+        } catch (InterruptedException e) {
+            log.error("지연 처리 중 인터럽트 발생: {}", e.getMessage());
+            Thread.currentThread().interrupt();
+        }
 
         PaymentDTO paymentDTO = fetchPaymentDetails(paymentForm.getOrderId());
         Payment payment = dtoToEntity(paymentDTO);
@@ -54,6 +61,8 @@ public class PaymentService {
         payment.setPaymentDate(LocalDateTime.now());
         payment.setPaymentStatus("결제대기");
         payment.setPaymentNumber(generatePaymentNumber(paymentDTO));
+        payment.setPaymentType(paymentForm.getPaymentType());
+        payment.setPaymentVender(paymentForm.getPaymentVender());
 
         Payment savedPayment = paymentRepository.save(payment);
         return entityToDto(savedPayment);

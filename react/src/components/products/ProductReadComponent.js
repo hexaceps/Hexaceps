@@ -79,15 +79,14 @@ const [member, setMember] = useState(() => {
         
           try {
             // 장바구니에 상품 추가
-            console.log("상품 추가 할꺼야..울라라라라라라")
-            const result = await changeCart(cartDTO); // res.data
+            console.log("장바구니 추가를 위해서 cartApi를 호출 하려고 합니다")
+            const result = await changeCart(cartDTO);
             
             if (result &&  result[0].cartId) {
-              // 장바구니 추가 성공, 해당 cartId로 주문 페이지로 이동
-              console.log("Cart 생성해쪄 with ID:", result.cartId); // order 페이지로 이동
+              console.log("생성한 cartId를 가지고 OrderPage.js로 넘겨 줍니다 : ", result[0].cartId);
               navigate(`/order/${result[0].cartId}`);
             } else {
-              console.error("안되쪄 to create cart.", result);
+              console.error("장바구니 생성이 실패 했습니다. cartApi 결과 : ", result);
             }
           } catch (error) {
             console.error("Error in handleToPurchase:", error);
@@ -111,12 +110,11 @@ const [member, setMember] = useState(() => {
             console.log("상품 장바구니 추가")
             const result = await changeCart(cartDTO);
             if (result && result[0].cartId) {
-              console.log("Cart를 아이디와 함께 생성하였음", result.cartId);
+              console.log("장바구니 추가가 되었습니다 cartId", result[0].cartId);
               setShowCart(false);
               setShowCartResult(true);
-              console.log("Cart created with ID:", result.cartId);
             } else {
-              console.error("Failed to create cart.", result);
+              console.error("장바구니 추가에 실패 했습니다", result);
             }
           } catch (error) {
             console.error("Error in handleToPurchase", error);
@@ -182,9 +180,7 @@ const [member, setMember] = useState(() => {
                 </Modal.Body>
                 <Modal.Footer>
                   <Button variant="success" style={{borderRadius: "15px"}} onClick={() => handleToPurchase()}>구매</Button>
-                  <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleClosePurchase}>
-                    취소
-                  </Button>
+                  <Button variant="secondary" style={{borderRadius: "15px"}} onClick={handleClosePurchase}>취소</Button>
                 </Modal.Footer>
               </Modal>
               <BrownButton onClick={handleShowPurchase}>구매하기 <LightningCharge/></BrownButton>

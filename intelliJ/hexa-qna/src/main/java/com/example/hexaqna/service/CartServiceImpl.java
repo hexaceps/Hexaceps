@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -76,6 +77,26 @@ public class CartServiceImpl implements CartService{
             list.setImageName(imageList);
         }
         return cartDTOList;
+    }
+
+    @Override
+    public CartDTO getCartItem(Long cartId) {
+        Optional<Cart> cartInfo = cartRepository.findById(cartId);
+        Cart cart = cartInfo.orElseThrow();
+        CartDTO cartDTO = CartDTO.builder()
+                .cartId(cart.getCartId())
+                .productId(cart.getProductId().getProductId())
+                .memberId(cart.getMemberId().getId())
+                .amount(cart.getAmount())
+                .productSize(cart.getProductSize())
+                .category(cart.getCategory())
+                .price(cart.getProductId().getPrice())
+                .productBrand(cart.getProductId().getProductBrand())
+                .address(cart.getMemberId().getAddress())
+                .name(cart.getMemberId().getName())
+                .phoneNumber(cart.getMemberId().getPhoneNumber())
+                .build();
+        return cartDTO;
     }
 
     //아이템 삭제
