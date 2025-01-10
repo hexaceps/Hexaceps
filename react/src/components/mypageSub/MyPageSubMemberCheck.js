@@ -5,7 +5,7 @@ import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import ModifyMemberComponent from './ModifyMemberComponent';
 
 
-const MyPageSubMemberCheck = ({id}) => {
+const MyPageSubMemberCheck = ({id, skipPasswordCheck = false}) => {
   const [pw,setPw] = useState('')
   const [ispw,setIspw]=useState(true) 
   const {loginState,isLogin,doLogout } = useCustomLogin()
@@ -15,6 +15,13 @@ const MyPageSubMemberCheck = ({id}) => {
       const storedMember = localStorage.getItem('member');
       return storedMember ? JSON.parse(storedMember) : null;
     });
+
+    useEffect(() => {
+      // 회원가입 후 바로 넘어오는 경우 비밀번호 인증 생략
+      if(skipPasswordCheck) {
+        setIspw(false)
+      }
+    }, [skipPasswordCheck])
 
   const handleChangePw = (e) => {
     setPw(e.target.value) 
@@ -52,7 +59,7 @@ const MyPageSubMemberCheck = ({id}) => {
               </InputGroup>
       </Form.Group>
       <div className='text-center'>
-      <Button className="mb-3 " style={{ backgroundColor: '#8B4513', color: 'white' }}  onClick={checkPw}>
+      <Button className="mb-3 " style={{ backgroundColor: '#625244', color: 'white', borderColor: '#625244' }}  onClick={checkPw}>
          인증하기
       </Button>
       </div>
