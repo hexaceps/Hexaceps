@@ -1,0 +1,55 @@
+/* 탭 스타일링 */
+.custom-tabs {
+    border-bottom: none; /* 하단 기본 줄 제거 */
+    margin-bottom: 20px;
+  }
+  
+  .custom-tabs .nav-link {
+    border: none;
+    color: gray; /* 비활성 상태에서 글자 색상 회색 */
+    font-size: 20px; /* 기본 글자 크기 */
+    font-weight: bold;
+    padding: 20px 80px; /* 기본 간격 */
+    border-bottom: 4px solid lightgray; /* 기본 회색 밑줄 */
+    transition: all 0.3s ease;
+    text-align: center; /* 텍스트 가운데 정렬 */
+  }
+  
+  /* 활성 탭 스타일 */
+  .custom-tabs .nav-link.active {
+    border-bottom: 4px solid black; /* 활성화된 탭 하단 검은 줄 */
+    color: black; /* 활성 상태에서 글자 색상 검은색 */
+  }
+  
+  /* 탭 호버 효과 */
+  .custom-tabs .nav-link:hover {
+    color: black; /* 호버 시 글자 색상 검은색 */
+    border-bottom: 4px solid gray; /* 호버 시 하단 회색 줄 */
+  }
+  
+  /* 모바일 화면 최적화 (576px 이하) */
+  @media (max-width: 576px) {
+    .custom-tabs .nav-link {
+      font-size: 16px; /* 글자 크기 축소 */
+      padding: 10px 40px; /* 간격 축소 */
+      border-bottom: 3px solid lightgray; /* 줄 두께 감소 */
+    }
+  
+    .custom-tabs .nav-link.active {
+      border-bottom: 3px solid black; /* 활성 탭 줄 두께 감소 */
+    }
+  }
+  
+  /* 태블릿 화면 최적화 (768px ~ 1024px) */
+  @media (min-width: 577px) and (max-width: 1024px) {
+    .custom-tabs .nav-link {
+      font-size: 18px; /* 태블릿에서 글자 크기 */
+      padding: 15px 60px; /* 태블릿에서 간격 */
+      border-bottom: 3px solid lightgray; /* 태블릿 밑줄 두께 */
+    }
+  
+    .custom-tabs .nav-link.active {
+      border-bottom: 3px solid black; /* 활성 탭 하단 줄 */
+    }
+  }
+  

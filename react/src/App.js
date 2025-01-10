@@ -34,6 +34,8 @@ import BoardCreatePage from './pages/board/BoardCreatePage'
 import BoardUpdatePage from './pages/board/BoardUpdatePage';
 import OrderPage from './pages/order/OrderPage';
 import CartPage from './pages/cart/CartPage';
+import LikePage from './pages/like/LikePage';
+
 function App() {
   
   return (
@@ -82,6 +84,8 @@ function App() {
         <Route path="/myshop/">
           <Route path="cart" element={<CartPage/>}/>
         </Route>
+        <Route path="/order/:cartId" element={<OrderPage/>}/>
+        <Route path="/like" element={<LikePage/>}/>
       </Route>
     </Routes>
   );

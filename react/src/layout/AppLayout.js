@@ -51,9 +51,9 @@ const AppLayout = () => {
             <div>
               <Nav bg="white" variant="light" className="justify-content-end mb-2 fs-6">
                 <Nav.Link href="/board/notice">고객센터</Nav.Link>
-                <Nav.Link href="#">마이쇼핑</Nav.Link>
+                <Nav.Link href="/like?tab=cart">마이쇼핑</Nav.Link>
                 <Nav.Link href="/mypage">마이페이지</Nav.Link>
-                <Nav.Link href="#">관심</Nav.Link>
+                <Nav.Link href="/like">관심</Nav.Link>
                 {isLogin ? (
                  <Nav.Link href="/member/logout" onClick={doLogout}>
                    
