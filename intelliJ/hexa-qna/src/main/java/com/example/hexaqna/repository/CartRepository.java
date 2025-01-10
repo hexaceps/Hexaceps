@@ -15,18 +15,31 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 //    @Query("select c from Cart c where c.memberId = :memberId")
 //    public Optional<Cart> getCartOfMember(@Param("memberId") Long memberId);
 
-    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId.id, c.productId.productId, c.amount, c.productSize, c.regAt)" +
+//    @Query("select new com.example.hexaqna.dto.CartDTO(c.cartId, c.category, c.memberId.id, c.productId.productId, c.amount, c.productSize, c.regAt)" +
+//            " from Cart c" +
+//            " where c.memberId.id = :memberId" +
+//            " order by c.cartId desc")
+//    public List<CartDTO> getItemsOfCartDTOByMemberId(@Param("memberId") Long memberId);
+
+    @Query("select new com.example.hexaqna.dto.CartDTO(" +
+            " c.cartId, c.memberId.id, c.memberId.name, c.memberId.address, c.memberId.phoneNumber," +
+            " c.productId.productId, c.productId.category, c.productId.productBrand, c.productId.productName, c.productId.price, c.productId.productSize," +
+            " c.amount, c.regAt, null )" +
             " from Cart c" +
             " where c.memberId.id = :memberId" +
             " order by c.cartId desc")
-    public List<CartDTO> getItemsOfCartDTOByMemberId(@Param("memberId") Long memberId);
+    List<CartDTO> getItemsOfCartDTOByMemberId(@Param("memberId") Long memberId);
+
+    // 사용자 ID 조회 후 카드에 들어간 이미지리스트 가져오기 위한 처리
+    @Query("select pi.fileName from ProductImage pi where pi.product.productId = :productId")
+    List<String> findImageFilesByProductId(@Param("productId") Long productId);
 
     //사용자의 userId와 productId로 해당 장바구니 아이템을 알아내는 기능
     @Query("select c " +
             " from Cart c " +
             "where " +
             "c.memberId.id = :memberId and c.productId.productId = :productId")
-    public Cart getItemOfProductId(@Param("memberId") Long memberId, @Param("productId") Long productId);
+    Cart getItemOfProductId(@Param("memberId") Long memberId, @Param("productId") Long productId);
 
 //    //cartId를 이용해서 장바구니를 알고 싶을 때
 //    @Query("select c " +

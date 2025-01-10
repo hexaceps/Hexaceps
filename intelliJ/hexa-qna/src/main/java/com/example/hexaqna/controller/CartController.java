@@ -11,31 +11,28 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/cart")
+@RequestMapping("/api/product/cart")
 public class CartController {
     public final CartService cartService;
 
     //장바구니 아이템의 추가 / 수정
     @PostMapping("/change")
     public List<CartDTO> changeCart(@RequestBody CartDTO cartDTO){
-        //현재 사용자를 찍어보자
-        //log.info("현재 인증된 사용자: {}", principal.getName());
-        log.info("카트 아이디? {}", cartDTO.getCartId());
-        log.info("카트 아이템? {}", cartDTO.getProductId());
-        log.info("제품 수량: {}", cartDTO.getAmount());
-        log.info("제품 사이즈: {}", cartDTO.getProductSize());
-        //if(!Objects.equals(principal.getName(), cartDTO.getUserId())){
-        //    throw new IllegalStateException("인증된 사용자와 요청 정보가 일치하지 않습니다.");
-        //}
+        log.info("장바구니 추가 후 확인 || cartId {}", cartDTO.getCartId());
+        log.info("장바구니 추가 후 확인 || productId {}", cartDTO.getProductId());
+        log.info("장바구니 추가 후 확인 || productAmount {}", cartDTO.getAmount());
+        log.info("장바구니 추가 후 확인 || productSize {}", cartDTO.getProductSize());
 
         if (cartDTO.getProductId() == null) {
-            throw new IllegalArgumentException("유효하지 않은 제품 ID입니다.");
+            throw new IllegalArgumentException("상품 아이디를 찾을 수 없습니다 null exception");
         }
-
         if(cartDTO.getAmount() <= 0){
+            log.info("amount 수량이 0이하로 되어 있어 장바구니에서 삭제");
             return cartService.remove(cartDTO.getCartId());
         }
-        return cartService.addOrModify(cartDTO);
+        List<CartDTO> cartDTOList = cartService.addOrModify(cartDTO);
+        log.info("장바구니 추가 (또는) 수정이 완료 되었습니다. 사용자에 담긴 장바구니 리스트 : ", cartDTOList.size());
+        return cartDTOList;
     }
 
     //사용자 장바구니 목록
@@ -53,7 +50,7 @@ public class CartController {
     }
 
     //장바구니 아이템 삭제
-    @DeleteMapping("/{cartId}")
+    @DeleteMapping("/delete/{cartId}")
     public List<CartDTO> removeFromCart(@PathVariable("cartId") int cartId){
         if (cartId <= 0) {
             throw new IllegalArgumentException("유효하지 않은 카트 ID입니다.");

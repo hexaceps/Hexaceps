@@ -7,7 +7,7 @@ const ProductReadPage = () => {
     const {productId} = useParams()
   return (
     <>
-    <ProductReadComponent productId={productId}/>
+      <ProductReadComponent productId={productId}/>
     </>
   )
 }

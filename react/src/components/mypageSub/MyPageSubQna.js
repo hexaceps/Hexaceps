@@ -5,8 +5,6 @@ import { checkPw, getList, getListId, replyOne } from '../../api/qnaApi'
 import { Table, Collapse, Container, Row, Col , Button,Form, Nav} from 'react-bootstrap'
 import PageComponent from '../common/PageComponent'
 
-
-
 const initState = {
   dtoList: [],
   pageNumList: [],
@@ -41,8 +39,14 @@ const MyPageSubQna = () => {
       return storedMember ? JSON.parse(storedMember) : null;
     });
 
-
-
+    const styles = {
+      borderline: {
+        borderBottom: '1px solid black', // Change 'black' to your desired color
+      },
+      headline:{
+        borderTop: '3px solid black',
+      }
+    };
 
   const handleQnaClick = (qna) => {
 
@@ -52,9 +56,7 @@ if (loginState.email == 'admin@hexa.com') {
 } else {
   setOpenQna(openQna == qna.qno ? null : qna.qno); 
   }
-
 };
-
 
   useEffect(()=>{
       getListId({page :currentPage, size},member.id).then(data => {
@@ -70,95 +72,57 @@ if (loginState.email == 'admin@hexa.com') {
 return (
   <>
   <Container>
-   
-  <Table striped bordered hover >
-  <thead className='text-center'>
-      <tr>
-        <th>#</th>
-        <th >글제목</th>
+    <Table  hover >
+    <thead className='text-center' style = {styles.headline}>
+      <tr style = {styles.borderline}>
+        <th>번호</th>
+        <th>글제목</th>
         <th>작성자</th>
         <th>날짜</th>
       </tr>
     </thead>
     <tbody>
-    {serverData.dtoList.filter(qna => qna.memberId.id == member.id).map((qna,index) => (
-                             <React.Fragment key={qna.qno}>
-                             <tr>
-                               <td className="text-center" style={{ width: '10%' }}>{index + 1}번</td>
-                               <td
-                         onClick={() => handleQnaClick(qna)}
-                        className="text-center"
-                        style={{ cursor: 'pointer', width: '60%' }}
-                      >
-                        
-                     
-                          <span> {qna.subject} <span
-                              style={{
-                                fontSize: '0.5em',
-                                float: 'right',
-                                color: '#888',
-                              }}
-                            >
-                              {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
-                            </span></span>
-                      
-                               </td>
-                               <td className="text-center" style={{
-                                     fontSize: '0.8em' , width: '20%'}}>{qna.memberId.name}</td>
-                      
-                               <td className="text-center" style={{
-                                     fontSize: '0.5em' , width: '20%'}}>{qna.qnaDate}</td>
-                             </tr>
-             
-                             {/* Q&A 내용이 펼쳐지도록 Collapse 적용 */}
-                             <Collapse in={openQna === qna.qno}>
-                             <tr id={`qna-${qna.qno}`}>
-                               <td colSpan="4">
-                                 <div
-                                 style={{
-                                        position: 'relative',
-                                        padding: '10px',
-                      
-                                      }}
-                                    >
-                                      <p>내용 : {qna.content}</p>
-
-                                      {/* 날짜 부분을 오른쪽 아래로 배치 */}
-                                      <span
-                                        className="m-b me"
-                                        style={{
-                                          fontSize: '0.5em',
-                                          position: 'absolute',
-                                          bottom: '5px', 
-                                          right: '5px',  
-                                          color: '#898989',
-                                        }}
-                                      >
-                                        {qna.qnaDate}
-                                      </span>                              
-                                   </div>
-                                   <div>
-                                    
-                                     <p></p>   
-                                     {qna.replyAt === 1 ? <p> {qna.reply} 작성자 : 관리자 {qna.replyDate}</p>  : <></>}               
-                                     </div>
-                                   </td>
-                                   </tr>
-                                 </Collapse>
-                        
-                           </React.Fragment>
-                         ))}
-                     </tbody>
-  </Table>
-              
-  </Container>
-  <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} /> 
-
- 
-
+      {serverData.dtoList.filter(qna => qna.memberId.id == member.id).map((qna,index) => (
+        <React.Fragment key={qna.qno}>
+          <tr style = {styles.borderline}>
+            <td className="text-center" style={{ width: '10%', fontSize: '0.9rem', verticalAlign: 'middle' }}>
+              <span style = {{ color: qna.replyAt === 0 ? 'red' : 'black'}}>
+                {qna.replyAt === 0 ? '답변대기중' : '답변완료'}
+              </span>
+            </td>
+            <td onClick={() => handleQnaClick(qna)} className="text-center" style={{ cursor: 'pointer', width: '60%' }} >
+              <span> {qna.subject} </span>
+            </td>
+            <td className="text-center" style={{ width: '20%' }}>{qna.memberId.name}</td>
+            <td className="text-center" style={{ width: '20%' }}>{new Date(qna.qnaDate).toISOString().split('T')[0]}</td>
+          </tr>
+            {/* Q&A 내용이 펼쳐지도록 Collapse 적용 */}
+            <Collapse in={openQna === qna.qno}>
+              <tr id={`qna-${qna.qno}`} style = {styles.borderline}>
+                <td colSpan="4">
+                  <div style={{ position: 'relative', marginTop: '10px' }} >
+                    <p>내용 : {qna.content}</p>                        
+                  </div> {qna.replyAt === 1 ? <hr/> : <></>} 
+                  <div>
+                    <p></p>   
+                    {qna.replyAt === 1 ? 
+                    <p> 답글 : {qna.reply} </p>  : <></>}    
+                    <p/>
+                    {qna.replyAt === 1 ? 
+                    <p> 작성자 : 관리자 {qna.replyDate} </p> : <></>}               
+                  </div>
+                </td>
+                  </tr>
+            </Collapse>
+          </React.Fragment>
+          ))}
+      </tbody>
+    </Table>
+                
+    </Container>
+    <PageComponent  serverData={serverData} moveToList={moveToList}  currentPage={currentPage} setCurrentPage={setCurrentPage} /> 
   </>
 )
 }
 
 export default MyPageSubQna
-
