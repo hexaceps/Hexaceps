@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Button, Form, Col, Row, Alert, Container, Image, Modal } from 'react-bootstrap';
+import { Card, Button, Form, Col, Row, Alert, Container, Image, Modal, Nav } from 'react-bootstrap';
 import {getCartItems} from '../../api/cartApi';
 import { productGetOne } from '../../api/productsApi';
 import MonthlyPaymentInfo from './MonthlyPaymentInfo';
@@ -8,6 +8,7 @@ import { createOrder } from '../../api/orderApi';
 import { requestPayment } from '../../api/paymentApi';
 import './OrderComponent.css'; 
 import { useNavigate } from 'react-router-dom';
+import { CheckCircleFill, ExclamationTriangleFill } from 'react-bootstrap-icons'
 
 const initState = {
     productId : 0,
@@ -164,6 +165,7 @@ const OrderComponent = ({ cartId }) => {
             orderId : orderResult.orderId,
             paymentType : selectedPaymentMethod,
             paymentVender : selectedBank,
+            transferNumber : paymentInfo
             // totalPrice: orderResult.totalPrice,
         };
         const paymentResponse = await requestPayment(paymentData);
@@ -188,15 +190,15 @@ const OrderComponent = ({ cartId }) => {
         setShowSuccessModal(false)
         setShowFailureModal(false)
         setShowPaymentConfirmModal(false)
-        navigate("/mypage")
+        navigate("/products/brand")
     }
 
   return (
     <>
-        <Container>
+        <Container style={{ fontFamily : "Rowdies, GmarketSansMedium"}}>
             {/* {console.log("프로덕트 정보", product)} */}
             <h3 className='mb-3'>Order Here</h3>
-            <Card className="mb-3">
+            <Card className="mb-3" style={{color : "#625244"}}>
                 <Card.Body>
                 <h5>사용자 배송 정보</h5>
                 <Form.Label>이름</Form.Label>
@@ -211,25 +213,41 @@ const OrderComponent = ({ cartId }) => {
                 {/* <p>이름: {orderData.userName}</p>
                 <p>배송지: {orderData.shippingAddress}</p>
                 <p>연락처: {orderData.contactInfo}</p> */}
-                <Button className='mt-3' variant = "dark">사용자 정보 수정 바로가기</Button>
+                <Button className='mt-3' variant = "outline-secondary"><Nav.Link href="/mypage">사용자 정보 수정 바로가기</Nav.Link></Button>
                 </Card.Body>
             </Card>
 
             {/* 상품 정보 */}
-            <Card className="mb-3">
+            <Card className="mb-3" style={{color : "#625244"}}>
                 <Card.Body>
-                <h5>상품 정보</h5>
+                <h5>About Product</h5>
                 <Row>
                     <Col>
                         <Image src={`${host}/api/product/view/${product.uploadFileNames[0]}`} fluid/>
                     </Col>
                     <Col>
-                        <p>장바구니 ID: {cart.cartId}</p>
-                        <p>제품 ID: {product.productId}</p>
-                        <p>카테고리: {cart.category}</p>
-                        <p>상품명: {product.productName}</p>
-                        <p>가격: {product.price}원</p>
-                        <p>수량: {cart.amount}</p>
+                      <Row>
+                        <Col>Cart Number</Col>
+                        <Col className='me-5 text-end'>{cart.cartId}</Col>
+                      </Row>
+                      <Row className='mt-2'>
+                        <Col>Brand</Col>
+                        <Col className='me-5 text-end'>{cart.productBrand}</Col>
+                      </Row>
+                      <Row className='mt-2'>
+                        <Col>Product</Col>
+                      </Row>
+                      <Row className='mt-2'>
+                        <Col className='me-5 text-end'>{product.productName}</Col>
+                      </Row>
+                      <Row className='mt-2'>
+                        <Col>Price</Col>
+                        <Col className='me-5 text-end'>{product.price.toLocaleString()}원</Col>
+                      </Row>
+                      <Row className='mt-2'>
+                        <Col>Order Quantity</Col>
+                        <Col className='me-5 text-end'>{cart.amount}</Col>
+                      </Row>
                     </Col>
                 </Row>
                 {/* <p>상품명: {orderData.productName}</p>
@@ -254,40 +272,39 @@ const OrderComponent = ({ cartId }) => {
                 <h5>결제 은행, 카드 선택</h5>
                 <div className="payment-slider">
                 {[
-                            { name: "광주은행", img: "/images/bank/kjbank.png" },
-                            { name: "국민은행", img: "/images/bank/kbbank.png" },
-                            { name: "농협은행", img: "/images/bank/nhbank.png" },
-                            { name: "대구은행", img: "/images/bank/dgbbank.png" },
-                            { name: "부산은행", img: "/images/bank/bnk.png" },
-                            { name: "신한은행", img: "/images/bank/sinhan.png" },
-                            { name: "신협은행", img: "/images/bank/shinhyub.png" },
-                            { name: "수협은행", img: "/images/bank/suhyub.png" },
-                            { name: "시티뱅크", img: "/images/bank/citi.png" },
-                            { name: "IBK은행", img: "/images/bank/ibk.png" },
-                            { name: "SC제일은행", img: "/images/bank/scji.png" },
-                            { name: "MG새마을금고", img: "/images/bank/mgbank.png" },
-                            { name: "우리은행", img: "/images/bank/woori.png" },
-                            { name: "하나은행", img: "/images/bank/hana.png" },
-                            { name: "KB국민카드", img: "/images/bank/bccard.jpg" },
-                            { name: "씨티카드", img: "/images/bank/cbcard.jpg" },
-                            { name: "하나카드", img: "/images/bank/hanacard.jpg" },
-                            { name: "현대카드", img: "/images/bank/hyundaicard.jpg" },
-                            { name: "롯데카드", img: "/images/bank/lottecard.jpg" },
-                            { name: "마스터카드", img: "/images/bank/master.jpg" },
-                            { name: "삼성카드", img: "/images/bank/samsung.jpg" },
-                            { name: "신한카드", img: "/images/bank/shinhancard.jpg" },
-                            { name: "비자카드", img: "/images/bank/visa.jpg" },
-                            { name: "우리카드", img: "/images/bank/wooricard.jpg" }
+                    { name: "광주은행", img: "/images/bank/kjbank.png" },
+                    { name: "국민은행", img: "/images/bank/kbbank.png" },
+                    { name: "농협은행", img: "/images/bank/nhbank.png" },
+                    { name: "대구은행", img: "/images/bank/dgbbank.png" },
+                    { name: "부산은행", img: "/images/bank/bnk.png" },
+                    { name: "신한은행", img: "/images/bank/sinhan.png" },
+                    { name: "신협은행", img: "/images/bank/shinhyub.png" },
+                    { name: "수협은행", img: "/images/bank/suhyub.png" },
+                    { name: "시티뱅크", img: "/images/bank/citi.png" },
+                    { name: "IBK은행", img: "/images/bank/ibk.png" },
+                    { name: "SC제일은행", img: "/images/bank/scji.png" },
+                    { name: "MG새마을금고", img: "/images/bank/mgbank.png" },
+                    { name: "우리은행", img: "/images/bank/woori.png" },
+                    { name: "하나은행", img: "/images/bank/hana.png" },
+                    { name: "KB국민카드", img: "/images/bank/bccard.jpg" },
+                    { name: "씨티카드", img: "/images/bank/cbcard.jpg" },
+                    { name: "하나카드", img: "/images/bank/hanacard.jpg" },
+                    { name: "현대카드", img: "/images/bank/hyundaicard.jpg" },
+                    { name: "롯데카드", img: "/images/bank/lottecard.jpg" },
+                    { name: "마스터카드", img: "/images/bank/master.jpg" },
+                    { name: "삼성카드", img: "/images/bank/samsung.jpg" },
+                    { name: "신한카드", img: "/images/bank/shinhancard.jpg" },
+                    { name: "비자카드", img: "/images/bank/visa.jpg" },
+                    { name: "우리카드", img: "/images/bank/wooricard.jpg" }
                         ].map((bank) => (
-                            <div
-                                key={bank.name}
-                                className={`payment-option ${selectedBank === bank.name ? 'selected' : ''}`}
-                                onClick={() => handleBankClick(bank.name)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <img src={bank.img} alt={bank.name} className="payment-image" />
-                                <p>{bank.name}</p>
-                            </div>
+                          <div
+                              key={bank.name}
+                              className={`payment-option ${selectedBank === bank.name ? 'selected' : ''}`}
+                              onClick={() => handleBankClick(bank.name)}
+                              style={{ cursor: 'pointer' }} >
+                              <img src={bank.img} alt={bank.name} className="payment-image" />
+                              <p>{bank.name}</p>
+                          </div>
                         ))}
                     </div>
                 </Card.Body>
@@ -298,8 +315,8 @@ const OrderComponent = ({ cartId }) => {
                     <Card.Body>
                     <h5>결제 방법</h5>
                         <div className="d-flex justify-content-center gap-2">
-                            <Button variant="dark" size="lg" className ="w-100" onClick={() => handlePaymentSelect('CARD')}>카드 결제</Button>
-                            <Button variant="success" size="lg" className ="w-100" onClick={() => handlePaymentSelect('BANK_TRANSFER')}>계좌 이체</Button>
+                            <Button variant="outline-warning" size="lg" className ="w-100" onClick={() => handlePaymentSelect('CARD')}>카드 결제</Button>
+                            <Button variant="outline-success" size="lg" className ="w-100" onClick={() => handlePaymentSelect('BANK_TRANSFER')}>계좌 이체</Button>
                         </div>
                     </Card.Body>
                 </Card> 
@@ -314,7 +331,9 @@ const OrderComponent = ({ cartId }) => {
                 </Card>
             </Alert>
 
-            <Button variant="dark" className="mt-3" onClick={handleOrderSubmit} >주문하기</Button>
+            <Button variant="outline-dark" className="mt-3" onClick={handleOrderSubmit} >주문하기</Button>
+            <Button variant="outline-info" className="mt-3 ms-3"><Nav.Link href="/mypage">쇼핑하기</Nav.Link></Button>
+            
         </Container>
 
         {/* 주문 버튼을 누르면 아래의 모달창이 차례대로 나오면서 결제를 시작 합니다용 */}
@@ -323,21 +342,37 @@ const OrderComponent = ({ cartId }) => {
           <Modal.Header closeButton>
             <Modal.Title>주문 정보 확인</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <p>주문 정보를 확인해 주세요</p>
-            <p>주문ID   {orderResult?.orderNumber}</p>
-            <p>상품명   {orderResult?.productName}</p>
-            <p>상품금액  {orderResult?.productPrice}</p>
-            <p>주문수량  {orderResult?.productQuantity}</p>
-            <p>총금액  {orderResult?.totalPrice}원</p>
+          <Modal.Body style={{ fontFamily : "Rowdies, GmarketSansMedium", fontSize : "0.9rem"}} >
+            <Row>
+              <Col className='ms-3'>Order Number</Col>
+              <Col className='me-3 text-end'>{orderResult?.orderNumber}</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='ms-3'>Brand</Col>
+              <Col className='me-3 text-end'>{cart.productBrand}</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='ms-3'>Product</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='me-3 text-end'>{product.productName}</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='ms-3'>Price for Goods</Col>
+              <Col className='me-3 text-end'>{product.price.toLocaleString()}원</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='ms-3'>Order Quantity</Col>
+              <Col className='me-3 text-end'>{cart.amount}</Col>
+            </Row>
+            <Row className='mt-2'>
+              <Col className='ms-3'>Total Price</Col>
+              <Col className='me-3 text-end'>{orderResult?.totalPrice.toLocaleString()}원</Col>
+            </Row>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => handlePaymentInfo()}>
-              확인
-            </Button>
-            <Button variant="primary" onClick={() => setShowOrderModal(false)}>
-              닫기
-            </Button>
+            <Button className="me-3" variant="secondary" onClick={() => handlePaymentInfo()}>확인</Button>
+            <Button className="me-3" variant="outline-danger" onClick={() => setShowOrderModal(false)}>닫기</Button>
           </Modal.Footer>
         </Modal>
 
@@ -349,16 +384,22 @@ const OrderComponent = ({ cartId }) => {
             </Modal.Header>
             <Modal.Body>
               {selectedPaymentMethod === 'BANK_TRANSFER' ? (
-                <Form.Control type="number" placeholder="계좌 번호를 입력하세요" value={paymentInfo}
-                  onChange={(e) => handlePaymentInfoUpdate(e, 20)} />
+                <div>
+                  <img src="/images/sampleBank.png" alt="계좌이체" className="payment-image-modal"/>
+                  <Form.Control type="number" placeholder="계좌 번호를 입력하세요 (20자이내)" value={paymentInfo}
+                    onChange={(e) => handlePaymentInfoUpdate(e, 20)} />
+                </div>
               ) : (
-                <Form.Control type="number" placeholder="카드 번호를 입력하세요" value={paymentInfo}
+                <div>
+                  <img src="/images/sampleCard.png" alt="카드결제" className="payment-image-modal"/>
+                  <Form.Control type="number" placeholder="카드 번호를 입력하세요 (16자이내)" value={paymentInfo}
                   onChange={(e) => handlePaymentInfoUpdate(e, 16)} />
+                </div>
               )}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={() => setShowPaymentModal(false)}>닫기</Button>
-              <Button variant="primary" onClick={handlePaymentConfirm}>결제정보입력완료</Button>
+              <Button className="me-3" variant="outline-danger" onClick={() => setShowPaymentModal(false)}>닫기</Button>
+              <Button variant="secondary" onClick={handlePaymentConfirm}>결제정보입력완료</Button>
             </Modal.Footer>
           </Modal>
         )}
@@ -369,10 +410,30 @@ const OrderComponent = ({ cartId }) => {
             <Modal.Header>
               <Modal.Title>결제 정보 확인</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              <p>결제 방법 : {selectedBank} - {selectedPaymentMethod}</p>
-              <p>{selectedPaymentMethod === "BANK_TRANSFER" ? "계좌번호" : "카드번호"} : {paymentInfo}</p>
-              <p>총 결제 금액 : {orderResult?.totalPrice}원</p>
+            <Modal.Body style={{ fontFamily : "Rowdies, GmarketSansMedium", fontSize : "0.9rem"}} >
+              <Row>
+                <Col className='ms-3'>Payment Type</Col>
+                <Col className='me-3 text-end'>{selectedPaymentMethod}</Col>
+              </Row>
+              <Row>
+                <Col className='ms-3'>Vender</Col>
+                <Col className='me-3 text-end'>{selectedBank}</Col>
+              </Row>
+              <Row>
+                <Col className='ms-3'>{selectedPaymentMethod === "BANK_TRANSFER" ? "계좌번호" : "카드번호"}</Col>
+                <Col className='me-3 text-end'>{paymentInfo}</Col>
+              </Row>
+              <Row className='mt-4 mb-3'>
+                <Col className='ms-3'>Total Price</Col>
+                <Col className='me-3 text-end'>{orderResult?.totalPrice.toLocaleString()}원</Col>
+              </Row>
+              <Row>
+                <hr/>
+                <p className='text-center text-danger mt-3'>
+                  결제 정보를 확인 하셨으면 결제를 진행 해주세요.<br/>
+                  네트워크 상황에 따라 다소 시간이 걸릴 수 있습니다.
+                </p>
+              </Row>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={() => setShowPaymentConfirmModal(false)}>주문취소</Button>
@@ -399,15 +460,34 @@ const OrderComponent = ({ cartId }) => {
             <Modal.Header >
               <Modal.Title>결제 성공</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-              <p>결제가 성공적으로 완료되었습니다!</p>
-              <p>주문번호 : {orderResult?.orderNumber}</p>
-              <p>결제방식 : {selectedPaymentMethod === "BANK_TRANSFER" ? "계좌이체" : "카드결제"} : {paymentInfo}</p>
-              <p>결제번호 : {paymentResult?.paymentNumber}</p>
-              <p>결제상태 : {paymentResult?.paymentStatus}</p>
+            <Modal.Body style={{ fontFamily : "Rowdies, GmarketSansMedium", fontSize : "0.9rem"}} >
+              <Row>
+                <CheckCircleFill className='mb-2 fs-4 text-primary' /><br />
+                <p style={{fontSize : "1.1rem", textAlign : "center", marginBottom : "40px"}}>결제가 성공적으로 완료되었습니다!</p>
+              </Row>
+              <Row>
+                <Col className='ms-3'>Order Number</Col>
+                <Col className='me-3 text-end'>{orderResult?.orderNumber}</Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col className='ms-3'>Payment Number</Col>
+                <Col className='me-3 text-end'>{paymentResult?.paymentNumber}</Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col className='ms-3'>Payment Type</Col>
+                <Col className='me-3 text-end'>{selectedPaymentMethod === "BANK_TRANSFER" ? "계좌이체" : "카드결제"}</Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col className='ms-3'>{selectedPaymentMethod === "BANK_TRANSFER" ? "Bank Transfer Number" : "Card Number"}</Col>
+                <Col className='me-3 text-end'>{paymentInfo}</Col>
+              </Row>
+              <Row className='mt-2'>
+                <Col className='ms-3'>Payment Status</Col>
+                <Col className='me-3 text-end'>{paymentResult?.paymentStatus}</Col>
+              </Row>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={moveToHome}>확인</Button>
+              <Button className="me-3" variant="outline-primary" onClick={moveToHome}>쇼핑하기</Button>
             </Modal.Footer>
           </Modal>
         )}
@@ -416,13 +496,14 @@ const OrderComponent = ({ cartId }) => {
         {showFailureModal && (
           <Modal show={showFailureModal} onHide={() => setShowFailureModal(false)}>
             <Modal.Header >
-              <Modal.Title>결제 실패</Modal.Title>
+              <Modal.Title className='text-danger'>결제 실패</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className='text-center'>
+              <ExclamationTriangleFill className='mb-2 fs-4 text-danger' /><br />
               <p>결제에 실패했습니다. 다시 시도해주세요.</p>
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="primary" onClick={moveToHome}>돌아가기</Button>
+              <Button variant="warning" onClick={moveToHome}>돌아가기</Button>
             </Modal.Footer>
           </Modal>
         )}

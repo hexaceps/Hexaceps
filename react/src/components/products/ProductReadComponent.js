@@ -150,9 +150,8 @@ const [member, setMember] = useState(() => {
     <Container>
       <Row style={{ minHeight: '865px' }}>
         <Col md={5}>
-          
           <ImgBox> 
-            <Image src={`${host}/api/product/view/${product.uploadFileNames[0]}`} fluid/>
+            <Image src={product.uploadFileNames[0]} fluid/> {/* src={`${host}/api/product/view/${product.uploadFileNames[0]}`} */}
           </ImgBox>
 
           <InfoBox>

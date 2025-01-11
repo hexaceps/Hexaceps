@@ -9,16 +9,20 @@ const likeApi = {
   getUserLikes: (userId) => axios.get(`${BASE_URL}/m/${userId}`),
 
   // 찜 추가
-  addLike: (userId, productId, categoryId) =>
-    axios.post(BASE_URL, {
-      userId,
-      productId,
-      categoryId,
-    }),
+  addLike: (memberId, productId) =>
+    axios.post(`${BASE_URL}/`, {
+      memberId,
+      productId
+    }
+  ),
 
   // 찜 삭제
-  removeLike: (userId, productId) =>
-    axios.delete(`${BASE_URL}/${userId}/${productId}`),
+  removeLike: (memberId, productId) =>
+    axios.delete(`${BASE_URL}/delete`, {
+      memberId,
+      productId
+    }
+  ),
 
   // 찜 토글
   toggleLike: (userId, productId, categoryId) =>

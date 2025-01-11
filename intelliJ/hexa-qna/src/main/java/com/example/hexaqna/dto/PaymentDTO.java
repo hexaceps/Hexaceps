@@ -36,4 +36,6 @@ public class PaymentDTO {
     private int productPrice;
     private int totalPrice;
 
+    private String transferNumber;
+
 }

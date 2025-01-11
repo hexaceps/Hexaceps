@@ -64,7 +64,7 @@ const FAQListComponent = () => {
         alert("검색어가 입력되지 않았습니다")
         return
       }
-      navigate(`/board/q?category=faq&query=${encodeURIComponent(trimKeyword)}`)
+      navigate(`/board/search?category=faq&query=${encodeURIComponent(trimKeyword)}`)
       console.log ("조회를 요청 합니다", trimKeyword)
     }
   }

@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react';
 import './ImageSlider.css'
+import React, { useRef, useState } from 'react';
+import { API_SERVER_HOST } from '../../api/qnaApi';
 
 const MainImageSlider = ({items}) => {
 
@@ -7,6 +8,7 @@ const MainImageSlider = ({items}) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const host = API_SERVER_HOST
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -44,7 +46,7 @@ const MainImageSlider = ({items}) => {
           onMouseMove={handleMouseMove}
           onWheel={handleWheel} >
             {items.map((images, idx) => (
-              <img key={idx} src={images} alt={`이미지_${idx}`} className='scroll-image' />
+              <img key={idx} src={`${host}/api/product/view/${images}`} alt={`이미지_${idx}`} className='scroll-image' />
             ))}
         </div>
     </>

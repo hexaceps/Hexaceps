@@ -1,40 +1,49 @@
 import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from 'react-router-dom';
 import AppLayout from './layout/AppLayout';
 import MainPage from './pages/MainPage'
+
 import IndexPage from './pages/qna/IndexPage'
 import ListPage from './pages/qna/ListPage';
 import ReadPage from './pages/qna/ReadPage';
 import AddPage from './pages/qna/AddPage';
 import ModifyPage from './pages/qna/ModifyPage';
+
 import ProductIndexPage from './pages/products/ProductIndexPage';
 import ProductAddPage from './pages/products/ProductAddPage';
 import ProductReadPage from './pages/products/ProductReadPage';
 import ProductListPage from './pages/products/ProductListPage';
 import ProductModifyPage from './pages/products/ProductModifyPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import MyPageComponent from './components/home/MyPageComponent';
 import ModifyMemberComponent from './components/mypageSub/ModifyMemberComponent';
 import LoginPage from './pages/member/LoginPage';
 import LogoutPage from './pages/member/LogoutPage';
 import AddMemberPage from './pages/member/AddMemberPage';
 import MyPage from './pages/member/MyPage';
+
 import BrandNew from './pages/products/BrandNew';
 import Luxary from './pages/products/Luxary';
 import Brand from './pages/products/Brand';
 import Collection from './pages/products/Collection';
 import Size from './pages/products/Size';
 import Price from './pages/products/Price';
+
 import NoticePage from './pages/board/NoticePage';
 import FAQPage from './pages/board/FAQPage';
 import AboutUsPage from './pages/board/AboutUsPage';
 import BoardDetailPage from './pages/board/BoardDetailPage';
 import BoardCreatePage from './pages/board/BoardCreatePage'
 import BoardUpdatePage from './pages/board/BoardUpdatePage';
+
 import OrderPage from './pages/order/OrderPage';
 import CartPage from './pages/cart/CartPage';
 import LikePage from './pages/like/LikePage';
+import Agreement from './pages/info/Agreement';
+import PrivacyPage from './pages/info/PrivacyPage'
+import BoardQueryPage from './pages/board/BoardQueryPage';
 
 function App() {
   
@@ -78,14 +87,16 @@ function App() {
           <Route path="aboutus" element={<AboutUsPage />} />
           <Route path=':board_id' element={<BoardDetailPage />} />
           <Route path='update/:board_id' element={<BoardUpdatePage />} />
+          <Route path='search/' element={<BoardQueryPage />} />
           <Route path='create' element={<BoardCreatePage />} />
+          <Route path="agreement" element={<Agreement />} />
+          <Route path='privacy' element={<PrivacyPage />} />
         </Route>
+        <Route path="/like" element={<LikePage/>}/>
         <Route path="/order/:cartId" element={<OrderPage/>}/>
         <Route path="/myshop/">
           <Route path="cart" element={<CartPage/>}/>
         </Route>
-        <Route path="/order/:cartId" element={<OrderPage/>}/>
-        <Route path="/like" element={<LikePage/>}/>
       </Route>
     </Routes>
   );

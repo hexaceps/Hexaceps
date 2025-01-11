@@ -8,7 +8,9 @@ import com.example.hexaqna.dto.PaymentDTO;
 import com.example.hexaqna.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponseException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -53,6 +55,12 @@ public class PaymentService {
         } catch (InterruptedException e) {
             log.error("지연 처리 중 인터럽트 발생: {}", e.getMessage());
             Thread.currentThread().interrupt();
+        }
+
+        // 계좌번호나 카트번호를 1111111111111111 로 받으면 Exception 발생
+        String errorCode = "1111111111111111" ;
+        if (paymentForm.getTransferNumber().equals(errorCode)) {
+            throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         PaymentDTO paymentDTO = fetchPaymentDetails(paymentForm.getOrderId());
