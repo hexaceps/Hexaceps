@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @ToString
 @Data
 @Builder
@@ -24,30 +23,21 @@ public class MemberDTO {
 
     private Long id;
 
-
-
     private String name;
-
 
     private String password;
 
     private String email;
 
-
     private String phoneNumber;
-
 
     private String address;
 
-
     private int newsletter;
-
 
     private int socialYn;
 
-
     private String nickname;
-
 
     private String activateYn;
 
@@ -58,12 +48,7 @@ public class MemberDTO {
 
     private List<String> roleNames = new ArrayList<>();
 
-
     private List<MemberAgreeDTO> memberAgrees;
-
-
-
-
 
 }
 

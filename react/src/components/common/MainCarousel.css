@@ -1,19 +1,21 @@
-
 /* 슬라이더 컨테이너 */
 .slider-container {
     display: block;
-    height: 270px;
+    height: 320px;
     width: 80%;
     margin: 0 auto;
     position: relative;
     max-width: 810px; /* 1300px */
     margin-top: 20px;
+    @media (max-width: 768px) {
+      width: 90%;
+    }
   }
   /* 화살표의 기본 위치: 왼쪽과 오른쪽에 위치 */
   .arrow-left,
   .arrow-right {
     position: absolute;
-    bottom: -20%;  /* 위치 조정 */
+    bottom: 30%;  /* 기본 위치 ( ~ 425px 이하 모바일 사이즈) , 나머지는 아래 미디어 쿼리로 조정 */
     color: gray;
     font-size: 28px;
     cursor: pointer;
@@ -23,15 +25,29 @@
     justify-content: center;
     transition: color 0.3s ease;
   }
+  /* 426px ~ 768px : 작은 태블릿 사이즈 */
+  @media (min-width: 426px) and (max-width: 768px) {
+    .arrow-left,
+    .arrow-right {
+      bottom: 5%;
+    }
+  }
+  /* 769px 이상 : 사이즈 큰 태블릿 ~ 데스크탑 사이즈 */
+  @media (min-width: 769px) {
+    .arrow-left,
+    .arrow-right {
+      bottom: -1%;
+    }
+  }
   
   /* 왼쪽 화살표 */
   .arrow-left {
-    left: 20%; /* 왼쪽 끝에 고정 비율 */
+    left: 15%; /* 왼쪽 끝에 고정 비율 */
   }
   
   /* 오른쪽 화살표 */
   .arrow-right {
-    right: 20%; /* 오른쪽 끝에 고정 비율 */
+    right: 15%; /* 오른쪽 끝에 고정 비율 */
   }
   
   .arrow-left-center {
@@ -124,7 +140,7 @@
   /* 모바일에서 dots 크기 조정 */
   @media (max-width: 768px) {
     .dots span {
-      width: 23px;
+      width: 22px;
       margin-bottom: 15px;
     }
   }
@@ -132,7 +148,7 @@
   /* 슬라이더 영역 */
   .slider {
     display: block;
-    width: 100%;
+    width: 80%;
     max-width: 650px;
     height: 270px;
     margin: 0 auto;
@@ -141,7 +157,8 @@
     line-height: 270px;
     color: white;
     @media (max-width: 768px) {
-      height: 450px;
+      height: 250px;
+      width: 100%;
     }
   }
   
@@ -156,11 +173,13 @@
     border-radius: 40px;
     transform: translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
     transition: transform 0.3s ease-in-out 0s, z-index 0.2s ease-in-out 0.1s;
-    background-color: #2C2A40;
+    background-color: white; /* #2C2A40; */
+    border: 2px solid #dcdcdc; 
   }
   
   .slide:nth-child(odd) {
-    background-color: gray;
+    background-color: white; /* gray */
+    border: 2px solid #dcdcdc; 
   }
   
   @media (max-width: 768px) {
@@ -181,47 +200,7 @@
     transform: translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
     transition: transform 0.3s ease-in-out 0s, z-index 0.2s ease-in-out 0.1s;
   }
-  
-  /* .slide:nth-child(1) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe1.png") no-repeat center center;
-    background-size: cover;
-  }
-  
-  .slide:nth-child(2) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe2.png") no-repeat center center;
-    background-size: cover;
-  }
-  
-  .slide:nth-child(3) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe3.png") no-repeat center center;
-    background-size: cover;
-  }
-  
-  .slide:nth-child(4) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe4.png") no-repeat center center;
-    background-size: cover;
-  }
-  
-  .slide:nth-child(5) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe5.png") no-repeat center center;
-    background-size: cover;
-  }
 
-  .slide:nth-child(6) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe6.png") no-repeat center center;
-    background-size: cover;
-  }
-
-  .slide:nth-child(7) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe7.png") no-repeat center center;
-    background-size: cover;
-  }
-
-  .slide:nth-child(8) {
-    background: url("D:\hhj\react\codeproject\public\images\shoe8.png") no-repeat center center;
-    background-size: cover;
-  } */
-  
   /* 슬라이드 전후 상태 */
   .slide.prev-2 {
     transform: translate3d(-105%, -50%, 0) scale3d(0.4, 0.4, 1);
@@ -279,8 +258,4 @@
     background-color: #625244 !important; /* 호버 시 배경색 */
     border-color: #625244 !important; /* 호버 시 테두리색 */
     color: white !important; /* 텍스트 색상 */
-  }
-
-  #GmarketSans{
-    font-family: "GmarketSansMedium"
   }

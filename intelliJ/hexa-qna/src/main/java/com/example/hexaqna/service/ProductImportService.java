@@ -88,6 +88,64 @@ public class ProductImportService {
         }
     }
 
+    // function create 설재훈 25.1.9
+    @Transactional
+    public void importProductsByCSVTest(MultipartFile file) throws IOException, CsvValidationException {
+        log.info("importProductsByCSVTest() 저장할 서비스 로직 진입");
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            String[] header = csvReader.readNext(); // 헤더행 읽기
+            if (header == null || header.length !=8) {
+                throw new IllegalArgumentException("CSV 형식이 올바르지 않거나 필드가 부족합니다. 헤더 필드 수: " + (header == null ? 0 : header.length));
+            }
+            // 헤더 값이 정확한지 확인
+            for (int i = 0; i < header.length; i++) {
+                header[i] = header[i].trim();
+            }
+            List<Product> products = new ArrayList<>();
+            String[] line;
+            while ((line = csvReader.readNext()) != null) {
+                log.info("while 문으로 훑으면서 데이터 저장");
+
+                Product product = new Product();
+                product.setCategory(line[1]);
+                product.setProductBrand(line[2]);
+                try {
+                    product.setProductSize(Integer.parseInt(line[3]));
+                } catch (NumberFormatException e) {
+                    log.warn("잘못된 사이즈 형식: {}", line[3]);
+                    continue;
+                }
+                try {
+                    product.setPrice(Integer.parseInt(line[4]));
+                } catch (NumberFormatException e) {
+                    log.warn("잘못된 가격 형식: {}", line[4]);
+                    continue;
+                }
+                product.setProductName(line[5]);
+
+                if (line[6] != null && !line[6].trim().isEmpty()) {
+                    product.addImageString(line[6]);
+                }
+
+                // PRODUCT_SITE_LINK FK 테이블
+                if (line[7] != null && !line[7].trim().isEmpty()) {
+                    product.addSiteLink(line[7], 0);
+                }
+                log.info("product 를 담았습니다.");
+                if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+                    log.error("저장된 product list data가 없습니다");
+                } else {
+                    products.add(product);
+                }
+                log.info("리스트로 n 개째 저장 완료");
+            }
+            // products 리스트가 비어 있지 않으면 저장
+            if (!products.isEmpty()) {
+                productRepository.saveAll(products);
+            }
+        }
+    }
+
     private boolean isEmptyRow(String[] row) { // 빈 행 여부 체크하는 메서드
         for (String field : row) {
             if (field != null && !field.trim().isEmpty()) {

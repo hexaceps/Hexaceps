@@ -45,6 +45,23 @@ public class ProductController {
             throw new RuntimeException("잘못된 CSV 형식입니다.", e);
         }
     }
+
+    // csv 데이터 삽입 (신규 추가 설재훈 25.01.09)
+    @PostMapping("/importtest")
+    public Map<String, String> importProductsByCSVTest(@RequestParam("file") MultipartFile file) {
+        log.info("importProductsByCSVTest() 컨트롤러 시작");
+        try {
+            productImportService.importProductsByCSVTest(file);
+            return Map.of("result", "success");
+        } catch (IOException e) {
+            log.error("파일 처리 중 오류 발생", e);
+            throw new RuntimeException("파일 처리 중 오류가 발생했습니다.", e);
+        } catch (IllegalArgumentException | CsvValidationException e) {
+            log.error("CSV 형식 오류", e);
+            throw new RuntimeException("잘못된 CSV 형식입니다.", e);
+        }
+    }
+
     // 상품 저장 (사진파일 => 저장포함, 사용중 25.1.4)
     @PostMapping("/")
     public Map<String, Long> addNewProduct(ProductDTO productDTO) {
@@ -63,8 +80,6 @@ public class ProductController {
         return customFileUtil.getFile(fileName);
     }
 
-
-
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO,
                                             @RequestParam(value = "category", required = false) String category,
@@ -80,19 +95,6 @@ public class ProductController {
         return productService.getProductList(pageRequestDTO, category, productBrand, productSize, minPrice, maxPrice, sortBy, sortOrder);
     }
 
-    /*
-    //  http://localhost:8080/api/products/view/s_15b1f209-5a96-4b13-a04d-967867c8da88_dress0.PNG
-    //  상품목록 조회 (현재 사용 중 25.1.4)
-    @GetMapping("/list")
-    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO) {
-        log.info("list() 컨트롤러 시작");
-        return productService.getProductList(pageRequestDTO);
-    }
-*/
-
-
-
-
     // 하나의 상품 조회
     @GetMapping("/{productId}")
     public ProductDTO read(@PathVariable("productId") Long productId){
@@ -103,33 +105,25 @@ public class ProductController {
     @PutMapping("/{productId}")
     public Map<String, String> modify(@PathVariable("productId") Long productId, ProductDTO productDTO) {
         productDTO.setProductId(productId);
-
         ProductDTO oldProductDTO = productService.getProductById(productId);
         //기존파일이름
         List<String> oldFileNames = oldProductDTO.getUploadFileNames();
-
         //새로 업로드 해야하는 파일
         List<MultipartFile> files = productDTO.getFiles();
-
         //새로 업로드해야하는 파일의 이름
         List<String> currentUploadFileNames = customFileUtil.saveFiles(files);
-
         //유지되는 파일
         List<String> uploadedFileNames = productDTO.getUploadFileNames();
-
         //유지되는파일 + 새로 업로드된 파일 => 파일목록을 만든다
         if(currentUploadFileNames != null && !currentUploadFileNames.isEmpty()) {
             uploadedFileNames.addAll(currentUploadFileNames);
         }
-
         //수정한다.
         //A,B,C 파일이 있었음, C는 삭제했음, D는 새로 들어왔음 => A,B,D의 처리가 끝남
         productService.modify(productDTO);
-
         //c를 삭제하여야 한다.
         if(oldFileNames != null && !oldFileNames.isEmpty()){
             List<String> removeFiles = oldFileNames.stream().filter(fileName -> uploadedFileNames.indexOf(fileName) == -1).collect(Collectors.toList());
-
             //실제로 파일 삭제
             customFileUtil.deleteFiles(removeFiles);
         }
@@ -142,10 +136,7 @@ public class ProductController {
         //삭제할 파일 알아내기
         List<String> oldFileNames = productService.getProductById(productId).getUploadFileNames();
         productService.remove(productId);
-
         customFileUtil.deleteFiles(oldFileNames);
-
         return Map.of("RESULT","DELETE STCCESS");
     }
-
 }
