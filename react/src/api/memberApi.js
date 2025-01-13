@@ -80,7 +80,7 @@ export const putOneMember = async(id,member) => {
 
 
 export const modifyMember = async(member) => {
-    const res = await axios.put(`${host}/modify`, member)
+    const res = await jwtAxios.put(`${host}/modify`, member)
     return res.data
 }
 

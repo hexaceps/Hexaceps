@@ -3,9 +3,12 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ArrowLeftShort, ArrowRightShort } from "react-bootstrap-icons";
 import { Container, Button } from "react-bootstrap";
 import { API_SERVER_HOST } from "../../api/qnaApi";
+import useCustomLogin from "../../hooks/useCustomLogin";
+import { useNavigate } from "react-router-dom";
 
 const MainCarousel = ({ images, setTextMargin }) => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const navigate = useNavigate();
     const intervalRef = useRef(null);
     const textContainerRef = useRef(null); //텍스트랑 이미지슬라이더 마진값
     const host = API_SERVER_HOST
@@ -119,7 +122,8 @@ const MainCarousel = ({ images, setTextMargin }) => {
               {/*
               <img src={data.image}  style={{ width: 'auto', height: '95%' }}  alt={`hexaceps_image_${index}`} />
               */}
-            <img src={`${host}/api/product/view/${data.image}`}  style={{ width: 'auto', height: '95%' }}  alt={`hexaceps_image_${index}`} />
+            <img src={`${host}/api/product/view/${data.image}`}  style={{ width: 'auto', height: '95%' }}  alt={`hexaceps_image_${index}`} 
+            />
             </div>  
             )}
           </div>
@@ -141,8 +145,8 @@ const MainCarousel = ({ images, setTextMargin }) => {
           <h5 id="GmarketSans" className="carousel-title">{images[activeIndex].title}</h5>
           <p id="GmarketSans" className="carousel-subtitle">{images[activeIndex].subtitle}</p>
           {/* 모바일일떄 m-1, 그이상이면 m-md-3으로 적용 */}
-          <Button className="m-md-3 m-1 rounded-pill custom-btn-1">알아보기</Button>
-          <Button className="m-md-3 m-1 rounded-pill custom-btn-2">구매하기</Button>
+          <Button className="m-md-3 m-1 rounded-pill custom-btn-1" onClick={() => navigate(`/products/read/${images[activeIndex].productId}`)}>알아보기</Button>
+        {/*  <Button className="m-md-3 m-1 rounded-pill custom-btn-2">구매하기</Button> */}
         </Container>
       </div>
     );
