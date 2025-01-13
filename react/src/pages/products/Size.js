@@ -6,6 +6,8 @@ import { API_SERVER_HOST } from '../../api/qnaApi'
 import { getListFilter, getListFilterBrand, productGetList } from '../../api/productsApi'
 import {  Button, Card,Row , Col, Container,Form,Dropdown } from 'react-bootstrap'
 import { ArrowDownUp } from 'react-bootstrap-icons'; 
+import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa"
+import likeApi from '../../api/likeApi'
 
 const initState = {
   dtoList: [],
@@ -29,6 +31,7 @@ const Size = () => {
   const [productSize, setProductSize] = useState(null)
   const [sortBy, setSortBy] = useState('productId');  
   const [sortOrder, setSortOrder] = useState('desc');  
+  const [member, setMember] = useState(null);
   const host = API_SERVER_HOST
   const defaultImage = '/path/to/default-image.jpg'
 
@@ -41,6 +44,50 @@ const Size = () => {
     setSortOrder(newSortOrder);
     setCurrentPage(1); 
   };
+
+  
+  useEffect(() => { // LIKE 전 로그인 유저인지 확인 하기 위해서 useEffect 사용
+    const storedMember = localStorage.getItem("member");
+    if (storedMember) {
+      const parsedMember = JSON.parse(storedMember);
+      setMember(parsedMember);
+      console.log("Member 초기화 완료:", parsedMember);
+    } else {
+      console.warn("로컬 스토리지에 member 정보가 없습니다.");
+    }
+  }, []);
+
+const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
+
+const handleLikeClick = ( productId, categoryId ) => {
+console.log("멤버변수가 없음")
+if (member === null) {
+  alert('로그인을 해야 누를수 있어요 :)');
+  return;
+}
+if (likedProducts[productId]) { // 좋아요 상태라면, 좋아요 해제 + removeAPI 호출
+  setLikedProducts((prev) => ({
+    ...prev,
+    [productId]: false,
+  }));
+  likeApi.removeLike(member.id, productId).then((response) => {
+      console.log('좋아요 삭제 성공:', response);
+    }).catch((error) => {
+      console.error('좋아요 삭제 실패:', error);
+    });
+} else {
+  setLikedProducts((prev) => ({ // 좋아요 클릭 + addAPI 호출
+    ...prev,
+    [productId]: true,
+  }));
+  likeApi.addLike(member.id, productId).then((response) => {
+      console.log('좋아요 등록 성공:', response);
+    }).catch((error) => {
+      console.error('좋아요 등록 실패:', error);
+    });
+}
+}
+
 
   useEffect(()=>{
       setFetching(true)
@@ -78,21 +125,42 @@ const Size = () => {
         </div>
         <Row >
         {serverData.dtoList.filter(product => !productSize || parseInt(product.productSize) <= productSize || parseInt(product.productSize) >= productSize).map((product,index) => (
-          <Col md={6}>
-            <Card  className='mb-5 '>
-            <Card.Img variant="top " className='mx-auto my-3' 
-                      style={{ width: '18rem' , height:'18rem'}} src={product.uploadFileNames[0]}
-                      onError={(e) => e.target.src = defaultImage}/> 
-              <Card.Body className='ms-3'>
-                <Card.Title>{product.productName}</Card.Title>
-                <Card.Text>No : {product.productId}</Card.Text>
-                <Card.Text>브랜드 : {product.productBrand}</Card.Text>
-                <Card.Text>카테고리 : {product.category}</Card.Text>
-                <Card.Text>가격 : {product.price}</Card.Text>
-                <Card.Text>사이즈 : {product.productSize}</Card.Text>
-                <Button variant="outline-info" onClick={() => moveToRead(product.productId)}>상품상세보기</Button>
-              </Card.Body>
-            </Card>
+         <Col className='ms-5' md={3} key={index} >
+                               <Card className='mb-5 '>
+                                 <div className='image-wrapper mx-auto my-3' onClick={() => moveToRead(product.productId)}>
+                                   <Card.Img variant="top " style={{ width: '100%' , height:'100%'}} 
+                                             src={`${host}/api/product/view/${product.uploadFileNames[0]}`}  onError={(e) => e.target.src = defaultImage} />
+                                   <div className="caption">상품바로가기</div>
+                                 </div>
+         <Card.Body className='ms-3'>
+                                       <Row>
+                                         <Col>
+                                           <Card.Text className='fs-5 fw-bold'>{product.productBrand}</Card.Text>
+                                         </Col>
+                                         <Col>
+                                           <span className='like-icon-wrapper like-thumb' onClick={(e) => { e.stopPropagation() 
+                                             handleLikeClick( product.productId ); }}>
+                                             {likedProducts[product.productId] ? 
+                                             (<FaThumbsUp size={24} color="#625244" />) : (<FaRegThumbsUp size={26} color="#625244" />)}
+                                           </span>
+                                         </Col>
+                                       </Row>
+                                       <Card.Title className='mt-2 fs-6'>{product.productName}</Card.Title>
+                                       {/* <Card.Text>No : {product.productId}</Card.Text> */}
+                                       {/* <Card.Text>카테고리 : {product.category}</Card.Text> */}
+                                       {/* <Card.Text>사이즈 : {product.productSize}</Card.Text> */}
+                                       <Card.Text>
+                                         <Row className='mt-3'>
+                                           <Col>
+                                             { product.productName.length % 2 === 1 ? 
+                                             <img style={{ width : "4rem"}} src='/images/quick.png' alt='빠른배송' /> : <></> }
+                                           </Col>
+                                           <Col className='me-3 text-end'>{product.price.toLocaleString()} 원<br/><span className='text-secondary' style={{fontSize : "0.8rem"}}>즉시구매가</span></Col>
+                                         </Row>  
+                                       </Card.Text>
+                                       {/* <Button variant="outline-info" onClick={() => moveToRead(product.productId)}>상품상세보기</Button> */}
+                                     </Card.Body>
+                                   </Card> 
           </Col>
         ))}
         </Row>

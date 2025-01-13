@@ -4,10 +4,7 @@ import com.example.hexaqna.domain.Product;
 import com.example.hexaqna.domain.ProductImage;
 import com.example.hexaqna.domain.ProductSiteLink;
 import com.example.hexaqna.domain.Qna;
-import com.example.hexaqna.dto.PageRequestDTO;
-import com.example.hexaqna.dto.PageResponseDTO;
-import com.example.hexaqna.dto.ProductDTO;
-import com.example.hexaqna.dto.QnaDTO;
+import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -221,8 +218,12 @@ public class ProductServiceImpl implements ProductService {
         if (siteList == null || siteList.isEmpty()) {
             return productDTO;
         }
-        List<String> siteNameList = siteList.stream().map(productSiteLink -> productSiteLink.getSiteLink()).toList();
-        productDTO.setProductSiteNames(siteNameList);
+        List<ProductSiteDTO> siteNameList = siteList.stream()  .map(site -> ProductSiteDTO.builder()
+                        .siteLink(site.getSiteLink())
+                        .sitePrice(site.getSitePrice())
+                        .build())
+                .toList();
+        productDTO.setProductSiteDetails(siteNameList);
 
         return productDTO;
     }

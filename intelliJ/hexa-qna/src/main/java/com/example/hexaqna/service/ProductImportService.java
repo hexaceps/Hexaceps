@@ -94,7 +94,7 @@ public class ProductImportService {
         log.info("importProductsByCSVTest() 저장할 서비스 로직 진입");
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
             String[] header = csvReader.readNext(); // 헤더행 읽기
-            if (header == null || header.length !=15) {
+            if (header == null || header.length !=16) {
                 throw new IllegalArgumentException("CSV 형식이 올바르지 않거나 필드가 부족합니다. 헤더 필드 수: " + (header == null ? 0 : header.length));
             }
             // 헤더 값이 정확한지 확인
@@ -119,15 +119,18 @@ public class ProductImportService {
                 for (int i = 5; i < 8; i++) {
                     if (line[i] != null && !line[i].trim().isEmpty()) {
                         int priceIndex = i + 3;
+                        int ord = i-5;
                         if (priceIndex < line.length && line[priceIndex] != null && !line[priceIndex].trim().isEmpty()) {
                             try {
                                 int sitePrice = Integer.parseInt(line[priceIndex]);
-                                product.addSiteLinkTest(line[i], i - 4, sitePrice);
+                                product.addSiteLinkTest(line[i], ord, sitePrice);
+                                log.info("ord값 가격: {}, sitePrice: {}", ord, sitePrice);
+
                             } catch (NumberFormatException e) {
                                 log.warn("잘못된 가격 형식: {}", line[priceIndex]);
                             }
                         } else {
-                            log.warn("가격 데이터가 유효하지 않음: line[{}]", priceIndex);
+                            log.warn("유효하지 않은 사이트 링크나 가격 데이터: {}, {}", line[i], line[priceIndex]);
                         }
                     }
                 }
@@ -135,6 +138,12 @@ public class ProductImportService {
                     if (line[i] != null && !line[i].trim().isEmpty()) {
                         product.addImageString(line[i]);
                     }
+                }
+                try {
+                    product.setPrice(Integer.parseInt(line[15]));
+                } catch (NumberFormatException e) {
+                    log.warn("잘못된 가격 형식: {}", line[15]);
+                    continue;
                 }
                 log.info("product 를 담았습니다.");
                 if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {

@@ -43,8 +43,7 @@ public class HexaMemberController {
             return Map.of("success", "success",
                     "accessToken", accessToken,
                     "refreshToken", refreshToken,
-                    "email", email,
-                    "nickname", nickname);
+                    "email", email);
         } else {
             log.warn("Login failed for {}", loginForm.getEmail());
             return Map.of("error", "Invalid credentials");

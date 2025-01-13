@@ -81,7 +81,7 @@ const handleChangeMember = (e) => {
 
         modifyMember(updatedMember).then((data) => {
           console.log('수정완료', data);
-          setResult('Modified');
+          setResult('수정완료 되었습니다.');
         });
       }
     }

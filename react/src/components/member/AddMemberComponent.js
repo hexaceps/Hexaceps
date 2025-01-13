@@ -32,7 +32,8 @@ const AddMemberComponent = () => {
   const [passwordError, setPasswordError] = useState('');
   const [checkError, setCheckError] = useState('');
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
-  const { doLogin } = useCustomLogin();
+  const {moveToPath} = useCustomLogin()
+
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const togglePasswordCheckVisibility = () => setShowPasswordCheck(!showPasswordCheck);
@@ -104,7 +105,7 @@ const AddMemberComponent = () => {
       const emailCheck = await checkEmail(member.email);
       console.log("checkEmail 응답 데이터:", emailCheck);
       
-      if (emailCheck.success === "error") {
+      if (!emailCheck.success) {
         alert('동일한 이메일이 존재합니다.');
         return;
       }
@@ -134,7 +135,8 @@ const AddMemberComponent = () => {
       // 회원가입 API 호출
       await memberPostAdd(memberData);
       alert('회원가입이 완료되었습니다.');
-
+      setMember(initState);  
+      moveToPath('/');
 
     } catch (error) {
       console.error('회원가입 실패:', error);
