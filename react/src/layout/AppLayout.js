@@ -13,19 +13,6 @@ const AppLayout = () => {
       const storedMember = localStorage.getItem('member');
       return storedMember ? JSON.parse(storedMember) : null;
     });
-<<<<<<< HEAD
-
-    useEffect(() => {
-      if (loginState.email) {
-        getOneMember(loginState.email).then(data => {
-          setMember(data);
-          console.log("data",data)
-          // Store member in localStorage
-          localStorage.setItem('member', JSON.stringify(data));
-        });
-      }
-    }, [loginState]);
-=======
     const updateMemberInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) return;
@@ -65,7 +52,6 @@ const AppLayout = () => {
 
  
    
->>>>>>> FEATURE/ABOUT_ETC
     
   return (
     <div>

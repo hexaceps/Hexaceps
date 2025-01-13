@@ -69,11 +69,7 @@ const BrandNew = () => {
           <Col md={6}>
             <Card  className='mb-5 '>
               <Card.Img variant="top " className='mx-auto my-3' 
-<<<<<<< HEAD
-                        style={{ width: '18rem' , height:'18rem'}} src={product.uploadFileNames[0]}
-=======
                         style={{ width: '18rem' , height:'18rem'}}src={`${host}/api/product/view/${product.uploadFileNames[0]}`} 
->>>>>>> FEATURE/ABOUT_ETC
                         onError={(e) => e.target.src = defaultImage}/> 
               <Card.Body className='ms-3'>
                 <Card.Title>{product.productName}</Card.Title>

@@ -47,11 +47,8 @@
 
         private String nickname;
 
-<<<<<<< HEAD
-=======
         private String kakaoId;
 
->>>>>>> FEATURE/ABOUT_ETC
 
         private String rank;
 

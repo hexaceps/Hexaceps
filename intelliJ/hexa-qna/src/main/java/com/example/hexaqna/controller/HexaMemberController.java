@@ -1,16 +1,6 @@
 package com.example.hexaqna.controller;
 
 import com.example.hexaqna.domain.HexaMember;
-<<<<<<< HEAD
-import com.example.hexaqna.dto.LoginForm;
-import com.example.hexaqna.dto.PageRequestDTO;
-import com.example.hexaqna.dto.PageResponseDTO;
-import com.example.hexaqna.dto.MemberDTO;
-import com.example.hexaqna.repository.HexaMemberRepository;
-import com.example.hexaqna.service.MemberService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-=======
 import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.HexaMemberRepository;
 import com.example.hexaqna.service.MemberService;
@@ -20,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
->>>>>>> FEATURE/ABOUT_ETC
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -32,13 +21,6 @@ import java.util.Map;
 public class HexaMemberController {
     private final MemberService memberService;
     private final HexaMemberRepository memberRepository;
-<<<<<<< HEAD
-
-
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody LoginForm loginForm) {
-        log.info("Attempting login for {}", loginForm.getEmail());
-=======
     private final PasswordEncoder passwordEncoder;
 
     private static final String GOOGLE_USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
@@ -47,21 +29,10 @@ public class HexaMemberController {
     public Map<String, String> login(@RequestBody LoginForm loginForm) {
         log.info("Attempting login for email: {}", loginForm.getEmail());
         log.info("Password: {}", loginForm.getPassword());
->>>>>>> FEATURE/ABOUT_ETC
 
         boolean isAuthenticated = memberService.auth(loginForm.getEmail(), loginForm.getPassword());
 
         if (isAuthenticated) {
-<<<<<<< HEAD
-            log.info("Login successful for {}", loginForm.getEmail());
-            return Map.of("success", "success");
-        } else {
-            log.warn("Login failed for {}", loginForm.getEmail());
-            return Map.of("error", "error");
-        }
-    }
-
-=======
             String email = loginForm.getEmail();
             HexaMember member = memberRepository.getWithRoles(loginForm.getEmail());
             String nickname = member.getNickname();
@@ -81,7 +52,6 @@ public class HexaMemberController {
     }
 
 
->>>>>>> FEATURE/ABOUT_ETC
     //조회
     //http://localhost:8080/api/member/1
     @GetMapping("/{id}")
@@ -113,8 +83,6 @@ public class HexaMemberController {
     }
         }
 
-<<<<<<< HEAD
-=======
     @PostMapping("/check-password")
     public ResponseEntity<?> checkPassword(@RequestBody Map<String, String> request) {
         String inputPassword = request.get("inputPassword"); // 클라이언트에서 보낸 비밀번호
@@ -128,7 +96,6 @@ public class HexaMemberController {
     }
 
 
->>>>>>> FEATURE/ABOUT_ETC
     //post방식 - json형식으로 받고 return타입을 json형식으로 해줘야 한다.
     @PostMapping("/")
     public Map<String, Long> register(@RequestBody MemberDTO memberDTO){
@@ -160,8 +127,6 @@ public class HexaMemberController {
     }
 
 
-<<<<<<< HEAD
-=======
     @GetMapping("/kakao")
     public Map<String, Object> getMemberFromkakao(@RequestHeader("Authorization") String authorization) {
         // "Bearer <accessToken>" 형태로 전달되므로, "Bearer "를 제외한 토큰만 추출
@@ -208,6 +173,5 @@ public class HexaMemberController {
             return ResponseEntity.badRequest().build();
         }
     }
->>>>>>> FEATURE/ABOUT_ETC
 
 }

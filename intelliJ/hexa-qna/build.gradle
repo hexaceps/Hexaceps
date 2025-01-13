@@ -49,8 +49,7 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     // csv import 를 위해서 opencsv 의존성 주입
     implementation 'com.opencsv:opencsv:5.7.1'
-<<<<<<< HEAD
-=======
+
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -62,7 +61,6 @@ dependencies {
     implementation group: 'org.bgee.log4jdbc-log4j2', name: 'log4jdbc-log4j2-jdbc4', version: '1.16'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
->>>>>>> FEATURE/ABOUT_ETC
 }
 
 tasks.named('test') {

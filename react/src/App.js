@@ -44,12 +44,9 @@ import LikePage from './pages/like/LikePage';
 import Agreement from './pages/info/Agreement';
 import PrivacyPage from './pages/info/PrivacyPage'
 import BoardQueryPage from './pages/board/BoardQueryPage';
-<<<<<<< HEAD
-=======
 import KakaoRedirectPage from './pages/member/KakaoRedirectPage';
 import KakaoModifyPage from './pages/member/KakaoModifyPage';
 import GoogleRedirectPage from './pages/member/GoogleRedirectPage';
->>>>>>> FEATURE/ABOUT_ETC
 
 function App() {
   
@@ -66,13 +63,10 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="logout" element={<MainPage />} />
           <Route path="add" element={<AddMemberPage />} />
-<<<<<<< HEAD
-=======
           <Route path="kakao" element={<KakaoRedirectPage />} />
           <Route path="modify" element={<KakaoModifyPage />} />
           <Route path='modifyN' element={<ModifyMemberComponent />} />
           <Route path="google" element={<GoogleRedirectPage />} />
->>>>>>> FEATURE/ABOUT_ETC
         </Route>
         <Route path="/qna/">
           <Route index element={<IndexPage />}/>

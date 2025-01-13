@@ -3,14 +3,7 @@ package com.example.hexaqna.service;
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.MemberRole;
-<<<<<<< HEAD
-import com.example.hexaqna.dto.MemberAgreeDTO;
-import com.example.hexaqna.dto.PageRequestDTO;
-import com.example.hexaqna.dto.PageResponseDTO;
-import com.example.hexaqna.dto.MemberDTO;
-=======
 import com.example.hexaqna.dto.*;
->>>>>>> FEATURE/ABOUT_ETC
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotEmpty;
@@ -42,13 +35,10 @@ public interface MemberService {
     PageResponseDTO<MemberDTO> getlist(PageRequestDTO pageRequestDTO);
 
 
-<<<<<<< HEAD
-=======
     KakaoMemberDTO getKakaoMember(String accessToken);
 
     GoogleMemberDTO getGoogleMember(String accessToken);
 
->>>>>>> FEATURE/ABOUT_ETC
     //java8버전부터는 default기능이 추가되어 기본기능을 설정해 줄 수 있다.
     //qna 엔티티를 DTO로 변환
     default MemberDTO entityToDTO(HexaMember member){
@@ -105,8 +95,6 @@ public interface MemberService {
         return member;
     }
 
-<<<<<<< HEAD
-=======
     default KakaoMemberDTO entityToDTOKakao(HexaMember member){
         KakaoMemberDTO dto = new KakaoMemberDTO(
                 member.getEmail(),
@@ -118,6 +106,5 @@ public interface MemberService {
         return  dto;
     }
 
->>>>>>> FEATURE/ABOUT_ETC
 }
 

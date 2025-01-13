@@ -2,20 +2,6 @@ package com.example.hexaqna.service;
 
 import com.example.hexaqna.domain.HexaMember;
 import com.example.hexaqna.domain.MemberAgree;
-<<<<<<< HEAD
-import com.example.hexaqna.dto.MemberAgreeDTO;
-import com.example.hexaqna.dto.MemberDTO;
-import com.example.hexaqna.dto.PageRequestDTO;
-import com.example.hexaqna.dto.PageResponseDTO;
-import com.example.hexaqna.repository.HexaMemberRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-=======
 import com.example.hexaqna.domain.MemberRole;
 import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.HexaMemberRepository;
@@ -36,7 +22,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
->>>>>>> FEATURE/ABOUT_ETC
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,12 +32,9 @@ import java.util.stream.Collectors;
 public class MemberServiceImpl implements MemberService{
 
     private final HexaMemberRepository memberRepository;
-<<<<<<< HEAD
-=======
     private final PasswordEncoder passwordEncoder;
     private static final String GOOGLE_USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
->>>>>>> FEATURE/ABOUT_ETC
 
 
     @Override
@@ -62,36 +44,11 @@ public class MemberServiceImpl implements MemberService{
         return entityToDTO(member);
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> FEATURE/ABOUT_ETC
     @Override
     public Long register(MemberDTO dto) {
         log.info("dto {}", dto);
         log.info("Received memberAgrees: {}", dto.getMemberAgrees());
-<<<<<<< HEAD
-            dto.setActivateYn("1");
-            HexaMember member = dtoToEntity(dto);
-            log.info("Member entity to be saved: {}", member);
-
-            List<MemberAgree> memberAgrees = new ArrayList<>();
-            for (MemberAgreeDTO agree : dto.getMemberAgrees()) {
-                MemberAgree memberAgree = MemberAgree.builder()
-                        .an1(agree.isAn1())
-                        .an2(agree.isAn2())
-                        .an3(agree.isAn3())
-                        .as1(agree.isAs1())
-                        .as2(agree.isAs2())
-                        .member(member)
-                        .build();
-                memberAgrees.add(memberAgree);
-            }
-            member.setMemberAgrees(memberAgrees);
-            HexaMember result = memberRepository.save(member);
-            return result.getId();
-        }
-=======
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encodedPassword);
         dto.setActivateYn("1");
@@ -114,7 +71,6 @@ public class MemberServiceImpl implements MemberService{
         HexaMember result = memberRepository.save(member);
         return result.getId();
     }
->>>>>>> FEATURE/ABOUT_ETC
 
 
     @Override
@@ -123,11 +79,7 @@ public class MemberServiceImpl implements MemberService{
 
         HexaMember member = result.orElseThrow();
 
-<<<<<<< HEAD
-        member.setPassword(dto.getPassword());
-=======
         member.setPassword(passwordEncoder.encode(dto.getPassword()));
->>>>>>> FEATURE/ABOUT_ETC
         member.setPhoneNumber(dto.getPhoneNumber());
         member.setAddress(dto.getAddress());
         member.setNewsletter(dto.getNewsletter());
@@ -147,20 +99,13 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public boolean auth(String email, String password) {
         HexaMember member = memberRepository.getWithRoles(email);
-<<<<<<< HEAD
-        if (member != null && member.getPassword().equals(password)) {
-=======
         if (member != null && passwordEncoder.matches(password, member.getPassword())) {
->>>>>>> FEATURE/ABOUT_ETC
             return true;
         }
         return false;
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> FEATURE/ABOUT_ETC
     @Override
     public PageResponseDTO<MemberDTO> getlist(PageRequestDTO pageRequestDTO) {
         //가져온다, Qna의 리스트
@@ -178,8 +123,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
 
-<<<<<<< HEAD
-=======
     @Override
     public GoogleMemberDTO getGoogleMember(String accessToken) {
         GoogleUserInfoDTO googleUserInfo = getGoogleUserInfoFromToken(accessToken);
@@ -330,7 +273,6 @@ public class MemberServiceImpl implements MemberService{
     }
 
 
->>>>>>> FEATURE/ABOUT_ETC
 
 }
 

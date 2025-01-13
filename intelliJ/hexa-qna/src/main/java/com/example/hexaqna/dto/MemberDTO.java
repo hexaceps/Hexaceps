@@ -7,19 +7,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
-<<<<<<< HEAD
-=======
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
->>>>>>> FEATURE/ABOUT_ETC
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-<<<<<<< HEAD
-=======
 import java.util.stream.Collectors;
->>>>>>> FEATURE/ABOUT_ETC
 
 @ToString
 @Data
@@ -59,8 +53,6 @@ public class MemberDTO {
 
     private List<MemberAgreeDTO> memberAgrees;
 
-<<<<<<< HEAD
-=======
 
     public MemberDTO(String email, String password, List<String> roleNames) {
         this.email = email;
@@ -75,6 +67,5 @@ public class MemberDTO {
                 .collect(Collectors.toList());
     }
 
->>>>>>> FEATURE/ABOUT_ETC
 }
 
