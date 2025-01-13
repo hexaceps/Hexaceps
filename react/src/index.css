@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
+@import url('https://db.onlinewebfonts.com/c/b932b905cd383ef7bb2f00f7371ac51b?family=Gmarket+Sans+TTF+Medium');
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  font-family: "Gmarket+Sans+TTF+Medium", "Rowdies", sans-serif, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+
