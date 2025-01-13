@@ -30,11 +30,8 @@ public class QProductSiteLink extends EntityPathBase<ProductSiteLink> {
 
     public final NumberPath<Integer> siteOrd = createNumber("siteOrd", Integer.class);
 
-<<<<<<< HEAD
-=======
     public final NumberPath<Integer> sitePrice = createNumber("sitePrice", Integer.class);
 
->>>>>>> FEATURE/ABOUT_ETC
     public QProductSiteLink(String variable) {
         this(ProductSiteLink.class, forVariable(variable), INITS);
     }

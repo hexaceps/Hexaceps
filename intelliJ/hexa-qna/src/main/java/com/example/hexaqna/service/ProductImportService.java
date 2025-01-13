@@ -94,11 +94,7 @@ public class ProductImportService {
         log.info("importProductsByCSVTest() 저장할 서비스 로직 진입");
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
             String[] header = csvReader.readNext(); // 헤더행 읽기
-<<<<<<< HEAD
-            if (header == null || header.length !=8) {
-=======
             if (header == null || header.length !=15) {
->>>>>>> FEATURE/ABOUT_ETC
                 throw new IllegalArgumentException("CSV 형식이 올바르지 않거나 필드가 부족합니다. 헤더 필드 수: " + (header == null ? 0 : header.length));
             }
             // 헤더 값이 정확한지 확인
@@ -119,23 +115,6 @@ public class ProductImportService {
                     log.warn("잘못된 사이즈 형식: {}", line[3]);
                     continue;
                 }
-<<<<<<< HEAD
-                try {
-                    product.setPrice(Integer.parseInt(line[4]));
-                } catch (NumberFormatException e) {
-                    log.warn("잘못된 가격 형식: {}", line[4]);
-                    continue;
-                }
-                product.setProductName(line[5]);
-
-                if (line[6] != null && !line[6].trim().isEmpty()) {
-                    product.addImageString(line[6]);
-                }
-
-                // PRODUCT_SITE_LINK FK 테이블
-                if (line[7] != null && !line[7].trim().isEmpty()) {
-                    product.addSiteLink(line[7], 0);
-=======
                 product.setProductName(line[4]);
                 for (int i = 5; i < 8; i++) {
                     if (line[i] != null && !line[i].trim().isEmpty()) {
@@ -156,7 +135,6 @@ public class ProductImportService {
                     if (line[i] != null && !line[i].trim().isEmpty()) {
                         product.addImageString(line[i]);
                     }
->>>>>>> FEATURE/ABOUT_ETC
                 }
                 log.info("product 를 담았습니다.");
                 if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {

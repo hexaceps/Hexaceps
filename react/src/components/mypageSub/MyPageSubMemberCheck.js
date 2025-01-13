@@ -3,12 +3,9 @@ import useCustomLogin from '../../hooks/useCustomLogin'
 import { Container, FormControl, Form ,InputGroup,Button } from 'react-bootstrap'
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 import ModifyMemberComponent from './ModifyMemberComponent';
-<<<<<<< HEAD
-=======
 import { checkPassword } from '../../api/memberApi';
 
 
->>>>>>> FEATURE/ABOUT_ETC
 
 
 const MyPageSubMemberCheck = ({id, skipPasswordCheck = false}) => {
@@ -33,18 +30,6 @@ const MyPageSubMemberCheck = ({id, skipPasswordCheck = false}) => {
     setPw(e.target.value) 
   }
 
-<<<<<<< HEAD
-  const checkPw = () => {
-    if(pw !== member.password){
-      alert("비밀번호가 다릅니다.")
-      return;
-    }else{
-      setIspw(false);
-      setPw('')
-    }
-  }
-
-=======
 
     const checkPw = async () => {
       const isValid = await checkPassword(pw, member.password);
@@ -56,7 +41,6 @@ const MyPageSubMemberCheck = ({id, skipPasswordCheck = false}) => {
         alert("비밀번호가 다릅니다.");
       }
     };
->>>>>>> FEATURE/ABOUT_ETC
  
   return (
    <>

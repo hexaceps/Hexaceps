@@ -37,11 +37,8 @@ const Brand = () => {
   const defaultImage = "/images/default.png"
   const [member, setMember] = useState(null);
   const [selectedSortLabel, setSelectedSortLabel] = useState('정렬');
-<<<<<<< HEAD
-=======
   const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
 
->>>>>>> FEATURE/ABOUT_ETC
 
   // 브랜드명 현재 나이키 아디다스 구찌 (추가 브랜드를 목록 처리 해서 아래 부분, 화면 부분 주석 처리 25. 01. 11 업데이트, 정병오)
   // const cheangeNike = () => {if (productBrand === "NIKE") {setProductBrand(null);} else {setProductBrand("NIKE")}setCurrentPage(1)}
@@ -71,14 +68,6 @@ const Brand = () => {
       const parsedMember = JSON.parse(storedMember);
       setMember(parsedMember);
       console.log("Member 초기화 완료:", parsedMember);
-<<<<<<< HEAD
-    } else {
-      console.warn("로컬 스토리지에 member 정보가 없습니다.");
-    }
-  }, []);
-
-  const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
-=======
       likeApi.getUserLikes(parsedMember.id)
       .then((response) => {
         const likedIds = response.data; // 서버에서 반환된 관심 상품 ID 배열
@@ -97,34 +86,12 @@ const Brand = () => {
   }, []);
 
 
->>>>>>> FEATURE/ABOUT_ETC
   const handleLikeClick = ( productId, categoryId ) => {
     console.log("멤버변수가 없음")
     if (member === null) {
       alert('로그인을 해야 누를수 있어요 :)');
       return;
     }
-<<<<<<< HEAD
-    if (likedProducts[productId]) { // 좋아요 상태라면, 좋아요 해제 + removeAPI 호출
-      setLikedProducts((prev) => ({
-        ...prev,
-        [productId]: false,
-      }));
-      likeApi.removeLike(member.id, productId).then((response) => {
-          console.log('좋아요 삭제 성공:', response);
-        }).catch((error) => {
-          console.error('좋아요 삭제 실패:', error);
-        });
-    } else {
-      setLikedProducts((prev) => ({ // 좋아요 클릭 + addAPI 호출
-        ...prev,
-        [productId]: true,
-      }));
-      likeApi.addLike(member.id, productId).then((response) => {
-          console.log('좋아요 등록 성공:', response);
-        }).catch((error) => {
-          console.error('좋아요 등록 실패:', error);
-=======
     if (likedProducts[productId]) {
       likeApi.removeLike(member.id, productId)
         .then(() => {
@@ -146,7 +113,6 @@ const Brand = () => {
         })
         .catch((error) => {
           console.error("관심 상품 추가 실패:", error);
->>>>>>> FEATURE/ABOUT_ETC
         });
     }
   }
@@ -198,11 +164,7 @@ const Brand = () => {
             <Card className='mb-5 '>
               <div className='image-wrapper mx-auto my-3' onClick={() => moveToRead(product.productId)}>
                 <Card.Img variant="top " style={{ width: '100%' , height:'100%'}} 
-<<<<<<< HEAD
-                          src={product.uploadFileNames[0]} onError={(e) => e.target.src = defaultImage} />
-=======
                           src={`${host}/api/product/view/${product.uploadFileNames[0]}`}  onError={(e) => e.target.src = defaultImage} />
->>>>>>> FEATURE/ABOUT_ETC
                 <div className="caption">상품바로가기</div>
               </div>
               <Card.Body className='ms-3'>

@@ -151,11 +151,7 @@ const [member, setMember] = useState(() => {
       <Row style={{ minHeight: '865px' }}>
         <Col md={5}>
           <ImgBox> 
-<<<<<<< HEAD
-            <Image src={product.uploadFileNames[0]} fluid/> {/* src={`${host}/api/product/view/${product.uploadFileNames[0]}`} */}
-=======
             <Image /*src={product.uploadFileNames[0]}*/   src={`${host}/api/product/view/${product.uploadFileNames[0]}`}  fluid/> 
->>>>>>> FEATURE/ABOUT_ETC
           </ImgBox>
 
           <InfoBox>

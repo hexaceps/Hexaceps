@@ -23,12 +23,9 @@ public class ProductSiteLink {
 
     private int siteOrd; // 0 = hexaceps, 1 = kream, 2 = stockx, 3 = amazon
 
-<<<<<<< HEAD
-=======
     private int sitePrice;
 
 
->>>>>>> FEATURE/ABOUT_ETC
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "productId")
     @JsonBackReference("product-site")

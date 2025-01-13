@@ -1,31 +1,10 @@
 import axios from "axios";
-<<<<<<< HEAD
-=======
 import jwtAxios from "../util/jwtUtil";
->>>>>>> FEATURE/ABOUT_ETC
 import { API_SERVER_HOST } from "./qnaApi";
 
 
 const host = `${API_SERVER_HOST}/api/member`
 
-<<<<<<< HEAD
-export const loginPost = async (loginParm) => {
-    const header = {Headers: { "Content-Type" : "application/json"}}
-
-    
-    const res = await axios.post(`${host}/login`, 
-        { email: loginParm.email, password: loginParm.password }, 
-        header
-    );
-
-
-    
-    return res.data
-}
-
-export const getOneMember = async(email) => {
-    const res = await axios.get(`${host}/e/${email}`)
-=======
 /*
 export const loginPost = async (loginParam) => {
     const header = {Headers: { "Content-Type" : "x-www-form-urlencoded"}}
@@ -75,7 +54,6 @@ export const loginPost = async (loginParm) => {
 
 export const getOneMember = async(email) => {
     const res = await jwtAxios.get(`${host}/e/${email}`)
->>>>>>> FEATURE/ABOUT_ETC
     console.log("조회하기",res);
     return res.data
 }
@@ -83,14 +61,8 @@ export const getOneMember = async(email) => {
 
 
 export const memberPostAdd = async(member) => {
-<<<<<<< HEAD
-        const res = await axios.post(`${host}/`, member); 
-        return res.data;
-   
-=======
         const res = await axios.post(`${host}/`, member);
         return res.data;
->>>>>>> FEATURE/ABOUT_ETC
 }
 
 
@@ -98,25 +70,15 @@ export const memberPostAdd = async(member) => {
 export const checkEmail = async(email) => {
     const res = await axios.post(`${host}/check/${email}`); 
     return res.data;
-<<<<<<< HEAD
-
-=======
->>>>>>> FEATURE/ABOUT_ETC
 }
 
 
 export const putOneMember = async(id,member) => {
-<<<<<<< HEAD
-    const res = await axios.put(`${host}/${id}`,member)
-=======
     const res = await jwtAxios.put(`${host}/${id}`,member)
->>>>>>> FEATURE/ABOUT_ETC
     return res.data
 }
 
 
-<<<<<<< HEAD
-=======
 export const modifyMember = async(member) => {
     const res = await axios.put(`${host}/modify`, member)
     return res.data
@@ -138,4 +100,3 @@ export const checkPassword = async (inputPassword, encodedPassword) => {
     }
     return false;
 }
->>>>>>> FEATURE/ABOUT_ETC

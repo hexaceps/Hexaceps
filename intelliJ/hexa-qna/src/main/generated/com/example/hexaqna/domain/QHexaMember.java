@@ -30,11 +30,8 @@ public class QHexaMember extends EntityPathBase<HexaMember> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-<<<<<<< HEAD
-=======
     public final StringPath kakaoId = createString("kakaoId");
 
->>>>>>> FEATURE/ABOUT_ETC
     public final ListPath<MemberAgree, QMemberAgree> memberAgrees = this.<MemberAgree, QMemberAgree>createList("memberAgrees", MemberAgree.class, QMemberAgree.class, PathInits.DIRECT2);
 
     public final ListPath<MemberRole, EnumPath<MemberRole>> memberRoleList = this.<MemberRole, EnumPath<MemberRole>>createList("memberRoleList", MemberRole.class, EnumPath.class, PathInits.DIRECT2);

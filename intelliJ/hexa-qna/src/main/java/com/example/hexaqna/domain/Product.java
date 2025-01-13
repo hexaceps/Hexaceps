@@ -98,8 +98,6 @@ public class Product {
         addProductSite(productSite);
     }
 
-<<<<<<< HEAD
-=======
     public void addSiteLinkTest(String siteLink, int orderNum,int sitePrice) {
         ProductSiteLink productSite = ProductSiteLink.builder()
                 .siteLink(siteLink)
@@ -110,7 +108,6 @@ public class Product {
     }
 
 
->>>>>>> FEATURE/ABOUT_ETC
     //상품삭제
     public void clearList(){
         this.imageList.clear();

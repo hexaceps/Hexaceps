@@ -1,16 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { loginPost } from '../api/memberApi'
 import { createAsyncThunk } from '@reduxjs/toolkit'
-<<<<<<< HEAD
-
-
-const initState = {
-
-        email: localStorage.getItem('email') || ''
-      
-}
-
-=======
 import { setCookie,removeCookie, getCookie } from '../util/cookieUtil'
 
 
@@ -32,30 +22,10 @@ const loadMemberCookie = () => {
     }
     return memberInfo
 }
->>>>>>> FEATURE/ABOUT_ETC
 
 
 //createAsyncThuck('이름', () => {})
 export const loginPostAsync = createAsyncThunk('loginPostAsync', (param) =>{
-<<<<<<< HEAD
-    console.log("파람",param)
-        return loginPost(param)
-})
-
-const loginSlice = createSlice({
-    name:'LoginSlice',
-    initialState:  initState,
-    reducers:{/*
-        login: (state, action) => {
-            console.log("login.....")
-           const data = action.payload
-            return {email : data.email}
-        },*/
-        logout: (state, action) => {
-            console.log("logout...")
-            localStorage.removeItem('email');  
-
-=======
         return loginPost(param)
 })
 
@@ -104,7 +74,6 @@ const loginSlice = createSlice({
             console.log("logout...")
             removeCookie("member1")
             localStorage.clear();
->>>>>>> FEATURE/ABOUT_ETC
             return { ...initState}
 
         }
@@ -112,34 +81,6 @@ const loginSlice = createSlice({
     extraReducers:(builder) => {
         builder
         .addCase(loginPostAsync.pending, (state,action) => {
-<<<<<<< HEAD
-            //데이터 오는중
-
-            
-            console.log("Pending : 데이터 오는중")
-         
-          })
-
-          .addCase(loginPostAsync.fulfilled, (state, action) => {
-                  //데이터 다받음 성공
-            console.log("fulfilled : 성공",action)
-            const { email } = action.meta.arg;
-
-            state.email = email;
-
-          // Save to localStorage
-          localStorage.setItem('email', email);
-
-          })
-          .addCase(loginPostAsync.rejected, (state, action) => {
-            //데이터 받기 실패
-
-            state.error = action.error.message;
-            console.log("rejected : 실패")
-    })
-}
-})
-=======
          
             console.log("Pending : 데이터 오는중")
           })
@@ -199,7 +140,6 @@ const loginSlice = createSlice({
   }
 }
 )
->>>>>>> FEATURE/ABOUT_ETC
 
 export const {login, logout } = loginSlice.actions
 
@@ -207,8 +147,6 @@ export default loginSlice.reducer
 
 
 
-<<<<<<< HEAD
-=======
 
 
 
@@ -218,4 +156,3 @@ export default loginSlice.reducer
 
 
 
->>>>>>> FEATURE/ABOUT_ETC

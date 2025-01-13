@@ -9,11 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-<<<<<<< HEAD
-=======
 import java.util.Optional;
 
->>>>>>> FEATURE/ABOUT_ETC
 public interface HexaMemberRepository extends JpaRepository<HexaMember, Long>, MemberSearch {
 
     //이메일 동일 확인
@@ -28,13 +25,10 @@ public interface HexaMemberRepository extends JpaRepository<HexaMember, Long>, M
     @Query("select c from HexaMember c where c.email = :email")
     HexaMember getMemberInfo(@Param("email")String email);
 
-<<<<<<< HEAD
-=======
     @EntityGraph(attributePaths = {"memberRoleList"})
     @Query("select c.socialYn from HexaMember c where c.email = :email")
     HexaMember findSocialYnByEmail(@Param("email")String email);
 
 
     Optional<HexaMember> getHexaMemberByKakaoId(String kakaoId);
->>>>>>> FEATURE/ABOUT_ETC
 }
