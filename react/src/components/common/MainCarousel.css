@@ -1,0 +1,261 @@
+/* 슬라이더 컨테이너 */
+.slider-container {
+    display: block;
+    height: 320px;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    max-width: 810px; /* 1300px */
+    margin-top: 20px;
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+  }
+  /* 화살표의 기본 위치: 왼쪽과 오른쪽에 위치 */
+  .arrow-left,
+  .arrow-right {
+    position: absolute;
+    bottom: 30%;  /* 기본 위치 ( ~ 425px 이하 모바일 사이즈) , 나머지는 아래 미디어 쿼리로 조정 */
+    color: gray;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+  }
+  /* 426px ~ 768px : 작은 태블릿 사이즈 */
+  @media (min-width: 426px) and (max-width: 768px) {
+    .arrow-left,
+    .arrow-right {
+      bottom: 5%;
+    }
+  }
+  /* 769px 이상 : 사이즈 큰 태블릿 ~ 데스크탑 사이즈 */
+  @media (min-width: 769px) {
+    .arrow-left,
+    .arrow-right {
+      bottom: -1%;
+    }
+  }
+  
+  /* 왼쪽 화살표 */
+  .arrow-left {
+    left: 15%; /* 왼쪽 끝에 고정 비율 */
+  }
+  
+  /* 오른쪽 화살표 */
+  .arrow-right {
+    right: 15%; /* 오른쪽 끝에 고정 비율 */
+  }
+  
+  .arrow-left-center {
+    position: absolute;
+    left: 10%;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 9;
+    border-top: 80px solid transparent;
+    border-right: 300px solid transparent;
+    border-bottom: 80px solid transparent;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  
+  .arrow-right-center {
+    position: absolute;
+    right: 10%;
+    top: 50%;
+    transform: translate3d(0, -50%, 0);
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 9;
+    border-top: 80px solid transparent;
+    border-left: 300px solid transparent;
+    border-bottom: 80px solid transparent;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  /* 점 (dots) 스타일 */
+  .dots {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    margin: 30px 0;
+    user-select: none;
+  }
+  
+  .dots span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px 0;
+    position: relative;
+    transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  }
+  
+  .dots span:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    opacity: 0.6;
+    transition: background-color 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  }
+  
+  .dots span.active {
+    transform: scale(1.2);
+  }
+  
+  .dots span.active:before {
+    background-color: blue;
+    opacity: 1;
+  }
+  
+  .dots span:not(.active):before {
+    background-color: #ccc;
+    opacity: 0.6;
+  }
+  
+  .dots span:hover {
+    transform: scale(1.2);
+  }
+  
+  /* 모바일에서 dots 크기 조정 */
+  @media (max-width: 768px) {
+    .dots span {
+      width: 22px;
+      margin-bottom: 15px;
+    }
+  }
+  
+  /* 슬라이더 영역 */
+  .slider {
+    display: block;
+    width: 80%;
+    max-width: 650px;
+    height: 270px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    line-height: 270px;
+    color: white;
+    @media (max-width: 768px) {
+      height: 250px;
+      width: 100%;
+    }
+  }
+  
+  /* 개별 슬라이드 스타일 */
+  .slide {
+    display: inline-block;
+    width: 80%;
+    height: 270px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 40px;
+    transform: translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
+    transition: transform 0.3s ease-in-out 0s, z-index 0.2s ease-in-out 0.1s;
+    background-color: white; /* #2C2A40; */
+    border: 2px solid #dcdcdc; 
+  }
+  
+  .slide:nth-child(odd) {
+    background-color: white; /* gray */
+    border: 2px solid #dcdcdc; 
+  }
+  
+  @media (max-width: 768px) {
+    .slide {
+      width: 100%;
+      height: 450px;
+    }
+  }
+
+  .slide {
+    display: inline-block;
+    width: 80%;
+    height: 270px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 40px;
+    transform: translate3d(-50%, -50%, 0) scale3d(0.4, 0.4, 1);
+    transition: transform 0.3s ease-in-out 0s, z-index 0.2s ease-in-out 0.1s;
+  }
+
+  /* 슬라이드 전후 상태 */
+  .slide.prev-2 {
+    transform: translate3d(-105%, -50%, 0) scale3d(0.4, 0.4, 1);
+    z-index: 1;
+    opacity: 0.5;
+  }
+  
+  .slide.prev-1 {
+    transform: translate3d(-85%, -50%, 0) scale3d(0.6, 0.6, 1);
+    z-index: 2;
+  }
+  
+  .slide.next-1 {
+    z-index: 2;
+    transform: translate3d(-15%, -50%, 0) scale3d(0.6, 0.6, 1);
+  }
+  
+  .slide.next-2 {
+    z-index: 1;
+    transform: translate3d(5%, -50%, 0) scale3d(0.4, 0.4, 1);
+    opacity: 0.5;
+  }
+  
+  /* 활성화된 슬라이드 */
+  .slide.active {
+    z-index: 3;
+    transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+    box-shadow: 0px 5px 15px 3px rgba(0, 0, 0, 0.3);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  .custom-btn-1 {
+    background-color: #625244 !important; /* 기본 배경색 */
+    border-color: #625244 !important; /* 기본 테두리색 */
+    color: white !important; /* 텍스트 색상 */
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  }
+
+  /* 호버 상태 스타일 */
+    .custom-btn-1:hover {
+    background-color: #4e4135 !important; /* 호버 시 배경색 */
+    border-color: #4e4135 !important; /* 호버 시 테두리색 */
+  }
+
+  .custom-btn-2 {
+    background-color: #FFFFFF !important; /* 기본 배경색 */
+    border-color: #625244 !important; /* 기본 테두리색 */
+    color: #625244 !important; /* 텍스트 색상 */
+    transition: all 0.3s ease-in-out; /* 부드러운 전환 효과 */
+  }
+
+  /* 호버 상태 스타일 */
+  .custom-btn-2:hover {
+    background-color: #625244 !important; /* 호버 시 배경색 */
+    border-color: #625244 !important; /* 호버 시 테두리색 */
+    color: white !important; /* 텍스트 색상 */
+  }

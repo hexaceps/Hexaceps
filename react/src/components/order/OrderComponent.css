@@ -1,0 +1,68 @@
+.payment-slider {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+/* 기본 스크롤바 스타일 */
+.payment-slider::-webkit-scrollbar {
+  height: 8px;
+  background-color: #625244; /* 스크롤바 트랙 배경색 #625244 */
+  border-radius: 4px;
+  display: visible;
+}
+
+/* 스크롤바의 드래그 가능한 부분 */
+.payment-slider::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #ffffff, #625244); /* 그라데이션 색상 */
+  border-radius: 4px; /* 둥근 모서리 */
+}
+
+/* 스크롤바 드래그 시 효과 */
+.payment-slider::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #d8cfe6, #36d4c7); /* 더 진한 그라데이션 */
+}
+
+.payment-option {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.payment-image {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.payment-image-modal {
+  height: 150px;
+  margin-bottom: 25px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.payment-option:hover {
+  border-color: #625244;
+  box-shadow: 0px 4px 10px rgba(0, 123, 255, 0.2);
+}
+
+.payment-option.selected { /* 클릭 효과 */
+  border-color: #2a1b0d;
+  background-color: #f0f8ff;
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 20px rgba(0, 123, 255, 0.3);
+}
+
+.payment-option.selected img { /* 이미지 살짝 커지게 처리 */
+  transform: scale(1.1);
+}
