@@ -13,7 +13,7 @@ import ProductSubReview from '../productSub/ProductSubReview'
 import ProductSizeTable from './ProductSizeTableComponent';
 import styled from 'styled-components';
 import {SuitHeart, LightningCharge, Star} from 'react-bootstrap-icons';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import useCustomCart from '../../hooks/useCustomCart';
 
 const initState = {
@@ -47,6 +47,11 @@ const [member, setMember] = useState(() => {
     const storedMember = localStorage.getItem('member');
     return storedMember ? JSON.parse(storedMember) : null;
   });
+  const random1 = Math.floor(Math.random() * 500) + 1
+  const random2 = Math.floor(Math.random() * 500) + 1
+  const random3 = Math.floor(Math.random() * 500) + 1
+  const random4 = Math.floor(Math.random() * 500) + 1
+  
   const handleSelect = (size) => {
     setSelectedSize(size); 
   };
@@ -68,6 +73,10 @@ const [member, setMember] = useState(() => {
         }
         
         const handleToPurchase = async () => {
+          if (member === null) {
+            alert('로그인을 해야 진행 할 수 있어요');
+            return; 
+          }
           let amount = 1;
           const cartDTO = { 
             productId: product.productId, 
@@ -95,6 +104,10 @@ const [member, setMember] = useState(() => {
         };
 
         const handleToCart = async () => {
+          if (member === null) {
+            alert('로그인을 해야 진행 할 수 있어요');
+            return; 
+          }
           let amount = 1;
           const cartDTO = { 
             productId: product.productId, 
@@ -242,6 +255,56 @@ const [member, setMember] = useState(() => {
                 <Image src={`${host}/api/product/view/${product.uploadFileNames[3]}`} onClick={() => handleMainImageClick(3)}  fluid/>
               </SubImgBox>
             </SubImgContainer>
+          <SubImgContainer>
+            <Table className='mt-3'>
+              <tbody className='text-center'>
+                <tr>
+                  {product.productSiteDetails && product.productSiteDetails.length > 0 ? (
+                    product.productSiteDetails.map((siteDetail, index) => {
+                      let siteImage = null;
+                      if (siteDetail?.siteLink?.includes("kream")) {
+                        siteImage = <Image src={`${host}/api/product/view/kreamicon.PNG`}  alt="Kream" style={{ width: '60%' ,cursor: 'pointer' }}  />;;
+                      } else if (siteDetail?.siteLink?.includes("stockx")) {
+                        siteImage = <Image src={`${host}/api/product/view/stockxicon.PNG`}  alt="stockx" style={{ width: '60%' ,cursor: 'pointer' }}  />;;
+                      } else if (siteDetail?.siteLink?.includes("soldout")) {
+                        siteImage = <Image src={`${host}/api/product/view/soldouticon.PNG`}  alt="soldout" style={{ width: '65%' ,cursor: 'pointer' }}  />;;
+                      }
+                      return (
+                        <td key={index}  style={{ width: '33%', padding: '0' }} className='pb-1'>
+                          {siteDetail?.siteLink ? (
+                            <a
+                              href={siteDetail.siteLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {siteImage}
+                            </a>
+                          ) : (
+                            "N/A"
+                          )}
+                        </td>
+                      );
+                    })
+                  ) : (
+                    <td colSpan="1">N/A</td>
+                  )}
+                </tr>
+                <tr>
+                  {product.productSiteDetails && product.productSiteDetails.length > 0 ? (
+                    product.productSiteDetails.map((siteDetail, index) => (
+                      <td key={index}>
+                        {siteDetail?.sitePrice
+                          ? siteDetail.sitePrice.toLocaleString() +"원"
+                          : "N/A"}
+                      </td>
+                    ))
+                  ) : (
+                    <td colSpan="1">N/A</td>
+                  )}
+                </tr>
+              </tbody>
+            </Table>
+          </SubImgContainer>
           </InfoBox>
         </Col>
 
@@ -262,80 +325,15 @@ const [member, setMember] = useState(() => {
           <div  style={{width:'100%', height: '11%', display: 'flex', marginTop: '10px', marginBottom: '20px'}} >
                        <Image src='/images/banner1.png' fluid onClick={() => handleToNikeBrand()} style={{ cursor: 'pointer' }}/>
           </div>
-          {/*   기존 추천슈즈 칸 빼고 추천 사이트 칸
+
           <Title>Recommended Shoes</Title>
           <RecommendedBox>
-            <Image src={`${host}/api/product/view/${product.uploadFileNames[0]}`} fluid/>
-            <Image src={`${host}/api/product/view/${product.uploadFileNames[1]}`} fluid/>
-            <Image src={`${host}/api/product/view/${product.uploadFileNames[2]}`} fluid/>
-            <Image src={`${host}/api/product/view/${product.uploadFileNames[3]}`} fluid/>
+            <Image src={`${host}/api/product/view/product_${random1}_1.jpg`} onClick={() => navigate(`/products/read/${random1}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random2}_1.jpg`} onClick={() => navigate(`/products/read/${random2}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random3}_1.jpg`} onClick={() => navigate(`/products/read/${random3}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random4}_1.jpg`} onClick={() => navigate(`/products/read/${random4}`)}  style={{ cursor: 'pointer' }} fluid/>
           </RecommendedBox>
-          */}
-         <Title>Recommended site</Title>
-          <RecommendedBox>
-            <Table className=' border' style={{ width: '23em'}}>
-              <thead>
-                <tr>
-                  <th>Site Name</th>
-                  {product.productSiteDetails && product.productSiteDetails.length > 0 ? (
-                    product.productSiteDetails.map((_, index) => (
-                      <th key={index}>Site {index + 1}</th>
-                    ))
-                  ) : (
-                    <th>No Sites</th>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>사이트</td>
-                  {product.productSiteDetails && product.productSiteDetails.length > 0 ? (
-                    product.productSiteDetails.map((siteDetail, index) => {
-                      let siteName = "Unknown";
-                      if (siteDetail?.siteLink?.includes("kream")) {
-                        siteName = "Kream";
-                      } else if (siteDetail?.siteLink?.includes("stockx")) {
-                        siteName = "StockX";
-                      } else if (siteDetail?.siteLink?.includes("soldout")) {
-                        siteName = "Soldout";
-                      }
-                      return (
-                        <td key={index}>
-                          {siteDetail?.siteLink ? (
-                            <a
-                              href={siteDetail.siteLink}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {siteName}
-                            </a>
-                          ) : (
-                            "N/A"
-                          )}
-                        </td>
-                      );
-                    })
-                  ) : (
-                    <td colSpan="1">N/A</td>
-                  )}
-                </tr>
-                <tr>
-                  <td>가격(원)</td>
-                  {product.productSiteDetails && product.productSiteDetails.length > 0 ? (
-                    product.productSiteDetails.map((siteDetail, index) => (
-                      <td key={index}>
-                        {siteDetail?.sitePrice
-                          ? siteDetail.sitePrice.toLocaleString()
-                          : "N/A"}
-                      </td>
-                    ))
-                  ) : (
-                    <td colSpan="1">N/A</td>
-                  )}
-                </tr>
-              </tbody>
-            </Table>
-          </RecommendedBox>
+  
           <div  style={{width:'100%', height: '11%', display: 'flex', marginTop: '20px'}} >
                        <Image src='/images/banner2.png' fluid onClick={() => handleToAdidasBrand()} style={{ cursor: 'pointer' }} />
           </div>
@@ -418,7 +416,7 @@ const [member, setMember] = useState(() => {
 
       {page === 'A' ? <ProductSubdesc productId={productId} /> : <></>}
       {page === 'B' ? <ProductSubReview productId={productId}/> : <></>}
-      {page === 'C' ? <ProductSubQna productId={productId} id={member.id} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
+      {page === 'C' ? <ProductSubQna productId={productId} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
       {page === 'D' ? <ProductSubRefund /> : <></>}
 
     </Container>

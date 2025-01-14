@@ -8,10 +8,13 @@ import likeApi from '../../api/likeApi';
 import { API_SERVER_HOST } from '../../api/qnaApi';
 import useCustomCart from '../../hooks/useCustomCart';
 import "./Like.css";
+import LoginComponent from "../../components/member/LoginComponent";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const LikePage = () => {
   const host = API_SERVER_HOST;
   const navigate = useNavigate(); // useNavigate 초기화
+  const {isLogin} = useCustomLogin()
   const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "like"); // 기본 탭 설정
   const [cartItems, setCartItems] = useState([]); // 장바구니 상태 관리
@@ -102,7 +105,8 @@ const LikePage = () => {
   };
 
   return (
-    <div className="container py-4">
+    <>
+    {isLogin ? <div className="container py-4">
       {/* 네비게이션 탭 */}
       <Nav className="nav-tabs justify-content-center custom-tabs">
         <Nav.Item>
@@ -227,6 +231,8 @@ const LikePage = () => {
         {activeTab === "delivery" && <DeliveryPage />}
       </div>
     </div>
+   :  ( <LoginComponent redirectTo="/like" />   )}
+   </>
   );
 };
 
