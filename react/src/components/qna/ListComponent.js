@@ -29,7 +29,7 @@ const initStateQna = {
   secret : 0
 }
 
-const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })=> {
+const ListComponent = ({productId, setSelectedQna, selectedQna, moveToRead })=> {
   const {loginState,isLogin,doLogout } = useCustomLogin()
   const {page, size, moveToList, refresh} = useCustomMove()
   const [serverData, setServerData] = useState(initState)
@@ -43,7 +43,11 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
   const [passwordInputQna, setPasswordInputQna] = useState(null); 
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedStatus, setSelectedStatus] = useState("all");
-    
+  const [member, setMember] = useState(() => {
+      const storedMember = localStorage.getItem('member');
+      return storedMember ? JSON.parse(storedMember) : null;
+    });
+
   const handleExcludeSecretChange = () => {
     setExcludeSecret(!excludeSecret);
   }
@@ -101,7 +105,12 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
   }; 
 
   const createQna = () =>{
-    setShowAddComponent(true);  
+    if(!member){
+      alert('로그인을 해야 작성할 수 있어요');
+      return;
+    }else {
+      setShowAddComponent(true);  
+    }
   }
 
   const handleNewQnaChange = (e) => {
@@ -122,12 +131,13 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
   };
 
   const handleSaveQna = () => {
+    if(member){
       console.log('새 문의글 저장:', newQnaData)
       console.log("pno?",productId) 
-      console.log("id?",id) 
-      postAdd(newQnaData,productId,id).then(result => {
+      console.log("id?",member.id) 
+      postAdd(newQnaData,productId,member.id).then(result => {
           console.log("pno?",productId) 
-          console.log("id?",id) 
+          console.log("id?",member.id) 
           getList({ page: currentPage, size },productId).then(data => {
           setServerData(data);  
         }).catch(e => {
@@ -138,6 +148,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
           console.error(e)
       })
       setShowAddComponent(false)
+    }else{       return <Navigate  replace to="/member/login" />; }
   }
 
   const handlePasswordSubmit = (qna) => {
@@ -179,7 +190,7 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
         getList({page :currentPage, size},productId).then(data => {
             console.log("data",data.dtoList)
             console.log("pno",productId)
-            console.log("id", id)
+           // console.log("id", member.id)
             setServerData(data)
             console.log("server",serverData)
            
@@ -202,12 +213,14 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
     const navigate = useNavigate();
 
     const handleMyQnaClick = () => {
-      navigate("/mypage?page=C");
+      if(!member){
+        alert('로그인을 해야 볼 수 있어요');
+        return;
+      }else {
+        navigate("/mypage?page=C");
+      }
     }
 
-      if (!id) {
-        return <Navigate  replace to="/member/login" />;
-      }
   return (
     <>
       <Container>
