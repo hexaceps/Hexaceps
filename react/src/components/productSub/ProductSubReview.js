@@ -47,6 +47,13 @@ const ProductSubReview = ({ productId }) => {
   const getRandomUserName = () => {
     return userNames[Math.floor(Math.random() * userNames.length)];
   }
+  // 랜덤 유저 아바타 만들기
+  const userAvatar = ["man1.png", "woman1.png", "man2.png", "woman2.png", "man3.png", "woman3.png", 
+    "man4.png", "woman4.png", "man5.png", "woman5.png", "man6.png"]
+  const getRandomAvatar = () => {
+    const randomIndex = Math.floor(Math.random() * userAvatar.length);
+    return `/images/avatar/${userAvatar[randomIndex]}`;
+  };
 
   const handleReplySubmit = (reviewId) => {
     if (!newReplyByReview[reviewId] || newReplyByReview[reviewId].trim() === "") {
@@ -83,23 +90,20 @@ const ProductSubReview = ({ productId }) => {
   } 
 
   return (
-    <Container className="mt-5">
-      <h5 className="me-3 text-end">상품 리뷰</h5>
-      <hr />
-
+    <Container className="py-1">
       {reviews.map((review) => (
-        <Card key={review.reviewId} className="mb-4">
+        <Card key={review.reviewId} className="mb-4" >
           <Card.Body>
             <Row>
               <Col md={2} className="d-flex justify-content-center align-items-center">
-                <img src={ review.memberId % 2 == 0 ? "/images/avatar/avatar-boy.png" : "/images/avatar/avatar-girl.png" } alt="avatar" className="rounded-circle"
-                  style={{ width: "100px", height: "100px" }} />
+                <img src={ getRandomAvatar() } alt="avatar" className="rounded-circle"
+                  style={{ width: "90px", height: "90px" }} />
               </Col>
               <Col md={10}>
                 <Card.Title>
-                  <Row>
-                    <Col>{review.subject}</Col>
-                    <Col lg={3} className="text-end text-secondary me-3" style={{fontSize : "0.9rem"}}>
+                  <Row >
+                    <Col className="mt-4">{review.subject}</Col>
+                    <Col lg={3} className="text-end text-secondary mt-2 me-3" style={{fontSize : "0.9rem"}}>
                       <div className="mb-3">{getRandomUserName()}</div>
                       <Card.Subtitle className="mb-2 text-muted">
                       {new Date(review.createAt).toLocaleDateString()}
@@ -117,7 +121,7 @@ const ProductSubReview = ({ productId }) => {
                     </Col>
                   </Row>
                 </Card.Title>
-                <Card.Text><span style={{fontSize : "1.7rem"}}>🎉&nbsp;&nbsp;&nbsp;</span>{review.reply}</Card.Text>
+                <Card.Text style={{ position : "relative", top : "-20%" }} ><span style={{fontSize : "1.7rem"}}>🎉&nbsp;&nbsp;&nbsp;</span>{review.reply}</Card.Text>
                 {isAdmin && (
                 <Form className="d-flex align-items-center">
                   <Form.Control type="text" placeholder="관리자 댓글을 입력하세요" className="me-2" value={newReplyByReview[review.reviewId] || ""}
@@ -145,8 +149,7 @@ const ProductSubReview = ({ productId }) => {
           </Card.Body>
         </Card>
       ))}
-      
-      <Button variant="primary" className="mt-4" onClick={handleAddReview}> 리뷰 작성하기 </Button>
+      {/* <Button variant="primary" className="mt-4" onClick={handleAddReview}> 리뷰 작성하기 </Button> */}
     </Container>
   ) 
 } 
