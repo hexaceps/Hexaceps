@@ -43,7 +43,7 @@ const MyPageComponent = () => {
   return (
     <>
     <Container>
-       <div className='mb-5'> MyPage </div>
+
         <hr />
   
     <Nav  fill  variant="tabs my-5"  activeKey={page}
