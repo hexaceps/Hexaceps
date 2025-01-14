@@ -3,7 +3,7 @@ import React from 'react'
 const MypageSubReview = () => {
   return (
  <>
-        <div>MypageSubReview</div>
+        <div></div>
  </>
   )
 }

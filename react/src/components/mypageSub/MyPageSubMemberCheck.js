@@ -45,7 +45,7 @@ const MyPageSubMemberCheck = ({id, skipPasswordCheck = false}) => {
   return (
    <>
    {ispw ?   <Container  className="d-flex  align-items-center my-5"
-          style={{ height: '60vh' }}>
+          style={{ height: '50vh' }}>
     <Form className='border p-5' >
       <Form.Group className="mb-3" controlId="formBasicName">
         <Form.Label className='mb-3'>비밀번호 인증</Form.Label>
