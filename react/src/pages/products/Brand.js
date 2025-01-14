@@ -52,6 +52,11 @@ const Brand = () => {
     setCurrentPage(1)
   }
   
+  const handleBrandSelection = (brand) => {
+    setSelectedBrands((prev) => (prev === brand ? null : brand)); // 같은 브랜드 클릭 시 선택 취소
+    setCurrentPage(1);
+  };
+
   const handleSortChange = (newSortBy, newSortOrder, sortLabel) => {
     setSortBy(newSortBy);
     setSortOrder(newSortOrder);
@@ -119,8 +124,11 @@ const Brand = () => {
 
   useEffect(() => {
       setFetching(true)
+      /*
       const brandQuery = selectedBrands
-        .map((brand) => `${encodeURIComponent(brand)}`).join("");
+        .map((brand) => `${encodeURIComponent(brand)}`).join("");*/
+        const brandQuery = selectedBrands ? encodeURIComponent(selectedBrands) : "";
+
       getListFilter({ page : currentPage, size }, null, brandQuery, null, null, null, sortBy, sortOrder).then(data => {
         console.log("getListFilter 로 전달한 {productBrand} 값은 : ", brandQuery)  
         console.log("getListFilter 로 Brand 호출 한 결과 data : ", data)
@@ -139,7 +147,7 @@ const Brand = () => {
           <Form.Group className="mt-5 text-center" controlId="formBasicCheckbox" >
             {BRAND_LIST.map((brand) => (
             <Form.Check key={brand} className="mb-2 me-5 d-inline-block" type="checkbox" 
-                        label={brand} onChange={() => toggleBrandSelection(brand)} checked={selectedBrands.includes(brand)}/>
+                        label={brand} onChange={() => handleBrandSelection(brand)} checked={selectedBrands === brand}/>
             ))}
             {/* <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="NIKE" onClick={cheangeNike}  checked={productBrand === "NIKE"} />
             <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="ADIDAS" onClick={cheangeAdidas}  checked={productBrand === "ADIDAS"} />

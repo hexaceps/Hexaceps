@@ -4,7 +4,7 @@ import useCustomLogin from '../../hooks/useCustomLogin'
 import { checkPw, getList, replyOne } from '../../api/qnaApi'
 import { Table, Collapse, Container, Row, Col , Button,Form, Nav, Dropdown, DropdownButton} from 'react-bootstrap'
 import PageComponent from '../common/PageComponent'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import AddComponent from './AddComponent'
 import ModifyComponent from './ModifyComponent'
 import { postAdd } from '../../api/qnaApi'
@@ -204,6 +204,10 @@ const ListComponent = ({productId,id, setSelectedQna, selectedQna, moveToRead })
     const handleMyQnaClick = () => {
       navigate("/mypage?page=C");
     }
+
+      if (!id) {
+        return <Navigate  replace to="/member/login" />;
+      }
   return (
     <>
       <Container>

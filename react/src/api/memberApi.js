@@ -53,7 +53,7 @@ export const loginPost = async (loginParm) => {
 
 
 export const getOneMember = async(email) => {
-    const res = await jwtAxios.get(`${host}/e/${email}`)
+    const res = await axios.get(`${host}/e/${email}`)
     console.log("조회하기",res);
     return res.data
 }
