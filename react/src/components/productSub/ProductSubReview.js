@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 
 const ProductSubReview = () => {
-  return (
-<>
-    <div className='mb-5'>ProductSubReview</div>
-    </>
-  )
-}
+  
 
-export default ProductSubReview
+  return (
+    <>  
+    <Container>
+      <h2>리뷰</h2>
+    </Container>
+    </>
+
+  );
+};
+
+export default ProductSubReview;
+
+

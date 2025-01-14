@@ -6,7 +6,10 @@ import ResultModal from '../common/ResultModal'
 const initState = {
     subject: '',
     content: '',
-    qnaDate: ''
+    qnaDate: '',
+    password: '',
+    secret: 0
+
 }
 
 const AddComponent = ({ newQnaData, handleNewQnaChange, handleSaveQna,handleNewQnaSecret, handleCancel}) => {

@@ -34,7 +34,7 @@ public class Qna {
     @JsonBackReference("product-qna")
     private Product productId;
 
-    @NotEmpty
+
     private String password;
 
     public void setMemberId(HexaMember memberId) {

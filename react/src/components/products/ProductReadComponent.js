@@ -29,6 +29,7 @@ const ProductReadComponent = ({productId}) => {
 const [page,setPage] = useState("A");
 const[product,setProduct] = useState(initState);
 const [selectedQna, setSelectedQna] = useState(null);
+const [selectedReview, setSelectedReview] = useState(null);
 const [selectedSize, setSelectedSize] = useState("모든 사이즈");
 const {moveToList, moveToModify, moveToRead } = useCustomMove();
 const [fetching, setFetching] = useState(false)
@@ -415,7 +416,7 @@ const [member, setMember] = useState(() => {
   </Nav>
 
       {page === 'A' ? <ProductSubdesc productId={productId} /> : <></>}
-      {page === 'B' ? <ProductSubReview productId={productId}/> : <></>}
+      {page === 'B' ? <ProductSubReview productId={productId} setSelectedReview={setSelectedReview} moveToRead={moveToRead} selectedReview={selectedQna}/> : <></>}
       {page === 'C' ? <ProductSubQna productId={productId} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
       {page === 'D' ? <ProductSubRefund /> : <></>}
 
@@ -454,7 +455,7 @@ const ImgBox = styled.div`
 
 const InfoBox = styled.div`
   width: 100%;
-  height: 100%;
+  height: 80%;
   display: flex;
   gap: 20px;
   flex-direction: column;

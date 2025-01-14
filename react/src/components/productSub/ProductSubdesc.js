@@ -26,10 +26,13 @@ const ProductSubdesc = ({productId}) => {
 
   return (
     <>
-    <div>
+    <div className='flex-column'>
             <p>상세이미지보기</p>
             {product.uploadFileNames.map((ImgFile, i)=>
-             <Image src={`${host}/api/products/view/${ImgFile}`}  fluid/>)}
+            <div key={i} className="image-container">
+             <Image src={`${host}/api/product/view/${product.uploadFileNames[i]}` } /> 
+             </div>
+            )}
         </div>
     </>
   )
