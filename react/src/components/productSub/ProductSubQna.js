@@ -12,10 +12,10 @@ const ProductSubQna = ({ productId,  setSelectedQna, moveToRead, selectedQna }) 
   });
  
   useEffect(() => {
-    if (!member == null) {
+    
       fetchQnaList(); // id가 있을 때만 호출a
-    }
-  }, [productId, member]);
+    
+    }, [productId, member]);
 
 
   const fetchQnaList = async () => {
@@ -39,15 +39,14 @@ const ProductSubQna = ({ productId,  setSelectedQna, moveToRead, selectedQna }) 
   };
 
   return (
-    <>    {member == null ? <Navigate replace to="/member/login" />  :  <Container>
+    <>    <Container>
       <ListComponent
         productId={productId}
-        id={member.id||null}
         setSelectedQna={setSelectedQna}
         moveToRead={moveToRead}
         selectedQna={selectedQna}
       />
-    </Container>}
+    </Container>
     </>
 
   );
