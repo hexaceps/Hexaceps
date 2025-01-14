@@ -35,7 +35,7 @@ const MypageSubReview = () => {
         console.log("멤버 ID로 리뷰리스트를 가지고 왔습니다 1) reviewId :  " + data[0]?.reviewId + ", memberId : " + data[0]?.memberId)
         setReviews(data)
         if(loginState.email === "admin@hexa.com"){ // 이녀석만 보이게 할거임
-          console.log("현재 로그인된 이메일은?? : " + loginState.email)
+          console.log("현재 로그인된 이메일  : " + loginState.email)
           setIsAdmin(true)
         }
     } 
