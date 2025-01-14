@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,6 +25,9 @@ class HexaMemberTest {
     QnaRepository qnaRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
 
     @Test
     void qna추가하기(){
@@ -50,7 +54,7 @@ class HexaMemberTest {
         HexaMember hexaMember = HexaMember.builder()
                 .email("admin@hexa.com")
                 .name("master")
-                .password("1234")
+                .password(passwordEncoder.encode("1234"))
                 .phoneNumber("1234-1234")
                 .address("뉴욕")
                 .newsletter(0)

@@ -25,7 +25,7 @@ const initState = {
 const initStateQna = {
   subject: '',
   content: '',
-  password: '',
+  password: null,
   secret : 0
 }
 
