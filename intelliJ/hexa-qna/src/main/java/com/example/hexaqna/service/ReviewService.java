@@ -45,8 +45,8 @@ public class ReviewService {
             Files.write(filePath, multipartFile.getBytes());
             reviewDAO.setUploadPicture(filePath.toString());
         } else {
-            reviewDAO.setUploadPicture("default_review_image.jpg");
-            log.info("파일이 없데잖아...");
+            reviewDAO.setUploadPicture("nofile.png");
+            log.info("시간이 없어서 파일은 안올리 거예요...");
         }
 
         Review saveReview = reviewRepository.save(reviewDAO);
@@ -109,6 +109,8 @@ public class ReviewService {
 
     // DTO > Entity 변환
     private Review dtoToEntity(ReviewDTO reviewDTO){
+        log.info("멤버ID : ", hexaMemberRepository.findById(reviewDTO.getMemberId()).get());
+        log.info("상품ID : ", productRepository.findById(reviewDTO.getProductId()).get());
         Review review = new Review();
         review.setMember(hexaMemberRepository.findById(reviewDTO.getMemberId()).get());
         review.setProduct(productRepository.findById(reviewDTO.getProductId()).get());

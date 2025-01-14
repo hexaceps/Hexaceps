@@ -56,8 +56,10 @@ public class ReviewController {
     public Map<String, Long> createReview(@ModelAttribute ReviewDTO reviewDTO,
                                           @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws IOException {
         log.info("createReview() 컨트롤러 호출");
+        log.info("memberID 조회 (컨트롤러에서) : "+ reviewDTO.getMemberId()+", productID : "+ reviewDTO.getProductId());
         ReviewDTO savedReviewDTO = reviewService.createReview(reviewDTO, multipartFile);
         Long reviewId = savedReviewDTO.getReviewId();
+
         return Map.of("result", reviewId);
     }
 
