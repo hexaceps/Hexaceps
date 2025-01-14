@@ -16,13 +16,28 @@ public class TrackingController {
 
     private final TrackingService trackingService;
 
-    @GetMapping("/{paymentId}")
-    public List<TrackingDTO> getTrackingInfo(@PathVariable("paymentId") Long paymentId) {
-        return trackingService.getTrackingInfo(paymentId);
+    // 배송 추척리스트 생성 (paymentId로 생성)
+    @PostMapping("/")
+    public TrackingDTO createTrackingList(@RequestBody TrackingDTO trackingDTO) {
+        TrackingDTO trackingResult = trackingService.saveTracking(trackingDTO);
+        return trackingResult;
+    }
+    // 배송 정보 업데이트 (id로 생성)
+    @PutMapping("/update/")
+    public TrackingDTO updateTrackingList(@RequestBody TrackingDTO trackingDTO) {
+        TrackingDTO trackingResult = trackingService.updateTrackingList(trackingDTO);
+        return trackingResult;
     }
 
-    @PostMapping("/")
-    public Long saveTracking(@RequestBody TrackingDTO trackingDTO) {
-        return trackingService.saveTracking(trackingDTO);
+    // paymentId 기준으로 검색
+    @GetMapping("/p/{paymentId}")
+    public TrackingDTO getTrackingInfoByPaymentId(@PathVariable("paymentId") Long paymentId) {
+        return trackingService.getTrackingByPaymentId(paymentId);
+    }
+
+    // memberId 기준으로 검색
+    @GetMapping("/m/{memberId}")
+    public List<TrackingDTO> getTrackingInfoByMemberId(@PathVariable("memberId") Long memberId) {
+        return trackingService.getTrackingListByMemberId(memberId);
     }
 }
