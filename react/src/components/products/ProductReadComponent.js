@@ -25,6 +25,8 @@ const initState = {
   uploadFileNames: []
 }
 
+
+
 const ProductReadComponent = ({productId}) => {
 const [page,setPage] = useState("A");
 const[product,setProduct] = useState(initState);
@@ -43,15 +45,18 @@ const handleCloseCartResult = () => setShowCartResult(false);
 const handleShowPurchase = () => setShowPurchase(true);
 const handleCloseCart = () => setShowCart(false);
 const handleShowCart = () => setShowCart(true);
+const [random, setRandom] = useState({
+  random1: Math.floor(Math.random() * 500) + 1,
+  random2: Math.floor(Math.random() * 500) + 1,
+  random3: Math.floor(Math.random() * 500) + 1,
+  random4: Math.floor(Math.random() * 500) + 1
+});
 const [currentMainImage, setCurrentMainImage] = useState(0); // 현재 보여줄 메인 이미지 인덱스
 const [member, setMember] = useState(() => {
     const storedMember = localStorage.getItem('member');
     return storedMember ? JSON.parse(storedMember) : null;
   });
-  const random1 = Math.floor(Math.random() * 500) + 1
-  const random2 = Math.floor(Math.random() * 500) + 1
-  const random3 = Math.floor(Math.random() * 500) + 1
-  const random4 = Math.floor(Math.random() * 500) + 1
+
   
   const handleSelect = (size) => {
     setSelectedSize(size); 
@@ -160,7 +165,18 @@ const [member, setMember] = useState(() => {
             });
           }
         }, [loginState, productId]);  
-        
+
+     
+        useEffect(() => {
+          const newRandomValue = {
+            random1: Math.floor(Math.random() * 500) + 1,
+            random2: Math.floor(Math.random() * 500) + 1,
+            random3: Math.floor(Math.random() * 500) + 1,
+            random4: Math.floor(Math.random() * 500) + 1
+          };
+          setRandom(newRandomValue); // 랜덤값을 업데이트
+        }, [product]);
+
         const showSizeArray = ["250", "255", "260", "265", "270", "275", "280", "285", "290"];
 
   return (
@@ -329,10 +345,10 @@ const [member, setMember] = useState(() => {
 
           <Title>Recommended Shoes</Title>
           <RecommendedBox>
-            <Image src={`${host}/api/product/view/product_${random1}_1.jpg`} onClick={() => navigate(`/products/read/${random1}`)}  style={{ cursor: 'pointer' }} fluid/>
-            <Image src={`${host}/api/product/view/product_${random2}_1.jpg`} onClick={() => navigate(`/products/read/${random2}`)}  style={{ cursor: 'pointer' }} fluid/>
-            <Image src={`${host}/api/product/view/product_${random3}_1.jpg`} onClick={() => navigate(`/products/read/${random3}`)}  style={{ cursor: 'pointer' }} fluid/>
-            <Image src={`${host}/api/product/view/product_${random4}_1.jpg`} onClick={() => navigate(`/products/read/${random4}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random.random1}_1.jpg`} onClick={() => navigate(`/products/read/${random.random1}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random.random2}_1.jpg`} onClick={() => navigate(`/products/read/${random.random2}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random.random3}_1.jpg`} onClick={() => navigate(`/products/read/${random.random3}`)}  style={{ cursor: 'pointer' }} fluid/>
+            <Image src={`${host}/api/product/view/product_${random.random4}_1.jpg`} onClick={() => navigate(`/products/read/${random.random4}`)}  style={{ cursor: 'pointer' }} fluid/>
           </RecommendedBox>
   
           <div  style={{width:'100%', height: '11%', display: 'flex', marginTop: '20px'}} >
