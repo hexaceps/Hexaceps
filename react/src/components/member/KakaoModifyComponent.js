@@ -142,8 +142,9 @@ const handleChangeMember = (e) => {
 
       <Form.Group className="mb-3">
         <Form.Label>이름</Form.Label>
-        <Form.Control type="text" value={member.name} disabled />
+        <Form.Control type={"text"}value={member.name} name="name" onChange={handleChangeMember} /> 
       </Form.Group>
+      
       <Form.Group className="mb-3" controlId="titleForm.ControlInput1">
         <Form.Label>비밀번호</Form.Label>
         <InputGroup>
