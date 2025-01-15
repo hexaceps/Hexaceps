@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 const HelpDeskLayout = () => {
   return (
     <>
-        <Container>
+        <Container style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
             <Nav className='justify-content-start' variant="tabs " style={{color : "#625244", fontFamily : "'GmarketSansMedium', Rowdies, sans-serif", borderBottom: "1px solid #625244"}}>
                 <Nav.Item>
                     <LinkContainer to="/board/notice">
