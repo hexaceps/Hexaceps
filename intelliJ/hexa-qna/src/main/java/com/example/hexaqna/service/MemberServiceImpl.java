@@ -81,6 +81,7 @@ public class MemberServiceImpl implements MemberService{
 
         HexaMember member = result.orElseThrow();
 
+        member.setName(dto.getName());
         member.setPassword(passwordEncoder.encode(dto.getPassword()));
         member.setPhoneNumber(dto.getPhoneNumber());
         member.setAddress(dto.getAddress());

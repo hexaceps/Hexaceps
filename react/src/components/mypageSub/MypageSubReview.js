@@ -158,8 +158,8 @@ const MypageSubReview = () => {
             </Card.Body>
           </Card>
         ))}
-        
-         <Button variant="primary" className="mt-4" onClick={handleShow}>리뷰작성하기 </Button> 
+
+       {/*  <Button variant="primary" className="mt-4" onClick={handleShow}>리뷰작성하기 </Button> */}
 
         {/* 리뷰 작성 모달 */}
         <Modal show={show} onHide={handleClose} centered>
