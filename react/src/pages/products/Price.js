@@ -60,7 +60,9 @@ const Price = () => {
             const likedIds = response.data; // 서버에서 반환된 관심 상품 ID 배열
             console.log("관심정보받아옴?",likedIds)
             console.log("스토리지 like",like[0].productId)
-            setLike(response.data)
+            if (like) {
+              localStorage.setItem("like", JSON.stringify(likedIds));
+            }
             const likedState = likedIds.reduce((acc, id) => {
               acc[id] = true;
               return acc;
@@ -74,7 +76,7 @@ const Price = () => {
           });
       }
        
-      }, []);
+      }, [like]);
   
   const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
   

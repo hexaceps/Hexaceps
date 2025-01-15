@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import  useCustomLogin from '../hooks/useCustomLogin'
 import { getOneMember } from '../api/memberApi';
 import styled from 'styled-components';
+import likeApi from '../api/likeApi';
 
 const AppLayout = () => {
   const {loginState,isLogin,doLogout } = useCustomLogin()
@@ -13,6 +14,8 @@ const AppLayout = () => {
       const storedMember = localStorage.getItem('member');
       return storedMember ? JSON.parse(storedMember) : null;
     });
+
+
     const updateMemberInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) return;
@@ -33,6 +36,8 @@ const AppLayout = () => {
       }
     }, [loginState.email]);
   
+   
+
     useEffect(() => {
       const interval = setInterval(async () => {
         const accessToken = localStorage.getItem('accessToken');

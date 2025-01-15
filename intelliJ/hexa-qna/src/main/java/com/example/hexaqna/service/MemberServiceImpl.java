@@ -5,6 +5,7 @@ import com.example.hexaqna.domain.MemberAgree;
 import com.example.hexaqna.domain.MemberRole;
 import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.HexaMemberRepository;
+import com.example.hexaqna.repository.LikeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class MemberServiceImpl implements MemberService{
 
     private final HexaMemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LikeRepository likeRepository;
     private static final String GOOGLE_USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
 
@@ -188,6 +190,9 @@ public class MemberServiceImpl implements MemberService{
         //기존 회원 경우 DTO로 변환 후 반환
         if(result.isPresent()){
             KakaoMemberDTO memberDTO = entityToDTOKakao(result.get());
+            // Like 정보 추가
+            List<LikeDTO> likeList = likeRepository.findByMemberId(result.get().getId());
+            memberDTO.setLike(likeList);
             log.info("중복인데? {}",String.valueOf(memberDTO));
             return memberDTO;
         }
