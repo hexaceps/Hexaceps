@@ -7,7 +7,7 @@ const BASE_URL = `${API_SERVER_HOST}/api/product/like`;
 
 const likeApi = {
   // 사용자 찜 목록 조회
-  getUserLikes: (userId) => axios.get(`${BASE_URL}/m/${userId}`),
+  getUserLikes: (userId) =>  axios.get(`${BASE_URL}/m/${userId}`),
 
   // 찜 추가
   addLike: (memberId, productId) =>
@@ -20,10 +20,15 @@ const likeApi = {
   // 찜 삭제
   removeLike: (memberId, productId) =>
     axios.delete(`${BASE_URL}/delete`, {
-      memberId,
-      productId
-    }
-  ),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        memberId,
+        productId,
+      }
+    })
+,  
 
   // 찜 토글
   toggleLike: (userId, productId, categoryId) =>

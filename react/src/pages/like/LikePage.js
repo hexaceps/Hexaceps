@@ -22,6 +22,12 @@ const LikePage = () => {
   const [member, setMember] = useState(null);
   const [likeItems, setLikeItems] = useState([]);
   const { changeCart } = useCustomCart();
+    const [like, setLike] = useState(() => {
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
+      });
+  
+      const storedMember = localStorage.getItem("member");
 
   useEffect(() => {
     const storedMember = localStorage.getItem("member")
@@ -93,8 +99,12 @@ const LikePage = () => {
 
   const handleRemoveLike = async (productId) => {
     if (!member) return;
+          console.log("멤버아이디",member.id)
+      console.log("상품아이디",productId)
     try {
-      await likeApi.removeLike(member.id, productId);
+       likeApi.removeLike(member.id, productId);
+      console.log("멤버아이디",member.id)
+      console.log("상품아이디",productId)
       setLikeItems((prev) => prev.filter((item) => item.productId !== productId));
       console.log(`상품 ${productId} 찜에서 삭제 완료`);
     } catch (error) {

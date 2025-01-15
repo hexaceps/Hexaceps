@@ -34,6 +34,11 @@ const Price = () => {
   const [member, setMember] = useState(null);
   const host = API_SERVER_HOST
   const defaultImage = '/path/to/default-image.jpg'
+  const [like, setLike] = useState(() => {
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
+      });
+  const storedMember = localStorage.getItem("member");
 
   const cheangeLev1 = () => {if (maxPrice === 100000)  {setMinPrice("0"); setMaxPrice(null);} else { setMinPrice("0"); setMaxPrice(100000);}setCurrentPage(1)};
   const cheangeLev2 = () => {if (maxPrice === 1000000) {setMinPrice("0");setMaxPrice(null);} else {setMinPrice("100000");setMaxPrice(1000000);}setCurrentPage(1)};
@@ -50,10 +55,25 @@ const Price = () => {
         if (storedMember) {
           const parsedMember = JSON.parse(storedMember);
           setMember(parsedMember);
-          console.log("Member 초기화 완료:", parsedMember);
-        } else {
-          console.warn("로컬 스토리지에 member 정보가 없습니다.");
-        }
+          console.log("Member 초기화 완료:", parsedMember);likeApi.getUserLikes(parsedMember.id)
+          .then((response) => {
+            const likedIds = response.data; // 서버에서 반환된 관심 상품 ID 배열
+            console.log("관심정보받아옴?",likedIds)
+            console.log("스토리지 like",like[0].productId)
+            setLike(response.data)
+            const likedState = likedIds.reduce((acc, id) => {
+              acc[id] = true;
+              return acc;
+            }, {});
+            setLikedProducts(likedState);
+            const storedLike = localStorage.getItem('like');
+            return storedLike ? JSON.parse(storedLike) : null;
+          })
+          .catch((error) => {
+            console.error("관심 상품 데이터 가져오기 실패:", error);
+          });
+      }
+       
       }, []);
   
   const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
@@ -64,28 +84,27 @@ const Price = () => {
       alert('로그인을 해야 누를수 있어요 :)');
       return;
     }
-    if (likedProducts[productId]) { // 좋아요 상태라면, 좋아요 해제 + removeAPI 호출
-      setLikedProducts((prev) => ({
-        ...prev,
-        [productId]: false,
-      }));
-      likeApi.removeLike(member.id, productId).then((response) => {
-          console.log('좋아요 삭제 성공:', response);
-        }).catch((error) => {
-          console.error('좋아요 삭제 실패:', error);
+    const isLiked = like && like.some(likeItem => likeItem.productId === productId);
+    if (isLiked) {
+      likeApi.removeLike(member.id, productId)
+        .then(() => {
+          const updatedLike = like.filter(likeItem => likeItem.productId !== productId);
+          setLike(updatedLike);  
+        })
+        .catch((error) => {
+          console.error("관심 상품 삭제 실패:", error);
         });
     } else {
-      setLikedProducts((prev) => ({ // 좋아요 클릭 + addAPI 호출
-        ...prev,
-        [productId]: true,
-      }));
-      likeApi.addLike(member.id, productId).then((response) => {
-          console.log('좋아요 등록 성공:', response);
-        }).catch((error) => {
-          console.error('좋아요 등록 실패:', error);
+      likeApi.addLike(member.id, productId)
+        .then(() => {
+          const updatedLike = [...like, { productId }];
+          setLike(updatedLike);  
+        })
+        .catch((error) => {
+          console.error("관심 상품 추가 실패:", error);
         });
     }
-  }
+  };
 
   
   useEffect(()=>{
@@ -142,7 +161,7 @@ const Price = () => {
                                 <Col>
                                   <span className='like-icon-wrapper like-thumb' onClick={(e) => { e.stopPropagation() 
                                     handleLikeClick( product.productId ); }}>
-                                    {likedProducts[product.productId] ? 
+                                  {like && like.some(likeItem => likeItem.productId === product.productId) ? 
                                     (<FaThumbsUp size={24} color="#625244" />) : (<FaRegThumbsUp size={26} color="#625244" />)}
                                   </span>
                                 </Col>

@@ -29,13 +29,16 @@ export const loginPost = async (loginParm) => {
         );
 
         if (res.data.success) {
-            console.log("Login successful");
+            console.log("Login successful",res.data);
             const member = {
                 email: res.data.email,
                 nickname: res.data.nickname,
                 accessToken: res.data.accessToken,
                 refreshToken: res.data.refreshToken,
             };
+
+            
+            localStorage.setItem("like", JSON.stringify(res.data.like));
             localStorage.setItem("member", JSON.stringify(member)); // 저장
             localStorage.setItem("accessToken", JSON.stringify(member.accessToken));
             localStorage.setItem("refreshToken", JSON.stringify(member.refreshToken));

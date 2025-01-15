@@ -29,6 +29,11 @@ const BrandNew = () => {
   const [sortOrder, setSortOrder] = useState('desc');  
   const host = API_SERVER_HOST
   const defaultImage = '/path/to/default-image.jpg'
+    const [like, setLike] = useState(() => {
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
+      });
+      const storedMember = localStorage.getItem("member");
 
   const handleSortChange = (newSortBy, newSortOrder) => {
     setSortBy(newSortBy);
@@ -69,7 +74,7 @@ const BrandNew = () => {
           <Col md={6}>
             <Card  className='mb-5 '>
               <Card.Img variant="top " className='mx-auto my-3' 
-                        style={{ width: '18rem' , height:'18rem'}}src={`${host}/api/product/view/${product.uploadFileNames[0]}`} 
+                        style={{ width: '18rem' , height:'18rem'}} src={`${host}/api/product/view/${product.uploadFileNames[0]}`} 
                         onError={(e) => e.target.src = defaultImage}/> 
               <Card.Body className='ms-3'>
                 <Card.Title>{product.productName}</Card.Title>

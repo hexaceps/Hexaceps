@@ -1,8 +1,10 @@
 package com.example.hexaqna.controller;
 
 import com.example.hexaqna.domain.HexaMember;
+import com.example.hexaqna.domain.Like;
 import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.HexaMemberRepository;
+import com.example.hexaqna.repository.LikeRepository;
 import com.example.hexaqna.service.MemberService;
 import com.example.hexaqna.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,12 +25,13 @@ import java.util.Map;
 public class HexaMemberController {
     private final MemberService memberService;
     private final HexaMemberRepository memberRepository;
+    private final LikeRepository likeRepository;
     private final PasswordEncoder passwordEncoder;
 
     private static final String GOOGLE_USER_INFO_URL = "https://www.googleapis.com/oauth2/v3/userinfo";
 
     @PostMapping("/login")
-    public Map<String, String> login(@RequestBody LoginForm loginForm) {
+    public Map<String, Object> login(@RequestBody LoginForm loginForm) {
         log.info("Attempting login for email: {}", loginForm.getEmail());
         log.info("Password: {}", loginForm.getPassword());
 
@@ -36,14 +41,21 @@ public class HexaMemberController {
             String email = loginForm.getEmail();
             HexaMember member = memberRepository.getWithRoles(loginForm.getEmail());
             String nickname = member.getNickname();
+            List<LikeDTO>  like = likeRepository.findByMemberId(member.getId());
+
 
             log.info("Login successful for {}", loginForm.getEmail());
             String accessToken = JWTUtil.generateToken(Map.of("email", loginForm.getEmail()), 60);
             String refreshToken = JWTUtil.generateToken(Map.of("email", loginForm.getEmail()), 60 * 24); // 예: 24시간 유효
-            return Map.of("success", "success",
-                    "accessToken", accessToken,
-                    "refreshToken", refreshToken,
-                    "email", email);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", "success");
+            response.put("accessToken", accessToken);
+            response.put("refreshToken", refreshToken);
+            response.put("email", email);
+            response.put("nickname", nickname);
+            response.put("like", like); // List<LikeDTO> 직접 반환
+
+            return response;
         } else {
             log.warn("Login failed for {}", loginForm.getEmail());
             return Map.of("error", "Invalid credentials");

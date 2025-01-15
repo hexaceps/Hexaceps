@@ -414,9 +414,8 @@ const [member, setMember] = useState(() => {
       </Nav.Link>
     </Nav.Item>
   </Nav>
-
       {page === 'A' ? <ProductSubdesc productId={productId} /> : <></>}
-      {page === 'B' ? <ProductSubReview productId={productId} setSelectedReview={setSelectedReview} moveToRead={moveToRead} selectedReview={selectedQna}/> : <></>}
+      {page === 'B' ? <ProductSubReview productId={productId} /> : <></>}
       {page === 'C' ? <ProductSubQna productId={productId} setSelectedQna={setSelectedQna} moveToRead={moveToRead} selectedQna={selectedQna}/> : <></>}
       {page === 'D' ? <ProductSubRefund /> : <></>}
 

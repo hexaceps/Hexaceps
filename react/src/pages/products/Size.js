@@ -34,6 +34,11 @@ const Size = () => {
   const [member, setMember] = useState(null);
   const host = API_SERVER_HOST
   const defaultImage = '/path/to/default-image.jpg'
+  const [like, setLike] = useState(() => {
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
+      });
+  const storedMember = localStorage.getItem("member");
 
       //브랜드명 현재 나이키 아디다스 구찌
   const cheangeWomen = () => {  if (productSize === 240) {setProductSize(null);} else {setProductSize(240) } setCurrentPage(1)}
@@ -51,10 +56,25 @@ const Size = () => {
     if (storedMember) {
       const parsedMember = JSON.parse(storedMember);
       setMember(parsedMember);
-      console.log("Member 초기화 완료:", parsedMember);
-    } else {
-      console.warn("로컬 스토리지에 member 정보가 없습니다.");
-    }
+      console.log("Member 초기화 완료:", parsedMember);likeApi.getUserLikes(parsedMember.id)
+      .then((response) => {
+        const likedIds = response.data; // 서버에서 반환된 관심 상품 ID 배열
+        console.log("관심정보받아옴?",likedIds)
+        console.log("스토리지 like",like[0].productId)
+        setLike(response.data)
+        const likedState = likedIds.reduce((acc, id) => {
+          acc[id] = true;
+          return acc;
+        }, {});
+        setLikedProducts(likedState);
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
+      })
+      .catch((error) => {
+        console.error("관심 상품 데이터 가져오기 실패:", error);
+      });
+  }
+   
   }, []);
 
 const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
@@ -140,7 +160,7 @@ if (likedProducts[productId]) { // 좋아요 상태라면, 좋아요 해제 + re
                                          <Col>
                                            <span className='like-icon-wrapper like-thumb' onClick={(e) => { e.stopPropagation() 
                                              handleLikeClick( product.productId ); }}>
-                                             {likedProducts[product.productId] ? 
+                                            {like && like.some(likeItem => likeItem.productId === product.productId) ? 
                                              (<FaThumbsUp size={24} color="#625244" />) : (<FaRegThumbsUp size={26} color="#625244" />)}
                                            </span>
                                          </Col>
