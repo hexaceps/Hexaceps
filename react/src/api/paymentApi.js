@@ -22,6 +22,8 @@ export const getOrderById = async(orderId) => {
 };
 
 export const getOrdersByMemberId = async(memberId) => {
-    const res = await axios.get(`${prefix}/m/${memberId}`, memberId)
+    console.log("결제 API 조회, 멤버ID requestPayment : ", memberId)
+    const res = await axios.get(`${prefix}/${memberId}`, memberId)
+    console.log("결제 api 호출 후 받은 결과 데이터", res);
     return res.data
 };

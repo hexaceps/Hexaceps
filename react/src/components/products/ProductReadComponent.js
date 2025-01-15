@@ -586,29 +586,3 @@ const Line = styled.hr`
   margin-top: -10px;
   margin-bottom: -10px;
 `
-
-
-//         <Row>
-//         <Col md={5}>   <Image src={`${host}/api/product/view/${product.uploadFileNames[0]}`} fluid/> </Col>
-//             <Col md={7} className='ms-auto p-3'>  
-//             <p>제품 사이트</p>
-//               <div>
-//                 {product.productSiteNames && product.productSiteNames.length > 0 ? (
-//                   product.productSiteNames.map((siteUrl, index) => (
-//                     <span key={index} style={{ marginRight: '10px' }}>
-//                       <a href={siteUrl} target="_blank" rel="noopener noreferrer">
-//                         {getSiteName(siteUrl)}
-//                       </a>
-//                     </span>
-//                   ))
-//                 ) : (
-//                   <p>등록된 사이트가 없습니다.</p>
-//                 )}
-//               </div>
-//             <div className='mt-3 text-end'>
-//           <Button variant='primary'  className='me-3' onClick={moveToList}>목록보기</Button>
-//           <Button variant='secondary' onClick={() => moveToModify(productId)}>수정</Button>
-//         </div>      
-//             </Col>
-//         </Row>
-//         <hr />

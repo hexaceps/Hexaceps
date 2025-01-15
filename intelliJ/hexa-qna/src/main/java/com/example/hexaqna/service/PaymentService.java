@@ -140,6 +140,7 @@ public class PaymentService {
                 .productBrand(payment.getProductBrand())
                 .size(payment.getSize())
                 .price(payment.getPrice())
+                .productImage(String.valueOf(payment.getProduct().getImageList().get(0).getFileName()))
                 .orderId(payment.getOrder().getOrderId())
                 .productQuantity(payment.getProductQuantity())
                 .productPrice(payment.getProductPrice())

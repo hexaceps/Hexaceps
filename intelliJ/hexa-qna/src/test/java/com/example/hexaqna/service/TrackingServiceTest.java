@@ -30,7 +30,7 @@ class TrackingServiceTest {
         String[] companyList = {"DHL", "FEDEX", "UPS", "한진택배", "대한통운", "로젠택배", "우체국택배"};
         String[] stepList = {"송장확인", "택배인수", "택배사이동", "간선상차", "물류허브", "간선하차", "배송지도착", "배송완료"};
         String[] locationList = {"미국오레건", "한국인천항", "옥천물류센터", "성남우편집중국", "성남중원구"};
-        for (int i = 1; i < 21; i++) {
+        for (int i = 1; i < 25; i++) {
             Payment paymentInfo = paymentRepository.findById((long)i).get();
             Tracking tracking = Tracking.builder()
                     .trackingId(trackingService.trackingIdGenerator((long) i))

@@ -31,7 +31,7 @@ public class PaymentController {
         List<PaymentDTO> paymentsByMember = paymentService.getPaymentsByMemberId(memberId);
         return paymentsByMember;
     }
-
+    
     @PostMapping("/")
     public PaymentDTO createPayment(@RequestBody PaymentDTO paymentDTO) {
         return paymentService.createPayment(paymentDTO);

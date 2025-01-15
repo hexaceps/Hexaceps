@@ -96,7 +96,7 @@ const MypageSubReview = () => {
     }))
   }
 
-
+  // 이곳에서는 리뷰등록을 안합니다. 등록은 배송에서 완료된 상품만 가능쓰~
   return (
     <>
       <Container className="py-1">
@@ -158,7 +158,7 @@ const MypageSubReview = () => {
             </Card.Body>
           </Card>
         ))}
-        <Button variant="primary" className="mt-4" onClick={handleShow}> 리뷰 작성하기 </Button>
+        {/* <Button variant="primary" className="mt-4" onClick={handleShow}>리뷰작성하기 </Button> */}
 
         {/* 리뷰 작성 모달 */}
         <Modal show={show} onHide={handleClose} centered>

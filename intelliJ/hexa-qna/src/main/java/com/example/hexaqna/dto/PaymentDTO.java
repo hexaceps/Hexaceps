@@ -30,6 +30,7 @@ public class PaymentDTO {
     private String productBrand;
     private int size;
     private int price;
+    private String productImage;
 
     private Long orderId;
     private int productQuantity;
