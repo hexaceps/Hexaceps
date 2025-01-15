@@ -16,7 +16,6 @@ const AboutUsComponent = () => {
 
   const sendEmail = () => {
     sendEmailForSubscribe({ email }).then(data =>{
-        console.log("NewsLetter subscribe sent done : ", data)
         setServerData(data)
   })}
   const handleSubmitClick = async (e) => {
@@ -27,13 +26,15 @@ const AboutUsComponent = () => {
     }
     try {
         const result = sendEmail({ email });
-        if (!result===null) {
-        alert("뉴스레터 신청이 완료 되었습니다")
+        console.log("뉴스레터 신청 결과는 ? ", serverData.result)
+        if (!serverData==="subscribe was done") {
+        console.log("serverData 쳌크 " + serverData.result)
     }
     } catch (error) {
         console.error("에러 발생 : ", error)
         alert("뉴스레터 신청 중 문제가 발생했습니다")
     }
+    alert("뉴스레터 신청이 완료 되었습니다")
   }
   return (
     <>

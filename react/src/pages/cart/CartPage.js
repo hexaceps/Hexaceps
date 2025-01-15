@@ -8,15 +8,24 @@ const CartPage = ({ member }) => {
   const navigate = useNavigate();
   const host = API_SERVER_HOST;
   const [cart, setCart] = useState([]);
-  const [selectedCartId, setSelectedCartId] = useState(null); // 선택된 cartId를 별도로 저장
+  // const [selectedCartId, setSelectedCartId] = useState(null); // 선택된 cartId를 별도로 저장
 
   console.log("멤버 정보", member);
   console.log("카트 목록", cart);
 
-  const chooseWhichCartId = (id) => {
-    setSelectedCartId(id)
-    console.log(selectedCartId);
-  };
+  // const chooseWhichCartId = (id) => {
+  //   setSelectedCartId(id)
+  //   console.log("라디오 버튼으로 선택한 카트 ID : " + id);
+  // };
+  // const handlePurchase = () => {
+  //   console.log("선택된 상품 cartId로 주문 이동 : ", cart.cartId);
+  //   if (!cart.cartId===null) {
+  //     navigate(`/order/${cart.cartId}`);
+  //   } else {
+  //     alert("구매할 상품을 선택해주세요.");
+  //   }
+  // };
+
 
   // 수량 변경 (+/-)
   const updateQuantity = async(cartId, delta) => {
@@ -66,10 +75,14 @@ const CartPage = ({ member }) => {
       } catch (error) {
         console.error("Error fetching cart or product data:", error);
       }
-    };
-
-    fetchCartData();
-  }, [member]);
+    }
+    fetchCartData()
+  }, [member])
+  // 주문 페이지로 이동
+  const handlePurchase = (cartId) => {
+    console.log("선택된 상품 cartId로 주문 이동 : ", cartId);
+    navigate(`/order/${cartId}`); // 해당 상품의 cartId로 주문 페이지 이동
+  };
 
   return (
     <div>
@@ -78,11 +91,12 @@ const CartPage = ({ member }) => {
           <div className="row g-0 align-items-center">
             {/* 라디오 체크박스 추가 */}
             <div className="col-1 text-center">
-              <input
+              {/* <input
                 type="radio"
                 name="cartSelection" // 라디오 버튼 그룹화
+                checked={selectedCartId === cart.cartId}
                 onChange={() => chooseWhichCartId(cart.cartId)} // 선택된 cartId 업데이트
-              />
+              /> */}
             </div>
             <div className="col-2">
               <img
@@ -125,12 +139,8 @@ const CartPage = ({ member }) => {
               <p className="mb-0">
                 총액: {(cart.price * cart.amount).toLocaleString()}원
               </p>
-              <button
-                className="btn btn-danger mt-2"
-                onClick={() => handleDelete(cart.cartId)}
-              >
-                삭제
-              </button>
+              <button className="btn btn-outline-dark mt-2 btn-sm ms-2" onClick={() => handlePurchase(cart.cartId)} >상품구매 ⚡ </button>
+              <button className="btn btn-outline-secondary mt-2 btn-sm ms-2" onClick={() => handleDelete(cart.cartId)} >삭제</button>
             </div>
           </div>
         </div>
@@ -149,11 +159,11 @@ const CartPage = ({ member }) => {
         </button>
 
         {/* 선택 상품구매 버튼 */}
-        <button
+        {/* <button
           className="btn btn-dark"
           onClick={() => {
             if (selectedCartId) {
-              console.log("선택된 상품 cartId:", selectedCartId);
+              console.log("선택된 상품 cartId로 주문 이동 : ", selectedCartId);
               navigate(`/order/${selectedCartId}`); // 선택된 상품의 cartId로 구매창으로 이동
             } else {
               alert("구매할 상품을 선택해주세요.");
@@ -161,7 +171,7 @@ const CartPage = ({ member }) => {
           }}
         >
           선택 상품구매 ⚡
-        </button>
+        </button> */}
       </div>
     </div>
   );
