@@ -112,8 +112,8 @@ const AppLayout = () => {
         <Container >
           <FooterWrapper style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
             <LeftFooter className='mt-3'>
-              <div className='footerNav' style={{fontSize : "0.9rem"}}>
-                <div><Nav.Link href="https://ben10fanfiction.fandom.com/wiki/Hexacep">회사소개</Nav.Link></div>
+              <div className='footerNav' style={{fontSize : "0.9rem"}} >
+                <div><Nav.Link href="https://prickly-sparrow-0cb.notion.site/166228727bfa808bb4e8e51e52e09847?v=166228727bfa813ab0d3000ce2499541">회사소개</Nav.Link></div>
                 <div><Nav.Link href="/board/agreement">이용약관</Nav.Link></div>
                 <div style={{minWidth : "110px"}}><Nav.Link href="/board/privacy">개인정보 처리방침</Nav.Link></div>
                 <div style={{minWidth : "100px"}}><Nav.Link href="https://www.nike.com/kr/a/how-to-clean-shoes">운동화 세탁 방법</Nav.Link></div>

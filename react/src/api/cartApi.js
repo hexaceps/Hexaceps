@@ -29,7 +29,8 @@ export const getCartItems = async(memberId) => {
 
 //장바구니 항목 삭제
 export const removeFromCart = async(cartId) => {
-    const res = await jwtAxios.delete(`${prefix}/${cartId}`)
-    console.log("삭제 : ", res)
-    return res.data
+  console.log("CartId 가 삭제 됩니다 (cartAPI) " + cartId)
+  const res = await axios.delete(`${prefix}/delete/${cartId}`)
+  console.log("삭제 : ", res)
+  return res.data
 }

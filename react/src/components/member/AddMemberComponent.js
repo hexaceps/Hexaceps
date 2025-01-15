@@ -34,6 +34,7 @@ const AddMemberComponent = () => {
   const navigate = useNavigate(); // 페이지 이동을 위한 useNavigate
   const {moveToPath} = useCustomLogin()
 
+  const { doLogin } = useCustomLogin();
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
   const togglePasswordCheckVisibility = () => setShowPasswordCheck(!showPasswordCheck);
@@ -136,7 +137,12 @@ const AddMemberComponent = () => {
       await memberPostAdd(memberData);
       alert('회원가입이 완료되었습니다.');
       setMember(initState);  
-      moveToPath('/');
+      // moveToPath('/');
+
+      // 자동 로그인 처리
+      await doLogin({ email: memberData.email, password: memberData.password });
+      // 회원 정보 수정 페이지로 이동
+      navigate('/mypage/modify');
 
     } catch (error) {
       console.error('회원가입 실패:', error);
