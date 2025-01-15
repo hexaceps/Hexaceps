@@ -86,4 +86,10 @@ public class BoardController {
         response.put("message", id + "번 항목을 찾을 수 없습니다.");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
+
+    @PostMapping("/member/subscribe")
+    public Map<String, String> subscribeMember(@RequestBody String emailInfo) {
+        log.info("subscribeMember but that saved not in storage : ", emailInfo);
+        return Map.of("result", "subscribe was done");
+    }
 }

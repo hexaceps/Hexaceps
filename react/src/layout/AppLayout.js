@@ -111,7 +111,7 @@ const AppLayout = () => {
                 <div><Nav.Link href="https://ben10fanfiction.fandom.com/wiki/Hexacep">회사소개</Nav.Link></div>
                 <div><Nav.Link href="/board/agreement">이용약관</Nav.Link></div>
                 <div style={{minWidth : "110px"}}><Nav.Link href="/board/privacy">개인정보 처리방침</Nav.Link></div>
-                <div style={{minWidth : "100px"}}><Nav.Link href="#">운동화 세탁 방법</Nav.Link></div>
+                <div style={{minWidth : "100px"}}><Nav.Link href="https://www.nike.com/kr/a/how-to-clean-shoes">운동화 세탁 방법</Nav.Link></div>
               </div>
               <div className='logoBox'>
                 <img src='/images/logo.png' alt='logo' />

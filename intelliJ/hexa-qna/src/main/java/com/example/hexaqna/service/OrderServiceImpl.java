@@ -51,9 +51,9 @@ public class OrderServiceImpl implements OrderService {
         order.setMember(member);
         order.setCartId(orderRequestDTO.getCartId());
         order.setProduct(product);
-        order.setProductQuantity(1);
+        order.setProductQuantity(order.getProductQuantity());
         order.setProductPrice(product.getPrice());
-        order.setTotalPrice(product.getPrice());
+        order.setTotalPrice(product.getPrice()*order.getProductQuantity());
         order.setOrderNumber("ORD-" + System.currentTimeMillis());
         order.setOrderStatus("PENDING");
 

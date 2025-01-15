@@ -66,26 +66,47 @@ const OrderComponent = ({ cartId }) => {
     }, []);
 
     useEffect(() => {
+      console.log("주문페이지에서 가져온 장바구니 ID (이걸 useEffect에서 사용) : " + cartId)
         const fetchCartData = async () => {
             if (!member || !member.id) {
                 console.warn("Member가 없거나 ID가 정의되지 않았습니다. 데이터를 가져오지 않습니다.");
                 return;
             }
             try {
-                const cartData = await getCartItems(member.id);
-                console.log("fetchCartData() 에서 Cart Data : ", cartData);
-                if (cartData && cartData.length > 0) {
-                    const { productId } = cartData[0];
-                    setCart(cartData[0]);
-                    console.log("장바구니 아이디 세팅 완료 : ", cart)
-                    if (productId) {
-                        const productData = await productGetOne(productId);
-                        console.log("Product Data:", productData);
-                        setProduct(productData);
-                    }
-                } else {
-                    console.warn("Cart data is empty or undefined.");
+              const cartData = await getCartItems(member.id);
+              console.log("fetchCartData() 에서 Cart Data : ", cartData);
+              if (cartData && cartData.length > 0) {
+                const targetCartId = cartId; // 비교하고자 하는 cartId
+                const targetIndex = cartData.findIndex((cart) => cart.cartId == targetCartId);
+                console.log("찾아낸 배열 index : "+targetIndex)
+
+                if (targetIndex !== -1) {
+                  console.log(`Cart ID가 ${targetCartId}인 항목의 인덱스:`, targetIndex);
+                  console.log("해당 항목:", cartData[targetIndex]);
+            
+                  // 해당 항목의 데이터를 세팅 (예: state 업데이트)
+                  setCart(cartData[targetIndex]);
+                  console.log("장바구니 항목 세팅 완료:", cartData[targetIndex]);
+
+                  // 관련 productId로 추가 데이터 가져오기
+                  const productId = cartData[targetIndex].productId;
+                  if (productId) {
+                    const productData = await productGetOne(productId);
+                    console.log("Product Data:", productData);
+                    setProduct(productData);
+                  }
                 }
+                // const { productId } = cartData[0];
+                // setCart(cartData[0]);
+                // console.log("장바구니 아이디 세팅 완료 : ", cart)
+                // if (productId) {
+                //     const productData = await productGetOne(productId);
+                //     console.log("Product Data:", productData);
+                //     setProduct(productData);
+                // }
+              } else {
+                  console.warn("Cart data is empty or undefined.");
+              }
             } catch (error) {
                 console.error("Error fetching cart or product data:", error);
             }
@@ -245,7 +266,7 @@ const OrderComponent = ({ cartId }) => {
                         <Col className='me-5 text-end'>{product.price.toLocaleString()}원</Col>
                       </Row>
                       <Row className='mt-2'>
-                        <Col>Order Quantity</Col>
+                        <Col>Order Amount</Col>
                         <Col className='me-5 text-end'>{cart.amount}</Col>
                       </Row>
                     </Col>
@@ -363,7 +384,7 @@ const OrderComponent = ({ cartId }) => {
             </Row>
             <Row className='mt-2'>
               <Col className='ms-3'>Order Quantity</Col>
-              <Col className='me-3 text-end'>{cart.amount}</Col>
+              <Col className='me-3 text-end'>{orderResult?.productQuantity}</Col>
             </Row>
             <Row className='mt-2'>
               <Col className='ms-3'>Total Price</Col>

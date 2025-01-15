@@ -5,6 +5,7 @@ import OrderComponent from '../../components/order/OrderComponent'
 
 export const OrderPage = () => {
   const {cartId} = useParams();  // URL 파라미터에서 cartId를 추출
+  console.log("주문페이지에서 useparam으로 받은 장바구니 ID : " + cartId)
 
   // useEffect(() => {
   //   // cartId를 사용해 주문 정보를 가져오는 API 호출
