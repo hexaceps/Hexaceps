@@ -20,6 +20,7 @@ public interface HexaMemberRepository extends JpaRepository<HexaMember, Long>, M
 
 
 
+
     //로그인후 email로 정보가져오기
     @EntityGraph(attributePaths = {"memberRoleList"})
     @Query("select c from HexaMember c where c.email = :email")

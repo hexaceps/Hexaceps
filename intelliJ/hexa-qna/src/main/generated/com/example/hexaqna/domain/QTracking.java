@@ -22,21 +22,15 @@ public class QTracking extends EntityPathBase<Tracking> {
 
     public static final QTracking tracking = new QTracking("tracking");
 
-    public final StringPath company = createString("company");
-
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath location = createString("location");
+    public final QHexaMember member;
 
     public final QPayment payment;
 
-    public final StringPath status = createString("status");
-
-    public final StringPath step = createString("step");
-
     public final StringPath trackingId = createString("trackingId");
 
-    public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);
+    public final ListPath<TrackingTrace, QTrackingTrace> trackingTraces = this.<TrackingTrace, QTrackingTrace>createList("trackingTraces", TrackingTrace.class, QTrackingTrace.class, PathInits.DIRECT2);
 
     public QTracking(String variable) {
         this(Tracking.class, forVariable(variable), INITS);
@@ -56,6 +50,7 @@ public class QTracking extends EntityPathBase<Tracking> {
 
     public QTracking(Class<? extends Tracking> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.member = inits.isInitialized("member") ? new QHexaMember(forProperty("member")) : null;
         this.payment = inits.isInitialized("payment") ? new QPayment(forProperty("payment"), inits.get("payment")) : null;
     }
 

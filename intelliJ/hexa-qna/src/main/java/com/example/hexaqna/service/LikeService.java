@@ -57,9 +57,7 @@ public class LikeService {
             Optional<Like> existLike = likeRepository.findByProductIdAndMemberId(member.getId(), product.getProductId());
             if (existLike.isPresent()) { // 좋아요가 이미 되어있는 경우
                 Like like = existLike.get();
-                likeRepository.save(like);
-                addResult = mapToDTO(like);
-                return addResult;
+                likeRepository.delete(like);
             } else { // 새로운 좋아요 추가
                 Like like = new Like();
                 like.setProduct(product);
@@ -76,11 +74,14 @@ public class LikeService {
     public void removeLike(Long memberId, Long productId) {
         log.info("removeLike() 서비스 로직 시작 : "+memberId+", "+productId);
         Optional<HexaMember> memberInfo = hexaMemberRepository.findById(memberId);
+        log.info("멤버정보 {}" ,memberInfo);
         Optional<Product> productInfo = productRepository.findById(productId);
+        log.info("상품정보 {}" ,productInfo);
         if (memberInfo.isPresent() && productInfo.isPresent()) {
             HexaMember member = memberInfo.get();
             Product product = productInfo.get();
             Optional<Like> existLike = likeRepository.findByProductIdAndMemberId(member.getId(), product.getProductId());
+            log.info("라이크정보 {}" , existLike);
             if (existLike.isPresent()) {
                 Like like = existLike.get();
                 likeRepository.delete(like);

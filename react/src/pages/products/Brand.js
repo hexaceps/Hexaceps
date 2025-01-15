@@ -38,12 +38,18 @@ const Brand = () => {
   const [member, setMember] = useState(null);
   const [selectedSortLabel, setSelectedSortLabel] = useState('정렬');
   const [likedProducts, setLikedProducts] = useState({}); // 제품마다 LIKE 상태 확인
-
+  const [like, setLike] = useState(() => {
+      const storedLike = localStorage.getItem('like');
+      return storedLike ? JSON.parse(storedLike) : null;
+    });
+    const storedMember = localStorage.getItem("member");
 
   // 브랜드명 현재 나이키 아디다스 구찌 (추가 브랜드를 목록 처리 해서 아래 부분, 화면 부분 주석 처리 25. 01. 11 업데이트, 정병오)
   // const cheangeNike = () => {if (productBrand === "NIKE") {setProductBrand(null);} else {setProductBrand("NIKE")}setCurrentPage(1)}
   // const cheangeAdidas = () => {if (productBrand === "ADIDAS") {setProductBrand(null); } else {setProductBrand("ADIDAS")}setCurrentPage(1)}
   // const cheangeGuggi = () => {if (productBrand === "GUCCI") {setProductBrand(null);} else {setProductBrand("GUCCI")}setCurrentPage(1)}
+
+
 
   const toggleBrandSelection = (brand) => {
     setSelectedBrands((prev) =>
@@ -68,7 +74,6 @@ const Brand = () => {
     좋아요 기능 로직 추가
   */
   useEffect(() => { // LIKE 전 로그인 유저인지 확인 하기 위해서 useEffect 사용
-    const storedMember = localStorage.getItem("member");
     if (storedMember) {
       const parsedMember = JSON.parse(storedMember);
       setMember(parsedMember);
@@ -77,11 +82,15 @@ const Brand = () => {
       .then((response) => {
         const likedIds = response.data; // 서버에서 반환된 관심 상품 ID 배열
         console.log("관심정보받아옴?",likedIds)
+        console.log("스토리지 like",like[0].productId)
+        setLike(response.data)
         const likedState = likedIds.reduce((acc, id) => {
           acc[id] = true;
           return acc;
         }, {});
         setLikedProducts(likedState);
+        const storedLike = localStorage.getItem('like');
+        return storedLike ? JSON.parse(storedLike) : null;
       })
       .catch((error) => {
         console.error("관심 상품 데이터 가져오기 실패:", error);
@@ -97,13 +106,12 @@ const Brand = () => {
       alert('로그인을 해야 누를수 있어요 :)');
       return;
     }
-    if (likedProducts[productId]) {
+    const isLiked = like && like.some(likeItem => likeItem.productId === productId);
+    if (isLiked) {
       likeApi.removeLike(member.id, productId)
         .then(() => {
-          setLikedProducts((prev) => ({
-            ...prev,
-            [productId]: false,
-          }));
+          const updatedLike = like.filter(likeItem => likeItem.productId !== productId);
+          setLike(updatedLike);  
         })
         .catch((error) => {
           console.error("관심 상품 삭제 실패:", error);
@@ -111,16 +119,14 @@ const Brand = () => {
     } else {
       likeApi.addLike(member.id, productId)
         .then(() => {
-          setLikedProducts((prev) => ({
-            ...prev,
-            [productId]: true,
-          }));
+          const updatedLike = [...like, { productId }];
+          setLike(updatedLike);  
         })
         .catch((error) => {
           console.error("관심 상품 추가 실패:", error);
         });
     }
-  }
+  };
 
   useEffect(() => {
       setFetching(true)
@@ -134,7 +140,7 @@ const Brand = () => {
         console.log("getListFilter 로 Brand 호출 한 결과 data : ", data)
         setServerData(data) 
         setFetching(false)
-      })
+            })
   }, [currentPage, size, refresh, selectedBrands, sortBy, sortOrder])
   return (
     <>
@@ -183,7 +189,7 @@ const Brand = () => {
                   <Col>
                     <span className='like-icon-wrapper like-thumb' onClick={(e) => { e.stopPropagation() 
                       handleLikeClick( product.productId ); }}>
-                      {likedProducts[product.productId] ? 
+                         {like && like.some(likeItem => likeItem.productId === product.productId) ? 
                       (<FaThumbsUp size={24} color="#625244" />) : (<FaRegThumbsUp size={26} color="#625244" />)}
                     </span>
                   </Col>
