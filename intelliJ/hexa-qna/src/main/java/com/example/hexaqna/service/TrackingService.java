@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.LongToIntFunction;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,6 +64,8 @@ public class TrackingService {
     // 배송 정보 저장 (Tracking 생성 시 TrackingTrace를 자동으로 관리)
     @Transactional
     public TrackingDTO saveTracking(TrackingDTO trackingDTO) {
+        String[] companyList = {"DHL", "FEDEX", "UPS", "한진택배", "대한통운", "로젠택배", "우체국택배"};
+        String[] locationList = {"미국오레건", "한국인천항", "옥천물류센터", "성남우편집중국", "성남중원구"};
         Payment payment = paymentRepository.findById(trackingDTO.getPaymentId()).orElse(null);
         if(payment == null) {
             log.error("결제 정보가 조회 되지 않습니다. 결제 내역을 확인해 주세요");
@@ -74,9 +77,9 @@ public class TrackingService {
                 .build();
         TrackingTrace traceList = TrackingTrace.builder()
                 .status("배송확인중")
-                .company("한진택배")
+                .company(companyList[(int) (payment.getPaymentId() % companyList.length)])
                 .step("송장확인")
-                .location("제주시 올레동")
+                .location(locationList[(int) (payment.getProduct().getProductId() % locationList.length)])
                 .updateDate(LocalDateTime.now())
                 .build();
         tracking.addTrackingTrace(traceList);
