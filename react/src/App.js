@@ -47,6 +47,7 @@ import BoardQueryPage from './pages/board/BoardQueryPage';
 import KakaoRedirectPage from './pages/member/KakaoRedirectPage';
 import KakaoModifyPage from './pages/member/KakaoModifyPage';
 import GoogleRedirectPage from './pages/member/GoogleRedirectPage';
+import MemberEmailPage from './pages/member/MemberEmailPage';
 
 function App() {
   
@@ -67,6 +68,7 @@ function App() {
           <Route path="modify" element={<KakaoModifyPage />} />
           <Route path='modifyN' element={<ModifyMemberComponent />} />
           <Route path="google" element={<GoogleRedirectPage />} />
+          <Route path="email" element={<MemberEmailPage />} />
         </Route>
         <Route path="/qna/">
           <Route index element={<IndexPage />}/>

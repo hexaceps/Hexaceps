@@ -191,4 +191,11 @@ public class HexaMemberController {
         }
     }
 
+    @GetMapping("/emaillist")
+    public List<String> getEmail(){
+        List<String> emails = memberRepository.fineEmail();
+
+        return emails;
+
+    }
 }
