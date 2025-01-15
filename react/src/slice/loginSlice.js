@@ -57,11 +57,15 @@ const loginSlice = createSlice({
             nickname: payload.nickname,
             accessToken: payload.accessToken,
             refreshToken: payload.refreshToken,
+            like: payload.like
         };
     
         setCookie("member1", JSON.stringify(memberData), 1); // 멤버 쿠키에 토큰 포함 저장
+        localStorage.setItem("like", JSON.stringify(payload.like));
         localStorage.setItem("accessToken", payload.accessToken);
-        localStorage.setItem("refreshToken", payload.refreshToken);
+        localStorage.setItem("refreshToken", payload.refreshToken);   
+    //    localStorage.setItem("like", payload.{like});
+
             return {
                 ...state, // 기존 상태는 그대로 두고, 변경된 부분만 덮어씌웁니다.
                 email: payload.email,
@@ -127,6 +131,7 @@ const loginSlice = createSlice({
         console.log("구글 로그인 성공", action.payload);
         const payload = action.payload;
 
+        
         // 카카오 로그인 성공 시, 쿠키에 저장
         if (!payload.error) {
           setCookie("member1", JSON.stringify(payload), 1); // 1일 동안 유지

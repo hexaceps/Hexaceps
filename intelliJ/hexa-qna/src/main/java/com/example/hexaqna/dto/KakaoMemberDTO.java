@@ -23,9 +23,11 @@ public class KakaoMemberDTO extends User{
         private int socialYn;
 
         private List<String> roleNames = new ArrayList<>();
+        private List<LikeDTO> like = new ArrayList<>(); // 추가
 
 
-        // 우리는 그냥 문자로 권한을 받으면 되지만 시큐리티느 객체로 받아야한다. 그래서 new SimpleGrantedAuthortu("ROLE_"+ str) 문자 객체로 생성해준다
+
+    // 우리는 그냥 문자로 권한을 받으면 되지만 시큐리티느 객체로 받아야한다. 그래서 new SimpleGrantedAuthortu("ROLE_"+ str) 문자 객체로 생성해준다
         public KakaoMemberDTO(String email, String password, String nickname, int socialYn, List<String> roleNames) {
             super(email, password, roleNames.stream().map(str -> new SimpleGrantedAuthority("ROLE_" + str)).collect(Collectors.toList()
             ));
@@ -49,6 +51,7 @@ public class KakaoMemberDTO extends User{
             dataMap.put("nickname", nickname);
             dataMap.put("socialYn", socialYn);
             dataMap.put("roleNames", roleNames);
+            dataMap.put("like", like); // 추가
 
             return dataMap;
         }

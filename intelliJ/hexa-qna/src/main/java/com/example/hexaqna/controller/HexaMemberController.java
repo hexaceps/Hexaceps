@@ -52,7 +52,6 @@ public class HexaMemberController {
             response.put("accessToken", accessToken);
             response.put("refreshToken", refreshToken);
             response.put("email", email);
-            response.put("nickname", nickname);
             response.put("like", like); // List<LikeDTO> 직접 반환
 
             return response;
@@ -144,6 +143,7 @@ public class HexaMemberController {
         String accessToken = authorization.substring(7);
         log.info("react에서 가져온 access Token {}", accessToken);
         KakaoMemberDTO kakaoMember = memberService.getKakaoMember(accessToken);
+
         Map<String, Object> claims = kakaoMember.getClaims();
         String jwtAccessToken = JWTUtil.generateToken(claims, 60);
         String jwtRefreshToken = JWTUtil.generateToken(claims, 60 * 24);
@@ -167,7 +167,10 @@ public class HexaMemberController {
 
             HexaMember socialYn = memberRepository.getWithRoles(googleMember.getEmail());
             googleMember.setSocialYn(socialYn.getSocialYn());
+            List<LikeDTO>  like = likeRepository.findByMemberId(socialYn.getId());
+
             log.info("뭐냐?? 소셜{}",googleMember.getSocialYn());
+            log.info("뭐냐?? like{}",like);
 
             String accessToken = JWTUtil.generateToken(Map.of("email", googleMember.getEmail()), 60);
             String refreshToken = JWTUtil.generateToken(Map.of("email", googleMember.getEmail()), 60 * 24); // 예: 24시간 유효
@@ -176,8 +179,11 @@ public class HexaMemberController {
                     "refreshToken", refreshToken,
                     "email", googleMember.getEmail(),
                     "roles", googleMember.getRoleNames(),
-                    "socialYn", googleMember.getSocialYn()
+                    "socialYn", googleMember.getSocialYn(),
+                    "like", like
             );
+            log.info("구글 최종값 {}",response);
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error during Google login", e);

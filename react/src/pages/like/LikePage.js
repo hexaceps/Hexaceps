@@ -49,10 +49,13 @@ const LikePage = () => {
         } else {
           console.warn("찜 데이터가 비어 있습니다.")
         }};
+        if (like) {
+          localStorage.setItem("like", JSON.stringify(like));
+        }
     if (member) {
       fetchLikeData()
     }
-  }, [member]) // member 상태가 변경될 때마다 실행
+  }, [member,like]) // member 상태가 변경될 때마다 실행
 
   const handleAddToCart = async (item) => {
     let amount = 1;
@@ -102,7 +105,14 @@ const LikePage = () => {
           console.log("멤버아이디",member.id)
       console.log("상품아이디",productId)
     try {
-       likeApi.removeLike(member.id, productId);
+       likeApi.removeLike(member.id, productId)
+       .then(() => {
+         const updatedLike = like.filter(likeItem => likeItem.productId !== productId);
+         setLike(updatedLike);  
+       })
+       .catch((error) => {
+         console.error("관심 상품 삭제 실패:", error);
+       });
       console.log("멤버아이디",member.id)
       console.log("상품아이디",productId)
       setLikeItems((prev) => prev.filter((item) => item.productId !== productId));
