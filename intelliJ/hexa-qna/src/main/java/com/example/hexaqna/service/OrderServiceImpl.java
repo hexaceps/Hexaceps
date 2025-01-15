@@ -42,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new RuntimeException("Member not found with ID: " + orderRequestDTO.getMemberId()));
 
         Optional<Cart> cart = cartRepository.findById(orderRequestDTO.getCartId());
+        Cart cartData = cart.get();
         Product product = cart.get().getProductId();
         // Product 조회 (기본 Product ID 사용)
         // Product product = productRepository.findById(1L) // 예: 기본 상품 ID 1
@@ -51,11 +52,11 @@ public class OrderServiceImpl implements OrderService {
         order.setMember(member);
         order.setCartId(orderRequestDTO.getCartId());
         order.setProduct(product);
-        order.setProductQuantity(order.getProductQuantity());
+        order.setProductQuantity(cartData.getAmount());
         order.setProductPrice(product.getPrice());
         order.setTotalPrice(product.getPrice()*order.getProductQuantity());
         order.setOrderNumber("ORD-" + System.currentTimeMillis());
-        order.setOrderStatus("PENDING");
+        order.setOrderStatus("READY");
 
         Order savedOrder = orderRepository.save(order);
         return convertToDTO(savedOrder);

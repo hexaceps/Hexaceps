@@ -6,6 +6,7 @@ import MonthlyPaymentInfo from './MonthlyPaymentInfo';
 import { API_SERVER_HOST } from '../../api/qnaApi';
 import { createOrder } from '../../api/orderApi';
 import { requestPayment } from '../../api/paymentApi';
+import { createTrackingInfo } from '../../api/trackingApi'
 import './OrderComponent.css'; 
 import { useNavigate } from 'react-router-dom';
 import { CheckCircleFill, ExclamationTriangleFill } from 'react-bootstrap-icons'
@@ -194,11 +195,20 @@ const OrderComponent = ({ cartId }) => {
         console.log("r결제 결과 확인 : ", paymentResponse)
         console.log("r결제 아이디 확인 : ", paymentResponse.paymentId)
         setShowLoadingModal(false);
+
         if (paymentResponse.paymentId) {
             setShowSuccessModal(true); // 결제 성공 모달 띄우기
         } else {
             setShowFailureModal(true); // 결제 실패 모달 띄우기
         }
+        
+        // 배송 API 호출
+        const trackingData = {
+          paymentId : paymentResponse.paymentId
+        }
+        const createTracking = await createTrackingInfo(trackingData)
+        console.log("배송데이터 생성이 완료 됐습니다" + createTracking)
+
         } catch (error) {
         setShowLoadingModal(false);
         console.error('결제 요청 실패', error);

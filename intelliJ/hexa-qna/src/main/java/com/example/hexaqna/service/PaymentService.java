@@ -58,7 +58,7 @@ public class PaymentService {
         }
 
         // 계좌번호나 카트번호를 1111111111111111 로 받으면 Exception 발생
-        String errorCode = "1111111111111111" ;
+        String errorCode = "123456123456" ;
         if (paymentForm.getTransferNumber().equals(errorCode)) {
             throw new ErrorResponseException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -67,7 +67,7 @@ public class PaymentService {
         Payment payment = dtoToEntity(paymentDTO);
 
         payment.setPaymentDate(LocalDateTime.now());
-        payment.setPaymentStatus("결제대기");
+        payment.setPaymentStatus("결제중");
         payment.setPaymentNumber(generatePaymentNumber(paymentDTO));
         payment.setPaymentType(paymentForm.getPaymentType());
         payment.setPaymentVender(paymentForm.getPaymentVender());

@@ -19,6 +19,7 @@ public class TrackingController {
     // 배송 추척리스트 생성 (paymentId로 생성)
     @PostMapping("/")
     public TrackingDTO createTrackingList(@RequestBody TrackingDTO trackingDTO) {
+        log.info("createTrackingList를 리액트에서 받았습니다. paymentId : " + trackingDTO.getPaymentId());
         TrackingDTO trackingResult = trackingService.saveTracking(trackingDTO);
         return trackingResult;
     }
