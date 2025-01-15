@@ -17,7 +17,7 @@ const BoardQueryPage = () => {
 
   return (
     <>
-      <Container>
+      <Container style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
         {/* <HelpDeskLayout></HelpDeskLayout> */}
         <div className='mb-3 mt-5 text-center fs-5' style={{ color : "#625244" }}> <Search></Search> {keyword} (으)로 검색된 { (category==="notice")?"공지사항" : "FAQ" } 게시물 입니다</div>
         <BoardQueryComponent keyword={keyword} category={category}/>
