@@ -3,10 +3,10 @@
 */
 import axios from "axios";
 import jwtAxios from "../util/jwtUtil";
+import { API_SERVER_HOST } from '../serverEnv'
 
-
-export const HEXA_API_SERVER = "http://localhost:8010"
-const board_path = `${HEXA_API_SERVER}/api/board`
+// export const API_SERVER_HOST = "http://localhost:8010"
+const board_path = `${API_SERVER_HOST}/api/board`
 
 // 카테고리별 게시판 조회 (notice, faq)
 export const getCategoryList = async({ category, pageParam }) => {

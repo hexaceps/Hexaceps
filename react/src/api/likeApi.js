@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwtAxios from "../util/jwtUtil";
-import { API_SERVER_HOST } from './qnaApi'
+//import { API_SERVER_HOST } from './qnaApi'
+import { API_SERVER_HOST } from '../serverEnv'
 
 // 기본 URL 설정
 const BASE_URL = `${API_SERVER_HOST}/api/product/like`;
