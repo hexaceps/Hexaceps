@@ -1,6 +1,6 @@
 import React, { useEffect, useState,useDispatch } from 'react'
-import {Nav, Navbar, NavDropdown, Container, Row, Col,Image,  Form, FormControl, InputGroup} from 'react-bootstrap';
-import { Search } from 'react-bootstrap-icons'; // 돋보기 아이콘 추가
+import { Nav, Navbar, NavDropdown, Container, Row, Col ,Image,  Form, FormControl, InputGroup} from 'react-bootstrap';
+import { Search, Incognito } from 'react-bootstrap-icons'; // 돋보기 아이콘 추가
 import { Outlet } from 'react-router-dom';
 import  useCustomLogin from '../hooks/useCustomLogin'
 import { getOneMember } from '../api/memberApi';
@@ -14,7 +14,6 @@ const AppLayout = () => {
       const storedMember = localStorage.getItem('member');
       return storedMember ? JSON.parse(storedMember) : null;
     });
-
 
     const updateMemberInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
@@ -35,8 +34,6 @@ const AppLayout = () => {
         updateMemberInfo();
       }
     }, [loginState.email]);
-  
-   
 
     useEffect(() => {
       const interval = setInterval(async () => {
@@ -52,12 +49,7 @@ const AppLayout = () => {
   
       return () => clearInterval(interval); 
     }, []);
-  
-    
-
- 
-   
-    
+     
   return (
     <div>
       {/* 상단 헤더 메뉴 */}
@@ -78,6 +70,7 @@ const AppLayout = () => {
               {/* 사용자 메뉴 기능 */}
               <div>
                 <Nav bg="white" variant="light" className="justify-content-end mb-2" style={{fontSize : "0.8rem"}}>
+                  { loginState.email === "hexa@code.com" ? <Nav.Link href='/admin'><Incognito /></Nav.Link> : <></>}
                   <Nav.Link href="/board/notice">ABOUT</Nav.Link>
                   <Nav.Link href="/like?tab=cart">MY SHOP</Nav.Link>
                   <Nav.Link href="/mypage">MY PAGE</Nav.Link>

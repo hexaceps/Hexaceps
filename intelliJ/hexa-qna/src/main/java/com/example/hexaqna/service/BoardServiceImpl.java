@@ -62,6 +62,38 @@ public class BoardServiceImpl implements BoardService{
                 .build();
     }
 
+    // Admin 용 전체 리스트 조회
+    public PageResponseDTO<BoardDTO> getBoardsByAll(PageRequestDTO pageRequestDTO) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage()-1,
+                pageRequestDTO.getSize(), sort
+        );
+        Page<Board> result = boardRepository.findAll(pageable);
+
+        List<BoardDTO> boardDTOList = result.stream().map(board -> BoardDTO.builder()
+                .memberId(board.getId())
+                .category(board.getCategory())
+                .author(board.getAuthor())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createdAt(board.getCreatedAt())
+                .updatedAt(board.getUpdatedAt())
+                .count(board.getCount())
+                .isActive(board.isActive())
+                .id(board.getId())
+                .build()
+        ).toList();
+        long totalCount = result.getTotalElements();
+
+        return  PageResponseDTO.<BoardDTO>withAll()
+                .dtoList(boardDTOList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
     // 키워드 별로 조회 하는 서비스 추가 (사용X 25.1.6)
 //    @Override
 //    public Page<BoardDTO> getSearchBoards(String category, String keyword, Pageable pageable) {
@@ -134,13 +166,15 @@ public class BoardServiceImpl implements BoardService{
     @Override
     @Transactional
     public BoardDTO updateBoard(Long id, BoardDTO boardDTO) {
+        log.info("DTO 데이터 확인 : {}", boardDTO.toString());
         Board existBoard = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Board not found : "+ id));
         existBoard.setTitle(boardDTO.getTitle());
         existBoard.setContent(boardDTO.getContent());
+        existBoard.setCategory(boardDTO.getCategory());
         existBoard.setUpdatedAt(LocalDateTime.now());
-        existBoard.setIsActive(boardDTO.isActive());
-        existBoard.setTags(boardDTO.getTags());
+        // existBoard.setIsActive(boardDTO.isActive());
+        // existBoard.setTags(boardDTO.getTags());
         Board updatedBoard = boardRepository.save(existBoard);
         return mapToDTO(updatedBoard);
     }

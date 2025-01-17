@@ -37,8 +37,15 @@ export const addReview = async(reviewData) => {
 export const modifyReview = async(reviewData) => {
     console.log("API 호출전 데이터 확인", reviewData)
     const header = { headers: { "Content-Type": "multipart/form-data" } }
-    const res = await jwtAxios.post(`${prefix}`, reviewData, header)
+    const res = await jwtAxios.put(`${prefix}${reviewData.reviewId}`, reviewData, header)
     console.log("리뷰수정 결과 reviewApi.js에서 확인하기 {} ", res);
+    return res.data
+}
+
+// localhost:8010/api/product/review/?memberId=10
+export const getAllReview = async() => {
+    const res = await axios.get(`${prefix}list`)
+    console.log("memberId로 리뷰리스트 조회하기 {} ", res);
     return res.data
 }
 

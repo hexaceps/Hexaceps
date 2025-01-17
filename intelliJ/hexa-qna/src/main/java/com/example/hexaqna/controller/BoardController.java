@@ -52,18 +52,24 @@ public class BoardController {
         BoardDTO board = boardService.getBoardCountById(id);
         return board;
     }
+    // Admin 용 전체 게시글 조회
+    @GetMapping("/list")
+    public PageResponseDTO<BoardDTO> getAllBoards(@ModelAttribute PageRequestDTO pageRequestDTO) {
+        log.info("getAllBoards");
+        return boardService.getBoardsByAll(pageRequestDTO);
+    }
 
     // 게시글 작성
     @PostMapping("/")
-    public ResponseEntity<BoardDTO> createBoard(@RequestBody BoardDTO board) {
-        BoardDTO createdBoard = boardService.createBoard(board);
+    public ResponseEntity<BoardDTO> createBoard(@RequestBody BoardDTO boardDTO) {
+        BoardDTO createdBoard = boardService.createBoard(boardDTO);
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
 
     // 게시글 수정
     @PutMapping("/update/{boardId}")
-    public ResponseEntity<BoardDTO> updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardDTO board) {
-        BoardDTO updatedBoard = boardService.updateBoard(id, board);
+    public ResponseEntity<BoardDTO> updateBoard(@PathVariable("boardId") Long id, @RequestBody BoardDTO boardDTO) {
+        BoardDTO updatedBoard = boardService.updateBoard(id, boardDTO);
         return new ResponseEntity<>(updatedBoard, HttpStatus.OK);
     }
 

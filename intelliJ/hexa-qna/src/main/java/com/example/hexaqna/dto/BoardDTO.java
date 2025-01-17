@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class BoardDTO {
     private Long id;
     private Long memberId;
