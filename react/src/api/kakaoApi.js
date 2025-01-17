@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { API_SERVER_HOST } from "./qnaApi";
-import { API_SERVER_HOST, REDIRECT_HOST, rest_api_key } from '../serverEnv'
+import { API_SERVER_HOST, REDIRECT_HOST, REST_API_KEY } from '../serverEnv'
 
 //리다이렉트uri
 // const redirect_uri = `http://localhost:3010/member/kakao`
@@ -13,7 +13,7 @@ const auth_code_path = `https://kauth.kakao.com/oauth/authorize`
 const access_token_url = `https://kauth.kakao.com/oauth/token`
 
 export const getKakaoLoginLink = () => {
-    const kakaoURL = `${auth_code_path}?client_id=${rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`
+    const kakaoURL = `${auth_code_path}?client_id=${REST_API_KEY}&redirect_uri=${redirect_uri}&response_type=code`
     return kakaoURL
 }
 
@@ -29,7 +29,7 @@ export const getAccessToken = async (authCode) => {
     //전달해야 하는 값이 많아서 객체로 만듬
     const params = {
         grant_type:"authorization_code",
-        client_id:rest_api_key,
+        client_id:REST_API_KEY,
         redirect_uri:redirect_uri,
         code : authCode
     }
