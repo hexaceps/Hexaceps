@@ -45,10 +45,10 @@ class MemberServiceImplTest {
             agreeDTOList.add(memberAgreeDTO);
 
             MemberDTO memberDTO = MemberDTO.builder()
-                    .email("hexa00"+i+"@hexa.com")
+                    .email("ezen00"+i+"@aaa.com")
                     .name(name)
                     .password("1111")
-                    .phoneNumber("010-"+((int)(Math.random() * 9000) + 1000) + "-" + ((int)(Math.random() * 9000) + 1000))
+                    .phoneNumber("010"+((int)(Math.random() * 9000) + 1000) + "" + ((int)(Math.random() * 9000) + 1000))
                     .address(address)
                     .newsletter(0)
                     .socialYn(0)

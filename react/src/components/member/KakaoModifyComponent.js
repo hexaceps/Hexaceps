@@ -144,6 +144,22 @@ const handleChangeMember = (e) => {
         <Form.Label>이름</Form.Label>
         <Form.Control type={"text"}value={member.name} name="name" onChange={handleChangeMember} /> 
       </Form.Group>
+
+       <Form.Group className="mb-3" controlId="titleForm.ControlInput1">
+          <Form.Label>전화번호</Form.Label>
+          <InputGroup>
+          <Form.Control type={"text"} name="" value={member.phoneNumber}             
+          onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*$/.test(value)) {
+                  setMember((prevState) => ({
+                    ...prevState,
+                    phoneNumber: value,
+                  }));
+                }
+              }} placeholder="하이픈'-'을 제외하고 숫자만 입력하세요." />
+          </InputGroup>
+        </Form.Group>
       
       <Form.Group className="mb-3" controlId="titleForm.ControlInput1">
         <Form.Label>비밀번호</Form.Label>
