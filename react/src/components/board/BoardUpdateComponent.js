@@ -12,7 +12,7 @@ const initState = {
   createdAt: null,
   updatedAt: null,
   count: 0,
-  visible: false
+  isActive: false
 }
 
 const BoardUpdateComponent = ({ board_id }) => {
@@ -30,11 +30,11 @@ const BoardUpdateComponent = ({ board_id }) => {
   const handleChangeBoard = (e) => {
     const { name, value } = e.target;
     let formattedValue = value;
-    if (name === "createdAt") {
-      const now = new Date();
-      const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
-      formattedValue = `${value}T${currentTime}`;
-    }
+    // if (name === "updatedAt") {
+    //   const now = new Date();
+    //   const currentTime = now.toTimeString().split(" ")[0]; // HH:mm:ss
+    //   formattedValue = `${value}T${currentTime}`;
+    // }
     setBoard((prevBoard) => ({ ...prevBoard, [name]: formattedValue }));
   };
 

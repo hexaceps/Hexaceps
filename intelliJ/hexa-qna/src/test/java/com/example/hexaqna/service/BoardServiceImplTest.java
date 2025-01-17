@@ -23,8 +23,8 @@ class BoardServiceImplTest {
     @Test
     void 게시판50개추가() {
 
-        for (int i = 1; i < 51; i++) {
-            HexaMember member = boardRepository.getMemberById((long) i);
+        for (int i = 1; i < 31; i++) {
+            HexaMember member = boardRepository.getMemberById(56L);
             log.info("member 닉네임 : " + member.getNickname());
             String category = (i % 2 == 0) ? "notice" : "faq";
             String transCategoty = (category.contains("notice")) ? "[공지사항]" : "[FAQ]";

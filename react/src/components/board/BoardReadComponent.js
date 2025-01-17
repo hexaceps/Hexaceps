@@ -29,8 +29,10 @@ const dateFormatted = (dateString) => {
 };
 
 const BoardReadComponent = ({ board_id }) => {
+
   console.log("page에서 받은 id 값", board_id)
   const [board, setBoard] = useState(initState);
+  const [member, setMember] = useState("")
 
   const navigate = useNavigate()
   const moveToList = (category) => {
@@ -46,6 +48,17 @@ const BoardReadComponent = ({ board_id }) => {
       setBoard(data)
     })
   }, [board_id])
+
+  useEffect(() => {
+    const storedMember = localStorage.getItem("member");
+    if (storedMember) {
+        const parsedMember = JSON.parse(storedMember);
+        setMember(parsedMember);
+        console.log("Member 초기화 완료:", parsedMember.email);
+    } else {
+        console.warn("로컬 스토리지에 member 정보가 없습니다.");
+    }
+  }, []);
 
   return (
     <>
@@ -83,7 +96,7 @@ const BoardReadComponent = ({ board_id }) => {
           </Table>
           <div className='mt-3 text-end'>
             <Button variant='primary'  className='me-3' onClick={() => moveToList(board.category)}>목록보기</Button>
-            {board.author === "MANAGER" ? 
+            {member.email === "hexa@code.com" ? 
               <Button variant='outline-danger' className='me-2' onClick={() => moveToUpdate(board_id)}>수정</Button> : <></>
             }
           </div>
