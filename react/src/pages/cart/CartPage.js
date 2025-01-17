@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { API_SERVER_HOST } from "../../api/qnaApi";
+// import { API_SERVER_HOST } from "../../api/qnaApi";
+import { API_SERVER_HOST } from '../../serverEnv'
 import { getCartItems, removeFromCart, changeCart } from "../../api/cartApi";
 
 const CartPage = ({ member }) => {

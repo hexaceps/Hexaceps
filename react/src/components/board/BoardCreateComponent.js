@@ -51,7 +51,7 @@ const BoardCreateComponent = () => {
 
   return (
     <>
-      <Container>
+      <Container style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
         <Form>
           <Form.Group className="mb-3">
             <Form.Label className="ms-3 fw-bold">TITLE</Form.Label>

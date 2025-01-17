@@ -1,6 +1,8 @@
 import axios from 'axios'
-import { API_SERVER_HOST } from './qnaApi'
+// import { API_SERVER_HOST } from './qnaApi'
 import jwtAxios from "../util/jwtUtil";
+import { API_SERVER_HOST } from '../serverEnv'
+
 const prefix = `${API_SERVER_HOST}/api/product/cart`
 
 // 장바구니 추가 및 수정

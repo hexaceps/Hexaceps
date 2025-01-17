@@ -1,9 +1,6 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./qnaApi";
-
-
-
-
+// import { API_SERVER_HOST } from "./qnaApi";
+import { API_SERVER_HOST } from '../serverEnv'
 
 export const getAccessTokenFromGoogle = async (accessToken) => {
     try {

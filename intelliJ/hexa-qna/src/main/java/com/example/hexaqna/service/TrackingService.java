@@ -27,6 +27,15 @@ public class TrackingService {
     private final TrackingRepository trackingRepository;
     private final PaymentRepository paymentRepository;
 
+    // 트래킹정보 조회
+    public List<TrackingDTO> getTrackingListByAll(){
+        List<Tracking> trackingList = trackingRepository.findAll();
+        List<TrackingDTO> trackingDTOList = trackingList.stream()
+                .map(list -> (entityToDTO(list.getId())))
+                .collect(Collectors.toList());
+        return trackingDTOList;
+    }
+
     // 회원 ID로 배송 리스트 조회 (Tracking과 TrackingTrace 함께 조회)
     public List<TrackingDTO> getTrackingListByMemberId(Long memberId) {
         // 회원 ID로 Payment 목록 조회
@@ -90,16 +99,16 @@ public class TrackingService {
     }
 
     // 배송 정보 업데이트 TrackingTrace에 추가
-    public TrackingDTO updateTrackingList(TrackingDTO trackingDTO) {
+    public TrackingDTO updateTrackingList(TrackingTraceDTO trackingDTO) {
         Tracking trackingInfo = trackingRepository.findById(trackingDTO.getId()).orElse(null);
         if(trackingInfo == null) {
             log.error("배송 정보가 조회 되지 않습니다. 배송번호를 확인해 주세요");
         }
         TrackingTrace traceList = TrackingTrace.builder()
-                .status("배송중")
-                .company("한진택배")
-                .step("물류허브분류중")
-                .location("충청북도 옥천 HUB")
+                .status(trackingDTO.getStatus())
+                .company(trackingDTO.getCompany())
+                .step(trackingDTO.getStep())
+                .location(trackingDTO.getLocation())
                 .updateDate(LocalDateTime.now())
                 .build();
         trackingInfo.addTrackingTrace(traceList);
@@ -134,6 +143,7 @@ public class TrackingService {
                 .build();
         List<TrackingTraceDTO> trackingTraceDTOList = tracking.getTrackingTraces().stream()
                 .map(trace -> TrackingTraceDTO.builder()
+                        .id(trackingDTO.getId())
                         .traceId(trace.getTraceId())
                         .status(trace.getStatus())
                         .company(trace.getCompany())

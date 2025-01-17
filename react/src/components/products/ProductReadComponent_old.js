@@ -4,7 +4,8 @@ import useCustomMove from '../../hooks/useCustomMove';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import { productGetOne } from '../../api/productsApi';
 import { getOneMember } from '../../api/memberApi';
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 import FetchingModal from '../common/FetchingModal';
 import ProductSubdesc from '../productSub/ProductSubdesc'
 import ProductSubQna from '../productSub/ProductSubQna'

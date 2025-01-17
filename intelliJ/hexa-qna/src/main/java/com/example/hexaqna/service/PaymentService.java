@@ -67,7 +67,7 @@ public class PaymentService {
         Payment payment = dtoToEntity(paymentDTO);
 
         payment.setPaymentDate(LocalDateTime.now());
-        payment.setPaymentStatus("결제중");
+        payment.setPaymentStatus("결제완료");
         payment.setPaymentNumber(generatePaymentNumber(paymentDTO));
         payment.setPaymentType(paymentForm.getPaymentType());
         payment.setPaymentVender(paymentForm.getPaymentVender());

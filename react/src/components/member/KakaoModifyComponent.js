@@ -62,31 +62,35 @@ const handleChangeMember = (e) => {
   };
 
   // 회원 정보 수정 함수
-  const handleClickModify = () => {
-    if (newPassword !== confirmPassword) {
-      setPasswordError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-      return;
-    } else {
-      if (!validatePassword(newPassword)) {
-        setPasswordError('비밀번호는 8~16자, 숫자와 영문자가 포함되어야 합니다.');
-        return;
-      } else {
-        const fullAddress = `(${postcode}) ${address} ${extraAddress} ${manualAddress}`;
-        const updatedMember = { 
-          ...member, 
-          password: newPassword, 
-          address: fullAddress,
-          newsletter: member.newsletter ? 1 : 0 // 뉴스레터 구독 여부 처리
-        };
-
-        modifyMember(updatedMember).then((data) => {
-          console.log('수정완료', data);
-          setResult('수정완료 되었습니다.');
-        });
-      }
-    }
-  };
-
+   const handleClickModify = () => {
+ 
+     if (newPassword !== confirmPassword) {
+       setPasswordError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+       return;
+     } else {
+       if (!validatePassword(newPassword)) {
+         setPasswordError('비밀번호는 8~16자, 숫자와 영문자가 포함되어야 합니다.');
+         return;
+       } else {
+         const fullAddress = `(${postcode}) ${address} ${extraAddress} ${manualAddress}`;
+         const updatedMember = { 
+           id: member.id,
+           email: member.email,
+           name: member.name,
+           password: newPassword, 
+           phoneNumber: member.phoneNumber,
+           address: fullAddress,
+           nickname: member.nickname,
+           newsletter: member.newsletter ? 1 : 0 // 뉴스레터 구독 여부 처리
+         };
+ 
+         putOneMember(member.id, updatedMember).then((data) => {
+           console.log('수정완료', data);
+           setResult('수정완료 되었습니다.');
+         });
+       }
+     }
+   };
   // DaumPostcode에서 주소 검색 완료 후 처리
   const handleAddressSearch = (data) => {
     let addr = '';
@@ -144,6 +148,22 @@ const handleChangeMember = (e) => {
         <Form.Label>이름</Form.Label>
         <Form.Control type={"text"}value={member.name} name="name" onChange={handleChangeMember} /> 
       </Form.Group>
+
+       <Form.Group className="mb-3" controlId="titleForm.ControlInput1">
+          <Form.Label>전화번호</Form.Label>
+          <InputGroup>
+          <Form.Control type={"text"} name="" value={member.phoneNumber}             
+          onChange={(e) => {
+                const value = e.target.value;
+                if (/^\d*$/.test(value)) {
+                  setMember((prevState) => ({
+                    ...prevState,
+                    phoneNumber: value,
+                  }));
+                }
+              }} placeholder="하이픈'-'을 제외하고 숫자만 입력하세요." />
+          </InputGroup>
+        </Form.Group>
       
       <Form.Group className="mb-3" controlId="titleForm.ControlInput1">
         <Form.Label>비밀번호</Form.Label>

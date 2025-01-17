@@ -38,7 +38,7 @@ const AboutUsComponent = () => {
   }
   return (
     <>
-        <Container className="mt-5">
+        <Container className="mt-5" style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}> 
             <Row className='text-center mb-4'>
                 <Col>
                     <img src='../images/logo1.jpg' alt='로고' />
@@ -73,12 +73,15 @@ const AboutUsComponent = () => {
                             <div className="mb-3">
                                 <input type="email" className="form-control" placeholder="sample@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                             </div>
-                            <div className="form-check mb-3">
-                                <input type="checkbox" className="form-check-input" id="agree" checked={agree} onChange={(e) => setAgree(e.target.checked)} />
-                                <label className="form-check-label" htmlFor="agree">
-                                    개인정보 수집 및 이용 약관에 동의합니다.
-                                </label>
-                            </div>
+                            <Row className="form-check mb-3">
+                                <Col lg={4}
+                                ><input type="checkbox" className="form-check-input" id="agree" checked={agree} onChange={(e) => setAgree(e.target.checked)} /> </Col>
+                                <Col lg={4}>
+                                    <label className="form-check-label" htmlFor="agree">
+                                        개인정보 수집 및 이용 약관에 동의합니다.
+                                    </label>
+                                </Col>
+                            </Row>
                             <button type="submit" className="btn btn-outline-warning mb-3">
                                 신청하기
                             </button>

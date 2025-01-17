@@ -55,7 +55,7 @@ const BoardQueryComponent = ({ category, keyword }) => {
   
   return (
     <>
-      <Container className='ms-3'>
+      <Container className='ms-3' style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
         <Table striped bordered hover
           className='mt-5' style={{borderBottom : "1px solid #625244"}} >
           <thead>

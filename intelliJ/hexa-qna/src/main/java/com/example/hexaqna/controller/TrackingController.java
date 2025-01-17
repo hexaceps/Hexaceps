@@ -1,6 +1,7 @@
 package com.example.hexaqna.controller;
 
 import com.example.hexaqna.dto.TrackingDTO;
+import com.example.hexaqna.dto.TrackingTraceDTO;
 import com.example.hexaqna.service.TrackingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class TrackingController {
     }
     // 배송 정보 업데이트 (id로 생성)
     @PutMapping("/update/")
-    public TrackingDTO updateTrackingList(@RequestBody TrackingDTO trackingDTO) {
+    public TrackingDTO updateTrackingList(@RequestBody TrackingTraceDTO trackingDTO) {
         TrackingDTO trackingResult = trackingService.updateTrackingList(trackingDTO);
         return trackingResult;
     }
@@ -40,5 +41,11 @@ public class TrackingController {
     @GetMapping("/m/{memberId}")
     public List<TrackingDTO> getTrackingInfoByMemberId(@PathVariable("memberId") Long memberId) {
         return trackingService.getTrackingListByMemberId(memberId);
+    }
+
+    // 전체 배송 조회
+    @GetMapping("/list/")
+    public List<TrackingDTO> getTrackingList() {
+        return trackingService.getTrackingListByAll();
     }
 }

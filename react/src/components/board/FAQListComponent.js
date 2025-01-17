@@ -72,7 +72,7 @@ const FAQListComponent = () => {
   return (
     <>
       {fetching ? <FetchingModal /> : <></>}
-      <Container className='ms-3'>
+      <Container className='ms-3' style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
         <Row className="" style={{width : "50%", margin : "0 auto"}}>
           <form className='border border-dark rounded-pill mb-3 d-flex justfy-content-end align-items-center help' role='search'>
             <Search className='ms-3'/>

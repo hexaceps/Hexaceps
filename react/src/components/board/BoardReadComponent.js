@@ -49,7 +49,7 @@ const BoardReadComponent = ({ board_id }) => {
 
   return (
     <>
-      <Container>
+      <Container style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
         <div className='mb-3 mt-5 text-center'><h2>{board.category==="notice" ? "공지사항" : "faq" ? "FAQ" : "HEXACEPS 안내"}</h2></div>
         <div>
           <Table className='mt-5' style={{borderBottom : "1px solid #625244"}}>

@@ -59,30 +59,31 @@ const MainPage = () => {
     { title: "Dior Sahara Chukka Boot Dior Oblique Embroidered Wool Felt Gray", subtitle: "디올 사하라 츄카 부츠 디올 오블리크 자수 울 펠트 그레이", image: "product_361_1.jpg" , productId: 361},
     { title: "(W) Hermes Bouncing Sneakers Chevron Denim Suede Goatskin & Bleu Clair Blanc", subtitle: "(W) 에르메스 바운싱 스니커즈 쉐브론 데님 스웨이드 고트스킨 & 블루 클레어 블랑", image: "product_421_1.jpg" , productId: 421},
   ]
+  
   return (
     <>
-      <Container fluid style={{height : "450px"}}>
+      <Container fluid style={{height : "450px", fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244" }}>
         <MainCarousel images = {images} setTextMargin = {setTextMargin} />
       </Container>
-      <Container style={{ marginTop: textMargin + '10px' }}>
+      <Container style={{ marginTop: textMargin + '10px', fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244" }} >
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/brand`)} style={{ cursor: 'pointer' }}>브랜드</h4>
+        <h4 onClick={() => navigate(`/products/brand`)} style={{ cursor: 'pointer' }}>BRAND</h4>
           <MainImageSlider items = {items2} textMargin = {textMargin} />
         </Row>
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/luxary`)} style={{ cursor: 'pointer' }}>럭셔리</h4>
+        <h4 onClick={() => navigate(`/products/luxary`)} style={{ cursor: 'pointer' }}>LUXURY</h4>
           <MainImageSlider items = {items3} />
         </Row>
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/collection`)} style={{ cursor: 'pointer' }}>시즌상품</h4>
+        <h4 onClick={() => navigate(`/products/collection`)} style={{ cursor: 'pointer' }}>SEASON</h4>
           <MainImageSlider items = {items4} />
         </Row>
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/size`)} style={{ cursor: 'pointer' }}>사이즈</h4>
+        <h4 onClick={() => navigate(`/products/size`)} style={{ cursor: 'pointer' }}>SIZE</h4>
           <MainImageSlider items = {items5} />
         </Row>
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/price`)} style={{ cursor: 'pointer' }}>가격대</h4>
+        <h4 onClick={() => navigate(`/products/price`)} style={{ cursor: 'pointer' }}>PRICE</h4>
           <MainImageSlider items = {items6} />
         </Row>
       </Container>      

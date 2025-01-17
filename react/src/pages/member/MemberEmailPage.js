@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_SERVER_HOST } from '../../api/qnaApi'; 
 import useCustomLogin from '../../hooks/useCustomLogin';
+// import { API_SERVER_HOST } from '../../api/qnaApi'; 
+import { API_SERVER_HOST } from '../../serverEnv';
 
 const MemberEmailPage = () => {
   const [emails, setEmails] = useState([]); 

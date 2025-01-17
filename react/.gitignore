@@ -3,6 +3,9 @@
 # conflict file
 README.md
 .README.md
+.serverEnv.js
+.env
+.serverEnv
 
 # dependencies
 /node_modules
