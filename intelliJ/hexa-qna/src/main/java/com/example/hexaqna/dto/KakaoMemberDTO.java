@@ -56,6 +56,10 @@ public class KakaoMemberDTO extends User{
             return dataMap;
         }
 
+
+
+
+
     }
 
 

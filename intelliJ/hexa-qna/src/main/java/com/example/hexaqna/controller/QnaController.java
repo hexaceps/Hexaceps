@@ -44,7 +44,8 @@ public class QnaController {
 
     //멤버별리스트
     @GetMapping("/idList/{id}")
-    public PageResponseDTO<QnaDTO> listId(PageRequestDTO pageRequestDTO,@PathVariable("id") Long id) {
+    public PageResponseDTO<QnaDTO> listId(PageRequestDTO pageRequestDTO,
+                                          @PathVariable("id") Long id) {
         log.info("list...{}", pageRequestDTO);
         return qnaService.getlistId(pageRequestDTO,id);
     }
@@ -52,15 +53,21 @@ public class QnaController {
 
     //상품별리스트
     @GetMapping("/list/{productId}")
-    public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,@PathVariable("productId") Long productId) {
+    public PageResponseDTO<QnaDTO> list(PageRequestDTO pageRequestDTO,
+                                        @PathVariable("productId") Long productId) {
         log.info("list...{}", pageRequestDTO);
         return qnaService.getlist(pageRequestDTO,productId);
     }
 
+
+
+
+
     //post방식 - json형식으로 받고 return타입을 json형식으로 해줘야 한다.
 
     @PostMapping("/q/{productId}/{id}")
-    public Map<String, Long> registerQ(@PathVariable("productId") Long productId, @PathVariable("id") Long id, @RequestBody QnaDTO qnaDTO){
+    public Map<String, Long> registerQ(@PathVariable("productId") Long productId, @PathVariable("id") Long id,
+                                       @RequestBody QnaDTO qnaDTO){
     try{
         log.info("QnaDTO {}", qnaDTO);
         HexaMember member = memberRepository.findById(id).orElseThrow();
@@ -78,9 +85,17 @@ public class QnaController {
     }
 
 
+
+
+
+
+
     //post방식 - json형식으로 받고 return타입을 json형식으로 해줘야 한다.
+
+
     @PutMapping("/r/{qno}")
-    public Map<String, Long> registerR( @PathVariable("qno") Long qno, @RequestBody QnaDTO qnaDTO){
+    public Map<String, Long> registerR( @PathVariable("qno") Long qno,
+                                        @RequestBody QnaDTO qnaDTO){
         Qna qna = qnaRepository.findById(qno).orElseThrow();  // This fetches the entity immediately
         log.info("기존멤버보기  {}",qna);
         qnaDTO.setMemberId(qna.getMemberId());
@@ -91,6 +106,8 @@ public class QnaController {
         qnaService.registerR(qnaDTO);
         return Map.of("QNO", qno);
     }
+
+
 
 
 

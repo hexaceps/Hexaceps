@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,13 +37,11 @@ public class HexaMemberController {
         log.info("Password: {}", loginForm.getPassword());
 
         boolean isAuthenticated = memberService.auth(loginForm.getEmail(), loginForm.getPassword());
-
         if (isAuthenticated) {
             String email = loginForm.getEmail();
             HexaMember member = memberRepository.getWithRoles(loginForm.getEmail());
             String nickname = member.getNickname();
             List<LikeDTO>  like = likeRepository.findByMemberId(member.getId());
-
 
             log.info("Login successful for {}", loginForm.getEmail());
             String accessToken = JWTUtil.generateToken(Map.of("email", loginForm.getEmail()), 60);
@@ -53,7 +52,6 @@ public class HexaMemberController {
             response.put("refreshToken", refreshToken);
             response.put("email", email);
             response.put("like", like); // List<LikeDTO> 직접 반환
-
             return response;
         } else {
             log.warn("Login failed for {}", loginForm.getEmail());
@@ -153,6 +151,11 @@ public class HexaMemberController {
         return claims;
     }
 
+
+
+
+
+    
 
     @PutMapping("/modify")
     public Map<String, String> modify(@RequestBody MemberDTO memberDTO) {
