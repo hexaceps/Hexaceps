@@ -1,6 +1,7 @@
 import './ImageSlider.css'
 import React, { useRef, useState } from 'react';
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 import { useNavigate } from 'react-router-dom';
 
 const MainImageSlider = ({items}) => {

@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CartPage from "../cart/CartPage";
 import DeliveryPage from "../delivery/DeliveryPage";
 import likeApi from '../../api/likeApi';
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 import useCustomCart from '../../hooks/useCustomCart';
 import "./Like.css";
 import LoginComponent from "../../components/member/LoginComponent";

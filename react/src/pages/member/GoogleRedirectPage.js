@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_SERVER_HOST } from "../../api/qnaApi";
+// import { API_SERVER_HOST } from "../../api/qnaApi";
+import { API_SERVER_HOST } from '../../serverEnv'
 import { useDispatch } from "react-redux";
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { login } from "../../slice/loginSlice";

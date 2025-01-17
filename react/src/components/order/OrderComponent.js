@@ -3,7 +3,8 @@ import { Card, Button, Form, Col, Row, Alert, Container, Image, Modal, Nav } fro
 import {getCartItems} from '../../api/cartApi';
 import { productGetOne } from '../../api/productsApi';
 import MonthlyPaymentInfo from './MonthlyPaymentInfo';
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 import { createOrder } from '../../api/orderApi';
 import { requestPayment } from '../../api/paymentApi';
 import { createTrackingInfo } from '../../api/trackingApi'

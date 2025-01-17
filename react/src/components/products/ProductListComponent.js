@@ -4,7 +4,8 @@ import {  Button, Card,Row , Col, Container} from 'react-bootstrap'
 import PageComponent from '../common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
-import { API_SERVER_HOST } from '../../api/qnaApi'
+// import { API_SERVER_HOST } from '../../api/qnaApi'
+import { API_SERVER_HOST } from '../../serverEnv'
 
 const initState = {
     dtoList: [],

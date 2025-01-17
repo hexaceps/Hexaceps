@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 import useCustomMove from '../../hooks/useCustomMove';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import ModifyMemberComponent from '../mypageSub/ModifyMemberComponent';

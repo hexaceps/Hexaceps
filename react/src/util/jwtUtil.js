@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { getCookie, setCookie } from './cookieUtil';
-import { API_SERVER_HOST } from '../api/qnaApi';
+// import { API_SERVER_HOST } from '../api/qnaApi';
+import { API_SERVER_HOST } from '../serverEnv'
 const jwtAxios = axios.create();
 
 // 토큰 갱신 함수
