@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react"
 import { Modal, Button, Card, Row, Col, Container, Form } from "react-bootstrap" 
 import { getTrackingListByMemberId } from "../../api/trackingApi" 
 import { getOrdersByMemberId } from "../../api/paymentApi" 
-import { API_SERVER_HOST } from "../../api/qnaApi" 
+// import { API_SERVER_HOST } from "../../api/qnaApi"
+import { API_SERVER_HOST } from '../../serverEnv' 
 import { addReview } from "../../api/reviewApi" 
 import useCustomLogin from "../../hooks/useCustomLogin" 
 

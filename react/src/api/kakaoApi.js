@@ -1,12 +1,10 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./qnaApi";
-
-
-//Rest 키값
-const rest_api_key = `9cbd76ba5dcca2f5b8dcaee484d7ceb3`;
+// import { API_SERVER_HOST } from "./qnaApi";
+import { API_SERVER_HOST, REDIRECT_HOST, rest_api_key } from '../serverEnv'
 
 //리다이렉트uri
-const redirect_uri = `http://localhost:3010/member/kakao`
+// const redirect_uri = `http://localhost:3010/member/kakao`
+const redirect_uri = `${REDIRECT_HOST}/member/kakao`
 
 //인가 코드 받기
 const auth_code_path = `https://kauth.kakao.com/oauth/authorize`

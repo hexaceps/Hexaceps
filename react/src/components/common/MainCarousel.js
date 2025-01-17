@@ -2,7 +2,8 @@ import "./MainCarousel.css";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ArrowLeftShort, ArrowRightShort } from "react-bootstrap-icons";
 import { Container, Button } from "react-bootstrap";
-import { API_SERVER_HOST } from "../../api/qnaApi";
+// import { API_SERVER_HOST } from "../../api/qnaApi";
+import { API_SERVER_HOST } from '../../serverEnv'
 import useCustomLogin from "../../hooks/useCustomLogin";
 import { useNavigate } from "react-router-dom";
 

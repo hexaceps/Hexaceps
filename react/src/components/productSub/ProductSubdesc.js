@@ -1,7 +1,8 @@
 import React ,{useEffect, useState } from 'react'
 import { Image} from 'react-bootstrap';
 import { productGetOne } from '../../api/productsApi';
-import { API_SERVER_HOST } from '../../api/qnaApi';
+// import { API_SERVER_HOST } from '../../api/qnaApi';
+import { API_SERVER_HOST } from '../../serverEnv'
 
 const initState = {
   productId:0,

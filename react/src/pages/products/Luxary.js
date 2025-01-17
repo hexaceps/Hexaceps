@@ -6,7 +6,8 @@ import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa"
 import PageComponent from '../../components/common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../../components/common/FetchingModal'
-import { API_SERVER_HOST } from '../../api/qnaApi'
+// import { API_SERVER_HOST } from '../../api/qnaApi'
+import { API_SERVER_HOST } from '../../serverEnv'
 import likeApi from '../../api/likeApi'
 
 const initState = {

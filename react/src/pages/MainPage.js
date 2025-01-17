@@ -71,7 +71,7 @@ const MainPage = () => {
           <MainImageSlider items = {items2} textMargin = {textMargin} />
         </Row>
         <Row className='mt-5'>
-        <h4 onClick={() => navigate(`/products/luxary`)} style={{ cursor: 'pointer' }}>LUXARY</h4>
+        <h4 onClick={() => navigate(`/products/luxary`)} style={{ cursor: 'pointer' }}>LUXURY</h4>
           <MainImageSlider items = {items3} />
         </Row>
         <Row className='mt-5'>
