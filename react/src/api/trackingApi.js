@@ -21,30 +21,17 @@ export const createTrackingInfo = async(trackingData) => {
     return res.data
 }
 
-// // localhost:8010/api/product/review/?productId=22
-// export const getReviewByProductId = async(productId) => {
-//     const res = await axios.get(`${prefix}` , {
-//         params : { productId : productId }
-//     })
-//     console.log("productId로 리뷰리스트 조회하기 {} ", res);
-//     return res.data
-// }
+// localhost:8010/api/order/tracking/list
+export const getAllTrackingList = async() => {
+    const res = await axios.get(`${prefix}/list/`)
+    console.log("admin에서 전체 트래킹 리스트 조회하기 {} ", res);
+    return res.data
+}
 
-// // 데이터추가 localhost:8010/api/product/review/
-// export const addReview = async(reviewData) => {
-//     console.log("API 호출전 데이터 확인", reviewData)
-//     const header = { headers: { "Content-Type": "multipart/form-data" } }
-//     const res = await jwtAxios.post(`${prefix}`, reviewData, header)
-//     console.log("리뷰등록 결과 reviewApi.js에서 확인하기 {} ", res);
-//     return res.data
-// }
-
-// // 데이터수정 localhost:8010/api/product/review/9
-// // 수정은 subject, reply 를 가지고 와서 불러 내고 관리자는 reply 만 수정, 유저는 subject 만 수정 하게 처리해야 함
-// export const modifyReview = async(reviewData) => {
-//     console.log("API 호출전 데이터 확인", reviewData)
-//     const header = { headers: { "Content-Type": "multipart/form-data" } }
-//     const res = await jwtAxios.post(`${prefix}`, reviewData, header)
-//     console.log("리뷰수정 결과 reviewApi.js에서 확인하기 {} ", res);
-//     return res.data
-// }
+// 데이터추가 localhost:8010/api/order/tracking/update/
+export const updateTrackingInfo = async(trackingData) => {
+    console.log("배송지 업데이트 API 호출전 확인", trackingData)
+    const res = await jwtAxios.put(`${prefix}/update/`, trackingData)
+    console.log("배송지 업데이트 결과 확인하기 {} ", res);
+    return res.data
+}

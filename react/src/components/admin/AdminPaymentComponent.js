@@ -78,7 +78,7 @@ const AdminPaymentComponent = () => {
         <Row>
             <h4 className="text-center">고객 결제 데이터</h4>
         </Row>
-        <Table hover className='mt-3' style={{borderBottom : "1px solid #625244"}}>
+        <Table hover className='mt-3' style={{borderBottom : "1px solid #625244", fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
             <thead>
                 <tr>
                     <th>NO</th>

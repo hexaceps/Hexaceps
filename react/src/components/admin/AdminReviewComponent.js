@@ -106,10 +106,10 @@ const AdminReviewComponent = () => {
   } 
 
   return (
-    <Container className="py-1">
+    <Container className="py-1" >
       {reviews.map((review) => (
-        <Card key={review.reviewId} className="mb-4" >
-          <Card.Body>
+        <Card key={review.reviewId} className="mb-4" style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
+          <Card.Body >
             <Row>
               <Col md={2} className="d-flex justify-content-center align-items-center">
                 <img src={ getRandomAvatar() } alt="avatar" className="rounded-circle"
