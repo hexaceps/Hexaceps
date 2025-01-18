@@ -1,5 +1,6 @@
 package com.example.hexaqna.dto;
 
+import com.example.hexaqna.domain.Product;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ public class ProductDTO {
     private List<String> uploadFileNames = new ArrayList<>();
     // ProductSite에 넣을 내용을 리스트 형태로 DTO에서 생성
     private List<String> productSiteNames = new ArrayList<>();
+
 
     private List<ProductSiteDTO> productSiteDetails = new ArrayList<>();
 

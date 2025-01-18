@@ -139,4 +139,27 @@ public class ProductController {
         customFileUtil.deleteFiles(oldFileNames);
         return Map.of("RESULT","DELETE STCCESS");
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<PageResponseDTO<ProductDTO>> searchProducts(
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size,
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+
+        log.info("키워드 {}",keyword);
+        // 요청 DTO 객체 생성
+        String trimmedKeyword = keyword.trim();
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(page, size);
+
+        // 상품 검색 서비스 호출
+
+        PageResponseDTO<ProductDTO> response = productService.searchProducts(pageRequestDTO, trimmedKeyword, sortBy,sortOrder);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

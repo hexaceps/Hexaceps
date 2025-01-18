@@ -11,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -99,7 +102,9 @@ public class QnaServiceImpl implements QnaService {
     public PageResponseDTO<QnaDTO> getlist(PageRequestDTO pageRequestDTO, Long productId) {
 
         //가져온다, Qna의 리스트
-        Page<Qna> result = qnaRepository.findByProductProductID(productId, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
+        Page<Qna> result = qnaRepository.findByProductProductID(productId,
+                PageRequest.of(pageRequestDTO.getPage() - 1,
+                        pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
 
         log.info("값은? {}",result);
         List<QnaDTO> dtoList = result.getContent().stream()
@@ -113,11 +118,17 @@ public class QnaServiceImpl implements QnaService {
                 .build();
     }
 
+
+
+
+
     @Override
     public PageResponseDTO<QnaDTO> getlistId(PageRequestDTO pageRequestDTO, Long id) {
 
         //가져온다, Qna의 리스트
-        Page<Qna> result = qnaRepository.findByMemberID(id, PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
+        Page<Qna> result = qnaRepository.findByMemberID(id,
+                PageRequest.of(pageRequestDTO.getPage() - 1,
+                        pageRequestDTO.getSize(), Sort.by("qnaDate").descending()));
 
         log.info("값은? {}",result);
         List<QnaDTO> dtoList = result.getContent().stream()

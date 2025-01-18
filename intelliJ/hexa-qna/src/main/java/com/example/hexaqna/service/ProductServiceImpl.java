@@ -6,6 +6,7 @@ import com.example.hexaqna.domain.ProductSiteLink;
 import com.example.hexaqna.domain.Qna;
 import com.example.hexaqna.dto.*;
 import com.example.hexaqna.repository.ProductRepository;
+import com.example.hexaqna.repository.search.ProductSearch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,8 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
+
 
     @Override
     public PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand,
@@ -97,6 +100,67 @@ public class ProductServiceImpl implements ProductService {
                 .pageRequestDTO(pageRequestDTO)
                 .build();
     }
+
+    public PageResponseDTO<ProductDTO> searchProducts(PageRequestDTO pageRequestDTO, String keyword ,String sortBy, String sortOrder) {
+        // 검색어가 있을 경우 Repository 메서드 호출
+
+        Sort sort = Sort.by("productId").descending();
+
+        if (sortBy != null && !sortBy.isEmpty()) {
+            if ("asc".equalsIgnoreCase(sortOrder)) {
+                sort = Sort.by(Sort.Order.asc(sortBy));
+            } else if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = Sort.by(Sort.Order.desc(sortBy));
+            }
+        }
+
+        Pageable pageable = PageRequest.of(
+                pageRequestDTO.getPage() - 1,
+                pageRequestDTO.getSize(),
+                sort
+        );
+
+        Page<Object[]> result;
+
+        // 필터 조건에 따라 리포지토리 메서드 결정
+        if (keyword != null) {
+            result = productRepository.findByKeyword(keyword, pageable);
+
+        }else{
+            result = productRepository.selectList(pageable);
+        }
+
+        // 0번째는 product이고 1번째는 productImage이다
+        List<ProductDTO> dtoList = result.get().map(arr -> {
+            Product product = (Product) arr[0];
+            ProductImage productImage = (ProductImage) arr[1];
+            ProductDTO productDTO = ProductDTO.builder()
+                    .productId(product.getProductId())
+                    .category(product.getCategory())
+                    .price(product.getPrice())
+                    .productSize(product.getProductSize())
+                    .productName(product.getProductName())
+                    .productBrand(product.getProductBrand())
+                    .productDescription(product.getProductDescription())
+                    .productStock(product.getProductStock())
+                    .registeredAt(product.getRegisteredAt())
+                    .build();
+            String imageFileName = productImage.getFileName();
+            productDTO.setUploadFileNames(List.of(imageFileName));
+            return productDTO;
+        }).toList();
+
+        long totalCount = result.getTotalElements();
+
+        return PageResponseDTO.<ProductDTO>withAll()
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
+    }
+
+
+
 
     @Override
     public Long registerNewProduct(ProductDTO productDTO) {
@@ -291,4 +355,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return product;
     }
+
+
+
 }

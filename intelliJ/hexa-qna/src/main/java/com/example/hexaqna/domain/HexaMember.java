@@ -25,51 +25,26 @@
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "memberId")
         private Long id;
-
-
         private String email;
-
-
         private String name;
-
-
         private String password;
-
-
         private String phoneNumber;
-
         private String address;
-
         private int newsletter;
-
         private int socialYn;
-
-
         private String nickname;
-
         private String kakaoId;
-
-
         private String rank;
-
-
         private String activateYn;
-
-
-
         @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
         @JsonManagedReference("memberAgreeReference")
         private List<MemberAgree> memberAgrees = new ArrayList<>();
-
-
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime create_Date;
-
-
-        //memberRoleList가 실제로 사용될 때 데이터를 로드
         @ElementCollection(fetch = FetchType.LAZY)
         @Builder.Default
         private List<MemberRole> memberRoleList = new ArrayList<>();
+
 
         //권한부여s
         public void addRole(MemberRole memberRole) {

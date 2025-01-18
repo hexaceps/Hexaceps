@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useCustomLogin from '../../hooks/useCustomLogin';
 // import { API_SERVER_HOST } from '../../api/qnaApi'; 
-import { API_SERVER_HOST } from '../../serverEnv'
+import { API_SERVER_HOST } from '../../serverEnv';
 
 const MemberEmailPage = () => {
   const [emails, setEmails] = useState([]); 
+  const {loginState,isLogin,doLogout } = useCustomLogin()
 
   useEffect(() => {
     const fetchEmails = async () => {
@@ -20,9 +22,12 @@ const MemberEmailPage = () => {
   }, []);
   return (
     <>
-      {emails.filter(email => email !== 'admin@hexa.com').map((email, index) => (
-        <div key={index} className='my-3'>{email}</div>
-        ))}
+    {loginState.email === "admin@hexa.com" ?
+    <>
+      {emails.map((email, index) => (
+        <div key={index} className='my-3'>{email}   </div>
+        ))} </>
+        :<div className='text-center'><h4>허가받지 않은 사용자 입니다.</h4></div>}
     </>
   );
 };

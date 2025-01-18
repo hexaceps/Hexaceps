@@ -5,6 +5,6 @@ import com.example.hexaqna.dto.PageResponseDTO;
 import com.example.hexaqna.dto.ProductDTO;
 
 public interface ProductSearch {
-    PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO,String keyword);
 
 }

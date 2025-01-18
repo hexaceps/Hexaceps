@@ -25,7 +25,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
     }
 
     @Override
-    public PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO, String keyword) {
         log.info("ProductSearchImpl? 동작하고 있어?");
 
         Pageable pageable = PageRequest.of(
@@ -47,6 +47,10 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
         //where 조건 추가, 이미지는 0번째 것만 가져와
         query.where(productImage.ord.eq(0));
        // query.where(ProductImageURL..eq(0));
+
+        if (keyword != null && !keyword.isEmpty()) {
+            query.where(product.productName.containsIgnoreCase(keyword));  // 상품명에 키워드를 포함하는 조건 추가
+        }
 
         //페이징처리
 //        getQuerydsl().applyPagination(pageable,query);

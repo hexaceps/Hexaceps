@@ -23,19 +23,30 @@ public class Qna {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="qna_number")
     private Long qno;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "memberId")
     @JsonBackReference("member-qna")
     private HexaMember memberId;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "productId")
     @JsonBackReference("product-qna")
     private Product productId;
-
-
     private String password;
+    @Column(length = 50)
+    @NotEmpty
+    private String subject;
+    @Column(columnDefinition = "TEXT")
+    @NotEmpty
+    private String content;
+    private int secret;
+    private String replyId;
+    @Column(columnDefinition = "TEXT")
+    private String reply;
+    private int replyAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime replyDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime qnaDate;
 
     public void setMemberId(HexaMember memberId) {
         this.memberId = memberId;
@@ -45,38 +56,9 @@ public class Qna {
         this.productId = productId;
     }
 
-    @Column(length = 50)
-    @NotEmpty
-    private String subject;
-
-    @Column(columnDefinition = "TEXT")
-    @NotEmpty
-    private String content;
-
-    private int secret;
-/*
-    @ManyToOne
-    @JoinColumn(name="reply_id")
-    private HexaMember reply_id;
-*/
-    private String replyId;
-
-    @Column(columnDefinition = "TEXT")
-    private String reply;
-
     public void setReplyId(String replyId) {
         this.replyId = replyId;
     }
-
-    private int replyAt;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime replyDate;
-
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime qnaDate;
-
 
 
     public void setPassword(String password) {
