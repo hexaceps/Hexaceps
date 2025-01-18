@@ -7,6 +7,7 @@ import { getOneMember } from '../../api/memberApi';
 import PageComponent from '../common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
+import { adminAccount } from '../../adminEnv';
 
 const initState = {
   dtoList: [],
@@ -94,7 +95,7 @@ const AdminMemberComponent = () => {
         <div className='ms-3' style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
           <Table hover className='mt-5' style={{borderBottom : "1px solid #625244"}}>
             <tbody>
-              {serverData.dtoList && serverData.dtoList.length > 0 && member.email === "admin@hexa.com" ? (
+              {serverData.dtoList && serverData.dtoList.length > 0 && member.email === adminAccount ? (
                 serverData.dtoList.map((memberList) => (
                   <tr key={memberList.id}>
                     <td className='text-center'>{memberList.id}</td>

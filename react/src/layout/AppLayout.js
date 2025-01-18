@@ -4,6 +4,7 @@ import {  Outlet, useNavigate } from 'react-router-dom';
 import { Search, Incognito } from 'react-bootstrap-icons'; // 돋보기 아이콘 추가
 import  useCustomLogin from '../hooks/useCustomLogin'
 import { getOneMember } from '../api/memberApi';
+import { adminAccount } from '../adminEnv'
 import styled from 'styled-components';
 
 const AppLayout = () => {
@@ -23,8 +24,6 @@ const AppLayout = () => {
           navigate(`/search?query=${encodedQuery}`);
         }
       };
-      
-    
   
     const handleKeyPress = (e) => {
       if (e.key === 'Enter') {
@@ -87,7 +86,7 @@ const AppLayout = () => {
               {/* 사용자 메뉴 기능 */}
               <div>
                 <Nav bg="white" variant="light" className="justify-content-end mb-2" style={{fontSize : "0.8rem"}}>
-                  { loginState.email === "hexa@code.com" ? <Nav.Link href='/admin'><Incognito /></Nav.Link> : <></>}
+                  { loginState.email === adminAccount ? <Nav.Link href='/admin'><Incognito /></Nav.Link> : <></>}
                   <Nav.Link href="/board/notice">ABOUT</Nav.Link>
                   <Nav.Link href="/like?tab=cart">MY SHOP</Nav.Link>
                   <Nav.Link href="/mypage">MY PAGE</Nav.Link>

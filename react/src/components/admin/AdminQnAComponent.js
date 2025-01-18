@@ -7,6 +7,7 @@ import PageComponent from '../common/PageComponent'
 import { Navigate, useNavigate } from 'react-router-dom'
 import AddComponent from '../qna/AddComponent'
 import ModifyComponent from '../qna/ModifyComponent'
+import { adminAccount } from '../../adminEnv'
 import { postAdd } from '../../api/qnaApi'
 
 const initState = {
@@ -68,7 +69,7 @@ const AdminQnAComponent = ({ productId, setSelectedQna, selectedQna, moveToRead 
       console.log("qnaMemberId", qna.memberId)
       // 관리자일 경우, 비밀번호 인증 없이 콜랩스를 열 수 있도록 처리
   
-    if (loginState.email == 'admin@hexa.com') {
+    if (loginState.email == adminAccount) {
       setOpenQna(openQna === qna.qno ? null : qna.qno);  // 이미 펼쳐져 있으면 닫기
     } else {
       if (qna.secret == 1 ) {

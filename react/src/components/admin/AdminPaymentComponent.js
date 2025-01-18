@@ -4,6 +4,7 @@ import useCustomLogin from '../../hooks/useCustomLogin';
 import { getAllOrders } from '../../api/paymentApi'
 import { getOneMember } from '../../api/memberApi';
 import FetchingModal from '../common/FetchingModal'
+import { adminAccount } from "../../adminEnv";
 
 const initState = {
     paymentId : 0,
@@ -95,7 +96,7 @@ const AdminPaymentComponent = () => {
                 </tr>
             </thead>
             <tbody>
-                {payment.length > 0 && member.email === "admin@hexa.com" ? (
+                {payment.length > 0 && member.email === adminAccount ? (
                 payment.map((payment, index) => (
                 <tr key={payment.paymentId} style={{ fontSize : "0.8rem" }}>
                     <td>{index + 1}</td>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { getCategoryBoardDetailById } from '../../api/boardApi';
 import { Button, Card, CardBody, Container, Table } from 'react-bootstrap';
+import { adminAccount } from '../../adminEnv';
 
 const initState = {
   id: 0,
@@ -96,7 +97,7 @@ const BoardReadComponent = ({ board_id }) => {
           </Table>
           <div className='mt-3 text-end'>
             <Button variant='primary'  className='me-3' onClick={() => moveToList(board.category)}>목록보기</Button>
-            {member.email === "hexa@code.com" ? 
+            {member.email === adminAccount ? 
               <Button variant='outline-danger' className='me-2' onClick={() => moveToUpdate(board_id)}>수정</Button> : <></>
             }
           </div>

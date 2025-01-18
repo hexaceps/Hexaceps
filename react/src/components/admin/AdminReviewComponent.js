@@ -3,6 +3,7 @@ import { Card, Button, Form, Row, Col, Container } from "react-bootstrap"
 import useCustomLogin from '../../hooks/useCustomLogin';
 import { getAllReview, modifyReview } from "../../api/reviewApi" 
 import { getOneMember } from '../../api/memberApi';
+import { adminAccount } from "../../adminEnv";
 
 const AdminReviewComponent = () => {
   const [reviews, setReviews] = useState([]) 
@@ -22,7 +23,7 @@ const AdminReviewComponent = () => {
         const data = await getAllReview() 
         console.log("상품 ID로 리뷰리스트를 가지고 왔습니다 1) reviewId :  " + data[0]?.reviewId + ", memberId : " + data[0]?.memberId)
         setReviews(data)
-        if(loginState.email === "hexa@code.com"){ // 이녀석만 보이게 할거임
+        if(loginState.email === adminAccount){ // 이녀석만 보이게 할거임
           console.log("현재 로그인된 이메일은?? : " + loginState.email)
           setIsAdmin(true)
         }

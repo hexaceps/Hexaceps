@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getAllCategoryList } from '../../api/boardApi';
 import useCustomLogin from '../../hooks/useCustomLogin';
 import { getOneMember } from '../../api/memberApi';
+import { adminAccount } from '../../adminEnv'
 import PageComponent from '../common/PageComponent'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
@@ -84,7 +85,7 @@ const AdminBoardComponent = () => {
       {fetching ? <FetchingModal /> : <></>}
       <Row className='mt-5 text-end'>
         <Col>
-        {member.email === "admin@hexa.com" ? <Button variant='outline-dark' onClick={createBoard}>게시글작성</Button> : <></>}
+        {member.email === adminAccount ? <Button variant='outline-dark' onClick={createBoard}>게시글작성</Button> : <></>}
         </Col>
       </Row>
       <Container className='ms-3' style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}>
