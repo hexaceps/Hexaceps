@@ -50,6 +50,8 @@ import GoogleRedirectPage from './pages/member/GoogleRedirectPage';
 import MemberEmailPage from './pages/member/MemberEmailPage';
 import Search from './pages/products/Search';
 
+import AdminPage from './pages/admin/AdminPage';
+
 function App() {
   
   return (
@@ -108,6 +110,7 @@ function App() {
         <Route path="/myshop/">
           <Route path="cart" element={<CartPage/>}/>
         </Route>
+        <Route path='/admin' element={<AdminPage />} />
       </Route>
     </Routes>
   );

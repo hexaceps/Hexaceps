@@ -17,12 +17,22 @@ export const getCategoryList = async({ category, pageParam }) => {
     return res.data
 }
 
+// 모든 게시판 조회
+export const getAllCategoryList = async({ pageParam }) => {
+    console.log("어드민용 게시판 조회 (notice, faq) 시작 boardAPI 진입 "+", "+pageParam.page + ", " + pageParam.size)
+    const { page, size } = pageParam
+    const res = await axios.get(`${board_path}/list`, {params : {page:page, size:size}})
+    console.log("getAllCategoryList() API Called from Reactside")
+    return res.data
+}
+
 // id로 게시판 상세 내역 조회
 export const getCategoryBoardDetailById = async(board_id) => {
     const res = await axios.get(`${board_path}/id/${board_id}`)
     console.log("getCategoryBoardDetailById() API Called from Reactside")
     return res.data
 }
+
 
 // keyword로 게시판 상세 내역 조회
 export const getCategoryBoardSearchByKeyword = async({ category, keyword }) => {
@@ -40,7 +50,8 @@ export const postAddNewBoard = async(postData) => {
 
 // 게시글 수정 (adminOnly)
 export const updateBoardById = async(updateData) => {
-    const res = await axios.put(`${board_path}/${updateData.id}`, updateData)
+    console.log("update 데이터를 확인 합니다 ID : " + updateData.id + ", Title : " + updateData.title)
+    const res = await axios.put(`${board_path}/update/${updateData.id}`, updateData)
     console.log("updateBoardById() API Called from Reactside")
     return res.data
 }

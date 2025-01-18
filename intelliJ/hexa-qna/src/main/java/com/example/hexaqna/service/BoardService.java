@@ -15,6 +15,9 @@ public interface BoardService {
     // 검색 결과 조회
     // Page<BoardDTO> getSearchBoards(String category, String keyword, Pageable pageable);
 
+    // Admin 용 전체 리스트 조회
+    PageResponseDTO<BoardDTO> getBoardsByAll(PageRequestDTO pageRequestDTO);
+
     // 게시글 id 조회 및 조회시 조회수 증가
     BoardDTO getBoardCountById(Long id);
 

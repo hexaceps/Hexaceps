@@ -22,24 +22,33 @@ const useCustomMove = () => {
     //http://localhost:3000/qna/read/4
     //http://localhost:3000/qna/list/?page=1&size=10
     const moveToList = (pageParam) => {
-        let queryStr = ""
-        if(pageParam) {
-            const pageNum = getNum(pageParam.page, 1)
-            const sizeNum = getNum(pageParam.size, 10)
-            queryStr = createSearchParams({ page: pageNum, size:sizeNum}).toString()
-        } else {
-            queryStr = queryDefault;
-        }
-        const currentPath = window.location.pathname;
-
-    
-        navigate({
-        pathname: currentPath,
-        search : queryStr
-        })
-        setRefresh(!refresh); 
-
-    }
+      let queryStr = "";
+      const currentSearchParams = new URLSearchParams(window.location.search);
+  
+      if (pageParam) {
+          const pageNum = getNum(pageParam.page, 1);
+          const sizeNum = getNum(pageParam.size, 10);
+  
+          
+          currentSearchParams.set("page", pageNum);
+          currentSearchParams.set("size", sizeNum);
+      } else {
+          queryStr = queryDefault;
+      }
+  
+      
+      queryStr = currentSearchParams.toString();
+  
+      const currentPath = window.location.pathname;
+  
+      navigate({
+          pathname: currentPath,
+          search: queryStr, 
+      });
+  
+      setRefresh(!refresh); 
+  };
+  
 
   //http://localhost:3000/todo/read/3
   //http://localhost:3000/todo/modify/3?page=1&size=10

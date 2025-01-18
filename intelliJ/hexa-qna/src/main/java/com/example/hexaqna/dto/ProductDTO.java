@@ -33,10 +33,6 @@ public class ProductDTO {
     // ProductSite에 넣을 내용을 리스트 형태로 DTO에서 생성
     private List<String> productSiteNames = new ArrayList<>();
 
-    public ProductDTO(Product product) {
-        this.productId = product.getProductId();
-        this.productName = product.getProductName();
-    }
 
     private List<ProductSiteDTO> productSiteDetails = new ArrayList<>();
 

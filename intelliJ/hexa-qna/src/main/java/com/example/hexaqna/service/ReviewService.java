@@ -83,7 +83,7 @@ public class ReviewService {
         Optional<Review> reviewInfo = reviewRepository.findById(id);
         if(reviewInfo.isPresent()) {
             Review review = reviewInfo.get();
-            review.setSubject(reviewDTO.getSubject());
+            // review.setSubject(reviewDTO.getSubject());
             review.setReply(reviewDTO.getReply());
             review.setCreateAt(LocalDateTime.now());
 

@@ -61,6 +61,11 @@ export const getOneMember = async(email) => {
     return res.data
 }
 
+export const getAllMember = async() => {
+    const res = await axios.get(`${host}/list`)
+    console.log("전체 회원리스트 조회하기",res);
+    return res.data
+}
 
 
 export const memberPostAdd = async(member) => {
