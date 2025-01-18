@@ -64,7 +64,9 @@ public class CustomSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         //모든 Origin을 허용
-       configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+
+        //configuration.setAllowedOriginPatterns(Arrays.asList("https://https://fastidious-toffee-be993e.netlify.app/"));
 
         //configuration.setAllowedOrigins(Arrays.asList("http://localhost:3010"));  // 클라이언트의 정확한 도메인만 허용
 

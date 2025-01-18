@@ -1,0 +1,2 @@
+/api/* {백엔드 호출 주소}/api/:splat 200
+/* /index.html 200

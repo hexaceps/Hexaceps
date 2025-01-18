@@ -10,6 +10,8 @@ public interface ProductService {
     // 상품리스트
     PageResponseDTO<ProductDTO> getProductList(PageRequestDTO pageRequestDTO, String category, String productBrand, Integer  productSize, String minPrice, Integer maxPrice, String sortBy,
                                                String sortOrder);
+    PageResponseDTO<ProductDTO> searchProducts(PageRequestDTO pageRequestDTO, String keyword,String sortBy, String sortOrder);
+
 
     // 상품추가
     Long registerNewProduct(ProductDTO productDTO);

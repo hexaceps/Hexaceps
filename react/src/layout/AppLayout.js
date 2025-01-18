@@ -1,21 +1,36 @@
 import React, { useEffect, useState,useDispatch } from 'react'
 import {Nav, Navbar, NavDropdown, Container, Row, Col,Image,  Form, FormControl, InputGroup} from 'react-bootstrap';
 import { Search } from 'react-bootstrap-icons'; // 돋보기 아이콘 추가
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import  useCustomLogin from '../hooks/useCustomLogin'
 import { getOneMember } from '../api/memberApi';
 import styled from 'styled-components';
-import likeApi from '../api/likeApi';
+import { searchApi } from '../api/productsApi';
 
 const AppLayout = () => {
   const {loginState,isLogin,doLogout } = useCustomLogin()
+  const [searchQuery, setSearchQuery] = useState(''); 
+  const [searchResults, setSearchResults] = useState([]); 
+  const navigate = useNavigate();  //
   const [member, setMember] = useState(() => {
       // Get member from localStorage if available
       const storedMember = localStorage.getItem('member');
       return storedMember ? JSON.parse(storedMember) : null;
     });
-
-
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+          const encodedQuery = encodeURIComponent(searchQuery);
+          navigate(`/search?query=${encodedQuery}`);
+        }
+      };
+      
+    
+  
+    const handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    };
     const updateMemberInfo = async () => {
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) return;
@@ -87,14 +102,25 @@ const AppLayout = () => {
                     {member && member.name ? `${member.name}님 로그아웃` : 'LOGOUT'}
                       </Nav.Link> ) : ( <Nav.Link href="/member/login">LOGIN</Nav.Link>)}
                   </Nav>
-                <Form className="d-flex mt-2">
-                  <InputGroup>
-                    <InputGroup.Text id="search-addon" style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '15px 0 0 15px' }}>
-                      <Search />
-                    </InputGroup.Text>
-                    <FormControl type="search" aria-label="Search" style={{ border: '1px solid black', borderRadius: '0 15px 15px 0'}} />
-                  </InputGroup>
-                </Form>
+                  <Form className="d-flex mt-2" onSubmit={(e) => e.preventDefault()}>
+                <InputGroup>
+                  <InputGroup.Text
+                    id="search-addon"
+                    style={{ backgroundColor: 'white', border: '1px solid black', borderRadius: '15px 0 0 15px' }}
+                    onClick={handleSearch}
+                  >
+                    <Search />
+                  </InputGroup.Text>
+                  <FormControl
+                    type="search"
+                    aria-label="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyPress} // 엔터로 검색
+                    style={{ border: '1px solid black', borderRadius: '0 15px 15px 0' }}
+                  />
+                </InputGroup>
+              </Form>
               </div>
             </Navbar.Collapse>
           </Container>

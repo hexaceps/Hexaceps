@@ -2,11 +2,12 @@ import React from "react";
 import { Button, Row } from "react-bootstrap";
 import { getGoogleLoginLink } from "../../api/googleApi";
 import { FcGoogle } from 'react-icons/fc';
+import { GOOGLE_API_KEY } from "../../serverEnv";
 
 const GoogleLoginComponent = () => {
   const doGoogleLoginLinkOn = () => {
         
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=26187358890-9stl1s4ffm960jono9a2r7ebekr8fhe3.apps.googleusercontent.com&redirect_uri=http://localhost:3010/member/google&response_type=token&scope=email profile`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_API_KEY}&redirect_uri=https://main--fastidious-toffee-be993e.netlify.app/member/google&response_type=token&scope=email profile`;
 
 }
 

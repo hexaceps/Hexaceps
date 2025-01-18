@@ -56,3 +56,16 @@ export const productDeleteOne = async(pno) => {
     const res = await axios.delete(`${host}/${pno}`)
     return res.data
 }
+
+
+export const searchApi = async (query) => {
+    try {
+      const res = await axios.get(`${host}/search`, {
+        params: { keyword:query }, 
+      });
+      return res.data; 
+    } catch (error) {
+      console.error('Error:', error);
+      throw error; 
+    }
+  };

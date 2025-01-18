@@ -68,4 +68,10 @@ public interface ProductRepository extends JpaRepository <Product, Long> , Produ
 
     @Query("select p, pi, sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd = 0 where  p.productSize >= :productSize")
     Page<Object[]> selectFilterSizeUp(@Param("productSize")  int productSize,Pageable pageable);
+
+
+    @Query("select p, pi , sl  from Product p left join p.imageList pi on pi.ord = 0 left join p.siteList sl on sl.siteOrd =  0 where  lower(p.productName) like lower(concat('%', :keyword, '%'))")
+    Page<Object[]> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+
 }
