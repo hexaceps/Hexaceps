@@ -200,7 +200,8 @@ const OrderComponent = ({ cartId }) => {
         if (paymentResponse.paymentId) {
             setShowSuccessModal(true); // 결제 성공 모달 띄우기
         } else {
-            setShowFailureModal(true); // 결제 실패 모달 띄우기
+          console.log ("결제 실패에요... 로그 확인 필수!!")
+            // setShowFailureModal(true); // 결제 실패 모달 띄우기
         }
         
         // 배송 API 호출
@@ -209,7 +210,7 @@ const OrderComponent = ({ cartId }) => {
         }
         const createTracking = await createTrackingInfo(trackingData)
         console.log("배송데이터 생성이 완료 됐습니다" + createTracking)
-
+      
         } catch (error) {
         setShowLoadingModal(false);
         console.error('결제 요청 실패', error);
