@@ -169,7 +169,7 @@ const FooterWrapper = styled.div`
 `
 
 const LeftFooter = styled.div`
-  font-size: 20px;
+  font-size: 100%;
   font-weight: 500;
   display: flex;
   flex-direction: column;
@@ -179,13 +179,15 @@ const LeftFooter = styled.div`
   .footerNav {
     text-align: center;
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* 기본은 가로 정렬 */
     gap: 21px;
     div {
       width: 100%;
     }
     @media (max-width: 765px) {
+      flex-direction: column; /* 모바일에서는 세로 정렬 */
       gap: 8px;
+      align-items: center;
     }
   }
   .logoBox {
@@ -201,7 +203,42 @@ const LeftFooter = styled.div`
     height: 100%;
     object-fit: cover;
   }
-`
+`;
+
+// const LeftFooter = styled.div`
+//   font-size: 20px;
+//   font-weight: 500;
+//   display: flex;
+//   flex-direction: column;
+//   @media (max-width: 765px) {
+//     font-size: 14px;
+//   }
+//   .footerNav {
+//     text-align: center;
+//     display: flex;
+//     flex-direction: row;
+//     gap: 21px;
+//     div {
+//       width: 100%;
+//     }
+//     @media (max-width: 765px) {
+//       gap: 8px;
+//     }
+//   }
+//   .logoBox {
+//     width: 103px;
+//     height: 103px;
+//     @media (max-width: 765px) {
+//       width: 85px;
+//       height: 85px;
+//     }
+//   }
+//   img {
+//     width: 100%;
+//     height: 100%;
+//     object-fit: cover;
+//   }
+// `
 
 const RightFooter = styled.div`
   display: flex;
