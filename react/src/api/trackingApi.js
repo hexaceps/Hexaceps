@@ -16,7 +16,7 @@ export const getTrackingListByMemberId = async( memberId ) => {
 // 데이터추가 localhost:8010/api/order/tracking/
 export const createTrackingInfo = async(trackingData) => {
     console.log("API 호출전 데이터 확인", trackingData)
-    const res = await jwtAxios.post(`${prefix}/`, trackingData)
+    const res = await axios.post(`${prefix}/`, trackingData)
     console.log("리뷰등록 결과 reviewApi.js에서 확인하기 {} ", res);
     return res.data
 }
@@ -31,7 +31,7 @@ export const getAllTrackingList = async() => {
 // 데이터추가 localhost:8010/api/order/tracking/update/
 export const updateTrackingInfo = async(trackingData) => {
     console.log("배송지 업데이트 API 호출전 확인", trackingData)
-    const res = await jwtAxios.put(`${prefix}/update/`, trackingData)
+    const res = await axios.put(`${prefix}/update/`, trackingData)
     console.log("배송지 업데이트 결과 확인하기 {} ", res);
     return res.data
 }
