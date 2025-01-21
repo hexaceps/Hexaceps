@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Col, Row, Card, Container } from 'react-bootstrap'
+import { Col, Row, Card, Container, Image } from 'react-bootstrap'
 import { FaBeer } from 'react-icons/fa'; // 리액트 아이콘 사용 npm install react-icons --save, https://react-icons.github.io/react-icons/
 import { FaTruckFast, FaBuildingShield, FaBasketShopping } from "react-icons/fa6";
 import { sendEmailForSubscribe } from '../../api/boardApi'
@@ -38,10 +38,10 @@ const AboutUsComponent = () => {
   }
   return (
     <>
-        <Container className="mt-5" style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}> 
+        <Container fluid className="mt-5" style={{ fontFamily : "Rowdies, GmarketSansMedium" , color : "#625244"}}> 
             <Row className='text-center mb-4'>
                 <Col>
-                    <img src='../images/logo1.jpg' alt='로고' />
+                    <Image src='../images/logo1.jpg' fluid alt='로고' />
                 </Col>
                 <Col>
                     <h5>HEXACEPS가 만드는 지속가능한 미래</h5>
