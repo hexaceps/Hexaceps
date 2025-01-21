@@ -357,7 +357,7 @@ const OrderComponent = ({ cartId }) => {
             <Alert variant='secondary'>
                 <Card>
                     <Card.Body>
-                    <h5>무이자 할부 안내</h5>
+                    <h5>무이자 할부 안내</h5><span style={{ color : "red", fontSize : "0.8rem"}}>데스크탑이 더 잘보여요 :)</span>
                         <MonthlyPaymentInfo />
                     </Card.Body>
                 </Card>
