@@ -148,14 +148,14 @@ const Brand = () => {
   return (
     <>
       {fetching ? <FetchingModal /> : <></>}
-      <Container>
+      <Container >
         <div>
           <p>전체 제품 수: {serverData.totalCount}</p>
         </div>
         <div > 
           <Form.Group className="mt-5 text-center" controlId="formBasicCheckbox" >
             {BRAND_LIST.map((brand) => (
-            <Form.Check key={brand} className="mb-2 me-5 d-inline-block" type="checkbox" 
+            <Form.Check key={brand} className="mb-1 me-3 d-inline-block" type="checkbox" 
                         label={brand} onChange={() => handleBrandSelection(brand)} checked={selectedBrands === brand}/>
             ))}
             {/* <Form.Check className='mb-2 me-5 d-inline-block' type="checkbox" label="NIKE" onClick={cheangeNike}  checked={productBrand === "NIKE"} />
@@ -177,7 +177,7 @@ const Brand = () => {
         </div>
         <Row>
         {serverData.dtoList.filter(product => product.category != null).map((product,index) => (
-          <Col className='ms-5' md={3} key={index} >
+          <Col className='ms-2' sm={12} md={3} key={index} >
             <Card className='mb-5 '>
               <div className='image-wrapper mx-auto my-3' onClick={() => moveToRead(product.productId)}>
                 <Card.Img variant="top " style={{ width: '100%' , height:'100%'}} 
@@ -189,7 +189,7 @@ const Brand = () => {
                   <Col>
                     <Card.Text className='fs-5 fw-bold'>{product.productBrand}</Card.Text>
                   </Col>
-                  <Col>
+                  <Col className='me-2'>
                     <span className='like-icon-wrapper like-thumb' onClick={(e) => { e.stopPropagation() 
                       handleLikeClick( product.productId ); }}>
                          {like && like.some(likeItem => likeItem.productId === product.productId) ? 
@@ -197,7 +197,7 @@ const Brand = () => {
                     </span>
                   </Col>
                 </Row>
-                <Card.Title className='mt-2 fs-6'>{product.productName}</Card.Title>
+                <Card.Title className='mt-2' style={{fontSize : "0.9rem"}}>{product.productName}</Card.Title>
                 {/* <Card.Text>No : {product.productId}</Card.Text> */}
                 {/* <Card.Text>카테고리 : {product.category}</Card.Text> */}
                 {/* <Card.Text>사이즈 : {product.productSize}</Card.Text> */}
@@ -207,7 +207,7 @@ const Brand = () => {
                       { product.productName.length % 2 === 1 ? 
                       <img style={{ width : "4rem"}} src='/images/quick.png' alt='빠른배송' /> : <></> }
                     </Col>
-                    <Col className='me-3 text-end'>{product.price.toLocaleString()} 원<br/><span className='text-secondary' style={{fontSize : "0.8rem"}}>즉시구매가</span></Col>
+                    <Col className='me-3 text-end' style={{fontSize : "0.8rem"}}>{product.price.toLocaleString()} 원<br/><span className='text-secondary' style={{fontSize : "0.7rem"}}>즉시구매가</span></Col>
                   </Row>  
                 </Card.Text>
                 {/* <Button variant="outline-info" onClick={() => moveToRead(product.productId)}>상품상세보기</Button> */}
